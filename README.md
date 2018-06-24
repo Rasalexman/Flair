@@ -60,7 +60,7 @@ class MyProxy : Proxy<String>("data_to_store_in_proxy") {
 }
 //the command that controls the proxy
 class MyCommand : SimpleCommand() {
-    val myProxy by proxy<SimpleProxy>()
+    val myProxy by proxy<MyProxy>()
     override fun execute(notification: INotification) {
          myProxy.handleNotification()     
     }
