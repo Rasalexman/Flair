@@ -82,3 +82,8 @@ Maven:
   <type>pom</type>
 </dependency>
 ```
+
+Gradle:
+```
+compile 'com.rasalexman.flairframework:flair:1.0.2
+```
