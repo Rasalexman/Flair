@@ -17,13 +17,14 @@ class MainActivity : FlairActivity() {
         val showingAnimation = LinearAnimator()
         flair().attach(this).showLastOrExistMediator<MyMediator>(showingAnimation)
         // or 
-        // flair().attach(this).retrieveMediator<MyMediator>().show()
+        // val rootContainer = frameLayout()
+        // flair().attach(this, rootContainer).retrieveMediator<MyMediator>().show()
     }
 }
 ```
 
 Components:
-1) 'flair' instance is a simple IFacade instace as core functionality point
+1) 'flair' instance is a simple IFacade singleton instace as core functionality point
 2) SimpleCommand instances is a command pattern realisation
 3) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
 4) Mediator is a simple view-hierarchy handler class, it's store and manage lifecyrcle of your view components such as AnkoComponents or xml-layout files. Also it support powerfull view backstack storage.
