@@ -55,7 +55,7 @@ class MyMediator : Mediator() {
 }
 ```
 
-Proxy object can recieve notification by linked commands
+Proxy object can recieve notification by linked commands as usecases
 ```kotlin
 class MyProxy : Proxy<String>("data_to_store_in_proxy") {
     fun handleNotification() {
@@ -87,3 +87,8 @@ Gradle:
 ```
 compile 'com.rasalexman.flairframework:flair:1.0.2
 ```
+
+
+TODO:
++ Try to add full support for DEPENDENCY INJECTION
++ Improve backstack navigation
