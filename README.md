@@ -1,7 +1,7 @@
 # FlairFramework
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 
-The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as Activity or any `Context` implementations
+The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `FlairActivity` or any `Context` implementations
 ```kotlin
 val flairCoreInstance = flair {
         registerCommand<MyCommand>(eventName)
@@ -9,9 +9,9 @@ val flairCoreInstance = flair {
         registerMediator<MyMediator>()
     }
 ```
-The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specifie any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
+The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specifie any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity (that should be an instance of FlairActivity) can be stored in one core of FlairFramework
 ```kotlin
-class MainActivity : AppCompatActivity() {
+class MainActivity : FlairActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val showingAnimation = LinearAnimator()
