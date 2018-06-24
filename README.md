@@ -1,14 +1,27 @@
 # Flair
 This is an android framework for build complex application with different architectures (MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 
-The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project
+The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as Activity or any `Context` implementations
 ```kotlin
 val flairCoreInstance = flair {
-        registerCommand<object:SimpleCommand>(eventName)
-        registerProxy<object:Proxy>()
-        registerMediator<object:Mediator>()
+        registerCommand<MyCommand>(eventName)
+        registerProxy<MyProxy>()
+        registerMediator<MyMediator>()
     }
 ```
+The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specifie any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
+```kotlin
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val showingAnimation = LinearAnimator()
+        flair().attach(this).showLastOrExistMediator<MyMediator>(showingAnimation)
+        // or 
+        // flair().attach(this).retrieveMediator<MyMediator>().show()
+    }
+}
+```
+
 Components:
 1) 'flair' instance is a simple IFacade instace as core functionality point
 2) SimpleCommand instances is a command pattern realisation
@@ -19,13 +32,49 @@ Components:
 
 Mediators can handle notification by
 ```kotlin
-class SimpleMediator : Mediator() {
+class MyMediator : Mediator() {
   // called when medaitor is registered
   override fun onRegister() {
       // register notification for this IMediator instance
       registerObserver(eventName:String) {
             // event handler
-        }
+      }
+      sendNotification(eventName)
+  }
+  
+  // the way to create UI
+  override fun onCreateView(context: Context) {
+        viewComponent = UserAuthUI().createView(AnkoContext.create(context, this))
+        // or you can inflate you custom xml layout
+        // viewComponetn = inflateView(R.layout.simple_layout)
   }
 }
+```
+
+Proxy object can recieve notification by linked commands
+```kotlin
+class MyProxy : Proxy<String>("data_to_store_in_proxy") {
+    fun handleNotification() {
+        Low.d("HELLO FROM PROXY")
+    }
+}
+//the command that controls the proxy
+class MyCommand : SimpleCommand() {
+    val myProxy by proxy<SimpleProxy>()
+    override fun execute(notification: INotification) {
+         myProxy.handleNotification()     
+    }
+}
+```
+
+See the sample project `app` for more complex information. Also code base has good comments on every functions
+
+Maven:
+```
+<dependency>
+  <groupId>com.rasalexman.flairframework</groupId>
+  <artifactId>flair</artifactId>
+  <version>1.0.1</version>
+  <type>pom</type>
+</dependency>
 ```
