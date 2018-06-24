@@ -1,4 +1,7 @@
 # FlairFramework
+
+[ ![Download](https://api.bintray.com/packages/sphc/flair-framework/flair-framework/images/download.svg) ](https://bintray.com/sphc/flair-framework/flair-framework/_latestVersion)
+
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 
 The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `FlairActivity` or any `Context` implementations
