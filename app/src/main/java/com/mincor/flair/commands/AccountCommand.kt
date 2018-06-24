@@ -9,7 +9,7 @@ import com.mincor.flairframework.patterns.command.SimpleCommand
 
 class AccountCommand : SimpleCommand() {
 
-    val accountProxy by proxy<MVVMProxy>()
+    private val accountProxy by proxy<MVVMProxy>()
 
     override fun execute(notification: INotification) {
 

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.util.Log
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.ext.className
 import com.mincor.flairframework.ext.createInstance
 import com.mincor.flairframework.ext.removeFromParent
@@ -21,7 +22,7 @@ interface IView : IMultitonKey {
     /**
      * Reference to the Activity attached on core
      */
-    var currentActivity: Activity?
+    var currentActivity: FlairActivity?
 
     /**
      * Instance of ui container
@@ -39,7 +40,7 @@ interface IView : IMultitonKey {
      * @param container
      * The container when ui will be added
      */
-    fun attachActivity(activity: Activity, container: ViewGroup? = null)
+    fun attachActivity(activity: FlairActivity, container: ViewGroup? = null)
 }
 
 

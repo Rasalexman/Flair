@@ -2,6 +2,7 @@ package com.mincor.flairframework.interfaces
 
 import android.app.Activity
 import android.content.Context
+import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.ext.flair
 
 /**
@@ -90,7 +91,7 @@ fun INotifier.appContext() : Context = facade.appContext
 /**
  * Attached to facade single activity
  */
-fun INotifier.activity() : Activity = let{
+fun INotifier.activity() : FlairActivity = let{
     if (facade.view.currentActivity == null) throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
     facade.view.currentActivity!!
 }

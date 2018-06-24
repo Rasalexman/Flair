@@ -1,8 +1,8 @@
 package com.mincor.flairframework.patterns.facade
 
-import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
+import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.core.controller.Controller
 import com.mincor.flairframework.core.model.Model
 import com.mincor.flairframework.core.view.View
@@ -42,7 +42,7 @@ class Facade(override var multitonKey: String = "",
     }
 
     /**
-     * Attach current activity and parent container to the this core
+     * Attach current activity and parent container to this core
      * only one core can has one activity to attach, we cant reattach activity to the core
      *
      * @param activity
@@ -51,7 +51,7 @@ class Facade(override var multitonKey: String = "",
      * @param container
      * Current container (ViewGroup) to add childs viewComponents from Mediators
      */
-    override fun attach(activity: Activity, container: ViewGroup?): IFacade {
+    override fun attach(activity: FlairActivity, container: ViewGroup?): IFacade {
         view.attachActivity(activity, container)
         return this
     }

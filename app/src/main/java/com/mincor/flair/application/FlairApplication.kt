@@ -24,6 +24,8 @@ class FlairApplication : Application() {
         const val CORE_SECOND = "second_core"
     }
 
+
+    /// That's how u register ur flair components
     private val flairFirstCore = flair {
         registerCommand<StartupCommand>(STARTUP)
         registerCommand<UserAuthCommand>(AUTH)
@@ -34,7 +36,9 @@ class FlairApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        /*flair {
+        /*
+        // alternative way to register components
+        flair {
             registerCommand<StartupCommand>(STARTUP)
             registerCommand<UserAuthCommand>(AUTH)
             registerCommand<AccountCommand>(ACCOUNT_CHANGE)

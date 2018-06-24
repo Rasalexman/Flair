@@ -1,9 +1,8 @@
 package com.mincor.flairframework.interfaces
 
-import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
-import com.mincor.flairframework.core.animation.LinearAnimator
+import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.core.controller.Controller
 import com.mincor.flairframework.core.model.Model
 import com.mincor.flairframework.core.view.View
@@ -32,7 +31,7 @@ interface IFacade : INotifier {
      * @param container
      * Container for add/remove ui
      */
-    fun attach(activity: Activity, container: ViewGroup? = null): IFacade
+    fun attach(activity: FlairActivity, container: ViewGroup? = null): IFacade
 
     companion object : IMapper<IFacade> {
         const val DEFAULT_KEY = "DEFAULT_FACADE"

@@ -2,12 +2,15 @@ package com.mincor.flairframework.core.view
 
 import android.app.Activity
 import android.app.Application
-import android.app.Fragment
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
+import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.interfaces.*
 import com.mincor.flairframework.patterns.observer.Notification
 
@@ -32,7 +35,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /**
      * Reference to the Activity attached on core
      */
-    override var currentActivity: Activity? = null
+    override var currentActivity: FlairActivity? = null
     /**
      * Instance of ui container
      */
@@ -111,12 +114,13 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * @param container
      * The container when ui will be added if there no container we take default activity decorView content (frame layout)
      */
-    override fun attachActivity(activity: Activity, container: ViewGroup?) {
+    override fun attachActivity(activity: FlairActivity, container: ViewGroup?) {
         //this is because we need container to add views anyway
         currentContainer = container ?: activity.window.decorView.findViewById(android.R.id.content)
         if (!isAlreadyRegistered) {
             currentActivity = activity
-            activity.fragmentManager.beginTransaction().replace(android.R.id.content, this, multitonKey).commit() //
+            val fragmentManager:FragmentManager? = (activity as? AppCompatActivity)?.supportFragmentManager
+            fragmentManager?.beginTransaction()?.replace(android.R.id.content, this, multitonKey)?.commit() //
             activity.application.registerActivityLifecycleCallbacks(this)
             isAlreadyRegistered = true
         }

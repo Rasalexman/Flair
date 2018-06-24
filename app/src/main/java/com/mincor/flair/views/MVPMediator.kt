@@ -11,7 +11,7 @@ import com.mincor.flair.proxies.vo.Tag
 import com.mincor.flairframework.core.animation.LinearAnimator
 import com.mincor.flairframework.core.view.View
 import com.mincor.flairframework.interfaces.*
-import com.mincor.puremvc_kotlin.models.MVPProxy
+import com.mincor.flair.proxies.MVPProxy
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -20,7 +20,7 @@ class MVPMediator : ToolbarMediator() {
 
     override var hasOptionalMenu: Boolean = true
 
-    private val presenterProxy:MVPProxy by proxy(hashMapOf("view" to this))
+    private val presenterProxy: MVPProxy by proxy(hashMapOf("view" to this))
 
     private var listViw:ListView? = null
 

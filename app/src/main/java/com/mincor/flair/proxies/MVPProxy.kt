@@ -1,6 +1,5 @@
-package com.mincor.puremvc_kotlin.models
+package com.mincor.flair.proxies
 
-import com.mincor.flair.proxies.NetProxy
 import com.mincor.flair.proxies.net.IWebService
 import com.mincor.flairframework.patterns.proxy.Proxy
 import com.mincor.flair.views.MVPMediator
