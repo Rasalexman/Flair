@@ -1,6 +1,6 @@
 # FlairFramework
 
-[![Kotlin 1.2.50](https://img.shields.io/badge/Kotlin-1.2.50-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.2.50](https://img.shields.io/badge/Kotlin-1.2.30-blue.svg)](http://kotlinlang.org)
 
 [ ![Download](https://api.bintray.com/packages/sphc/flair-framework/flair-framework/images/download.svg) ](https://bintray.com/sphc/flair-framework/flair-framework/_latestVersion)
 
