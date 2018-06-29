@@ -1,6 +1,6 @@
 # FlairFramework
 
-[ ![Kotlin 1.2.50](https://img.shields.io/badge/Kotlin-1.2.50-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/flair-framework/flair-framework/images/download.svg) ](https://bintray.com/sphc/flair-framework/flair-framework/_latestVersion)
+[ ![Kotlin 1.2.50](https://img.shields.io/badge/Kotlin-1.2.50-blue.svg)](http://kotlinlang.org) 
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 
@@ -73,20 +73,6 @@ class MyCommand : SimpleCommand() {
 
 See the sample project `app` for more complex information. Also code base has good comments on every functions
 
-Maven:
-```
-<dependency>
-  <groupId>com.rasalexman.flairframework</groupId>
-  <artifactId>flair</artifactId>
-  <version>1.0.1</version>
-  <type>pom</type>
-</dependency>
-```
-
-Gradle:
-```
-compile 'com.rasalexman.flairframework:flair:1.0.2
-```
 
 
 TODO:
