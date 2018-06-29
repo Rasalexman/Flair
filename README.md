@@ -85,7 +85,7 @@ Maven:
 
 Gradle:
 ```
-compile 'com.rasalexman.flairframework:flairframework:1.0.3'
+implementation 'com.rasalexman.flairframework:flairframework:1.0.3'
 ```
 
 
