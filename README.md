@@ -78,14 +78,14 @@ Maven:
 <dependency>
   <groupId>com.rasalexman.flairframework</groupId>
   <artifactId>flairframework</artifactId>
-  <version>1.0.5</version>
+  <version>x.y.z</version>
   <type>pom</type>
 </dependency>
 ```
 
 Gradle:
 ```
-implementation 'com.rasalexman.flairframework:flairframework:1.0.5'
+implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 ```
 
 
