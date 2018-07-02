@@ -1,7 +1,10 @@
 # FlairFramework
+
+[ ![Kotlin 1.2.50](https://img.shields.io/badge/Kotlin-1.2.50-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
+
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 
-The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as Activity or any `Context` implementations
+The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `FlairActivity` or any `Context` implementations
 ```kotlin
 val flairCoreInstance = flair {
         registerCommand<MyCommand>(eventName)
@@ -9,21 +12,22 @@ val flairCoreInstance = flair {
         registerMediator<MyMediator>()
     }
 ```
-The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specifie any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
+The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specifie any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity (that should be an instance of FlairActivity) can be stored in one core of FlairFramework
 ```kotlin
-class MainActivity : AppCompatActivity() {
+class MainActivity : FlairActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val showingAnimation = LinearAnimator()
         flair().attach(this).showLastOrExistMediator<MyMediator>(showingAnimation)
         // or 
-        // flair().attach(this).retrieveMediator<MyMediator>().show()
+        // val rootContainer = frameLayout()
+        // flair().attach(this, rootContainer).retrieveMediator<MyMediator>().show()
     }
 }
 ```
 
 Components:
-1) 'flair' instance is a simple IFacade instace as core functionality point
+1) 'flair' instance is a simple IFacade singleton instance as core functionality point
 2) SimpleCommand instances is a command pattern realisation
 3) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
 4) Mediator is a simple view-hierarchy handler class, it's store and manage lifecyrcle of your view components such as AnkoComponents or xml-layout files. Also it support powerfull view backstack storage.
@@ -51,7 +55,7 @@ class MyMediator : Mediator() {
 }
 ```
 
-Proxy object can recieve notification by linked commands
+Proxy object can recieve notification by linked commands as usecases
 ```kotlin
 class MyProxy : Proxy<String>("data_to_store_in_proxy") {
     fun handleNotification() {
@@ -73,8 +77,18 @@ Maven:
 ```
 <dependency>
   <groupId>com.rasalexman.flairframework</groupId>
-  <artifactId>flair</artifactId>
-  <version>1.0.1</version>
+  <artifactId>flairframework</artifactId>
+  <version>1.0.3</version>
   <type>pom</type>
 </dependency>
 ```
+
+Gradle:
+```
+implementation 'com.rasalexman.flairframework:flairframework:1.0.3'
+```
+
+
+TODO:
++ Try to add full support for DEPENDENCY INJECTION
++ Improve backstack navigation
