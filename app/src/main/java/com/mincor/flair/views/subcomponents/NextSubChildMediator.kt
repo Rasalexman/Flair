@@ -16,9 +16,7 @@ class NextSubChildMediator : Mediator() {
 
     private var childNameTV:TextView? = null
 
-    override fun onCreateView(context: Context) {
-        viewComponent = NextChildUI().createView(AnkoContext.create(context, this))
-    }
+    override fun createLayout(context: Context): View = NextChildUI().createView(AnkoContext.create(context, this))
 
     override fun onAddedView() {
         childNameTV?.text = this.mediatorName

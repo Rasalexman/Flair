@@ -7,11 +7,11 @@ import android.support.v4.content.ContextCompat
 import android.widget.ListView
 import com.mincor.flair.R
 import com.mincor.flair.adapters.SelectedListAdapter
+import com.mincor.flair.proxies.MVPProxy
 import com.mincor.flair.proxies.vo.Tag
 import com.mincor.flairframework.core.animation.LinearAnimator
 import com.mincor.flairframework.core.view.View
 import com.mincor.flairframework.interfaces.*
-import com.mincor.flair.proxies.MVPProxy
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -24,12 +24,11 @@ class MVPMediator : ToolbarMediator() {
 
     private var listViw:ListView? = null
 
-    override fun onCreateView(context:Context) {
-        //viewComponent = inflateView(R.layout.simple_layout)
-        viewComponent = MvpUi().createView(AnkoContext.create(context, this))
-        super.onCreateView(context)
-        setHomeButtonEnable()
+    override fun createLayout(context: Context): android.view.View = MvpUi().createView(AnkoContext.create(context, this))
 
+    override fun onCreatedView(context:android.view.View) {
+        super.onCreatedView(context)
+        setHomeButtonEnable()
         presenterProxy.lazynessFunctionCall()
     }
 

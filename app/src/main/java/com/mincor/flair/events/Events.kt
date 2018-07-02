@@ -12,16 +12,4 @@ object Events {
     const val ACCOUNT_CLEAR = "clear_account"
 
     const val LOGIC_START = "start_logic"
-
-    /*override fun initializeController() {
-        super.initializeController()
-
-    }*/
-
-    /**
-     * Start the framework
-     */
-    fun startup() {
-        //sendNotification( STARTUP )
-    }
 }

@@ -1,6 +1,5 @@
 package com.mincor.flair.views
 
-import android.content.Context
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -21,7 +20,7 @@ abstract class ToolbarMediator : Mediator(), View.OnClickListener {
 
     protected var toolBar: Toolbar? = null
 
-    override fun onCreateView(context: Context) {
+    override fun onCreatedView(context: View) {
         toolBar?.let {
             setActionBar(it)
         }

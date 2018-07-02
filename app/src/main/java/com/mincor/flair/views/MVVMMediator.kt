@@ -6,6 +6,7 @@ import android.text.InputType
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
@@ -21,7 +22,6 @@ import com.mincor.flairframework.core.animation.LinearAnimator
 import com.mincor.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
-import org.jetbrains.anko.design.appBarLayout
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.sdk25.coroutines.onEditorAction
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
@@ -61,14 +61,7 @@ class MVVMMediator : ToolbarMediator() {
         }
     }
 
-    override fun onCreateView(context: Context) {
-        viewComponent = UserAuthUI().createView(AnkoContext.create(context, this))
-        super.onCreateView(context)
-    }
-
-    override fun onAddedView() {
-        super.onAddedView()
-    }
+    override fun createLayout(context: Context): View = UserAuthUI().createView(AnkoContext.create(context, this))
 
     fun nameUpdated(newName: String) {
         name = newName

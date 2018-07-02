@@ -1,9 +1,7 @@
 package com.mincor.flairframework.interfaces
 
-import android.app.Activity
 import android.util.Log
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.ext.className
 import com.mincor.flairframework.ext.createInstance
@@ -203,8 +201,10 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
         return
     }
     currentShowingMediator?.apply {
-        if (viewComponent == null) {
-            onCreateView(activity())
+        viewComponent = viewComponent ?: let {
+            val layout = createLayout(activity())
+            onCreatedView(layout)
+            layout
         }
 
         // check for optional menu and invalidate it if it has

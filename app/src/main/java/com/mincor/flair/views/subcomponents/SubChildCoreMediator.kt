@@ -13,9 +13,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class SubChildCoreMediator : Mediator() {
 
-    override fun onCreateView(context: Context) {
-        viewComponent = SubChildUI().createView(AnkoContext.create(context, this))
-    }
+    override fun createLayout(context: Context): View = SubChildUI().createView(AnkoContext.create(context, this))
 
     fun onAnotherClickHandler() {
         flair().retrieveMediator<NextSubChildMediator>().show(LinearAnimator())

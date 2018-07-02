@@ -1,6 +1,7 @@
 package com.mincor.flairframework.interfaces
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -37,9 +38,14 @@ interface IMediator : INotifier {
     fun onOptionsItemSelected(item: MenuItem): Boolean
 
     /**
+     * Main initialize ViewComponent Function
+     */
+    fun createLayout(context: Context):View
+
+    /**
      * Called by the create mediator view once
      */
-    fun onCreateView(context: Context)
+    fun onCreatedView(view:View)
 
     /**
      * Called when mediator added to view container
@@ -130,5 +136,19 @@ fun IMediator.hide(animation: IAnimator? = null, popIt: Boolean = false) {
  */
 fun IMediator.popToBack(animation: IAnimator? = null) {
     facade.popMediator(this.mediatorName ?: this.className(), animation)
+}
+
+/**
+ *
+ */
+inline fun <reified T : View> IMediator.view(resId:Int): Lazy<T> = lazy {
+    viewComponent?.findViewById(resId) as T
+}
+
+/**
+ * Get app context resources
+ */
+fun IMediator.resources():Resources {
+    return appContext().resources
 }
 

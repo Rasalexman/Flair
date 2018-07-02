@@ -22,11 +22,11 @@ class UserListsMediator : ToolbarMediator() {
 
     val mvpMediator: MVPMediator by mediator()
 
-    override fun onCreateView(context: Context) {
-        viewComponent = inflateView(R.layout.simple_layout) //UserListUI().createView(AnkoContext.create(context, this))
-        toolBar = viewComponent?.simple_tool_bar
+    override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) //UserListUI().createView(AnkoContext.create(context, this))
 
-        super.onCreateView(context)
+    override fun onCreatedView(context: View) {
+        toolBar = viewComponent?.simple_tool_bar
+        super.onCreatedView(context)
         setHomeButtonEnable()
 
         val button = viewComponent!!.button

@@ -31,6 +31,11 @@ abstract class Mediator : Notifier(), IMediator {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = true
 
     /**
+     * When view was created but not added to the stage
+     */
+    override fun onCreatedView(view: View) {}
+
+    /**
      * Called by the View when the Mediator is registered.
      */
     override fun onAddedView() {}

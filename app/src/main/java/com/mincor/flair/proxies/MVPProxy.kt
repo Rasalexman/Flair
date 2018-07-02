@@ -1,9 +1,9 @@
 package com.mincor.flair.proxies
 
 import com.mincor.flair.proxies.net.IWebService
-import com.mincor.flairframework.patterns.proxy.Proxy
 import com.mincor.flair.views.MVPMediator
 import com.mincor.flairframework.interfaces.proxyModel
+import com.mincor.flairframework.patterns.proxy.Proxy
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay

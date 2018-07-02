@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.mincor.flair.R
 import com.mincor.flair.application.FlairApplication
 import com.mincor.flair.views.subcomponents.SubChildCoreMediator
@@ -17,9 +16,10 @@ class AnotherCoreMediator : ToolbarMediator() {
 
     private var anotherLayout:ViewGroup? = null
 
-    override fun onCreateView(context: Context) {
-        viewComponent = AnotherCoreUI().createView(AnkoContext.create(context, this))
-        super.onCreateView(context)
+    override fun createLayout(context: Context): View = AnotherCoreUI().createView(AnkoContext.create(context, this))
+
+    override fun onCreatedView(context: View) {
+        super.onCreatedView(context)
         setHomeButtonEnable()
     }
 
