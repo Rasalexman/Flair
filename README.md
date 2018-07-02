@@ -12,7 +12,7 @@ val flairCoreInstance = flair {
         registerMediator<MyMediator>()
     }
 ```
-The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specifie any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity (that should be an instance of FlairActivity) can be stored in one core of FlairFramework
+The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specify any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity (that should be an instance of FlairActivity) can be stored in one core of FlairFramework
 ```kotlin
 class MainActivity : FlairActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,14 +78,14 @@ Maven:
 <dependency>
   <groupId>com.rasalexman.flairframework</groupId>
   <artifactId>flairframework</artifactId>
-  <version>1.0.3</version>
+  <version>x.y.z</version>
   <type>pom</type>
 </dependency>
 ```
 
 Gradle:
 ```
-implementation 'com.rasalexman.flairframework:flairframework:1.0.3'
+implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 ```
 
 
