@@ -92,18 +92,6 @@ inline fun <reified T : IProxy<*>> INotifier.proxyLazy(vararg dataToHold: Any): 
 inline fun <reified T : IProxy<*>> INotifier.proxy(vararg dataToHold: Any): T = facade.retrieveProxy(dataToHold.asList())
 
 /**
- * Retrieve lazy mediatorLazy core by given generic class
- */
-inline fun <reified T : IMediator> IMediator.mediatorLazy(mediatorName: String? = null): Lazy<T> = lazy {
-    mediator<T>(mediatorName)
-}
-
-/**
-* Retrieve lazy mediator core by given generic class
-*/
-inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = null): T = facade.retrieveMediator(mediatorName)
-
-/**
  * Main application appContext
  */
 val INotifier.appContext:Context
