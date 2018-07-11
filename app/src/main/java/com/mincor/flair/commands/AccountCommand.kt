@@ -4,12 +4,12 @@ import com.mincor.flair.events.Events.ACCOUNT_CHANGE
 import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.proxies.MVVMProxy
 import com.mincor.flairframework.interfaces.INotification
-import com.mincor.flairframework.interfaces.proxy
+import com.mincor.flairframework.interfaces.proxyLazy
 import com.mincor.flairframework.patterns.command.SimpleCommand
 
 class AccountCommand : SimpleCommand() {
 
-    private val accountProxy by proxy<MVVMProxy>()
+    private val accountProxy by proxyLazy<MVVMProxy>()
 
     override fun execute(notification: INotification) {
 

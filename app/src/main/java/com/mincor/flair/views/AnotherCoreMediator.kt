@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.mincor.flair.R
 import com.mincor.flair.application.FlairApplication
 import com.mincor.flair.views.subcomponents.SubChildCoreMediator
+import com.mincor.flairframework.core.animation.LinearAnimator
 import com.mincor.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
@@ -24,8 +25,7 @@ class AnotherCoreMediator : ToolbarMediator() {
     }
 
     override fun onAddedView() {
-        flair(FlairApplication.CORE_SECOND).attach(activity(), anotherLayout!!)
-                .retrieveMediator<SubChildCoreMediator>().show()
+        flair(FlairApplication.CORE_SECOND).attach(activity, anotherLayout!!).showLastOrExistMediator<SubChildCoreMediator>()
     }
 
     override fun onRemovedView() {
@@ -39,7 +39,7 @@ class AnotherCoreMediator : ToolbarMediator() {
 
                 toolBar = toolbar {
                     setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
-                    title = "Another core mediator"
+                    title = "Another core mediatorLazy"
                     backgroundResource = R.color.colorPrimary
                 }
 

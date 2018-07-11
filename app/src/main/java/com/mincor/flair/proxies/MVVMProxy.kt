@@ -9,13 +9,13 @@ class MVVMProxy : Proxy<AccountModel>(AccountModel("", "")) {
 
     var socialName: String by Delegates.observable("") { cur, old, new ->
         println("-------> socialName: current value $cur OLD value $old NEW VALUE $new")
-        data.socialName = new
+        data?.socialName = new
         sendNotification(ACCOUNT_CHANGE_HANLDER)
     }
 
     var pageId: String by Delegates.observable("") { cur, old, new ->
         println("--------> pageId: current value $cur OLD value $old NEW VALUE $new")
-        data.pageId = new
+        data?.pageId = new
         sendNotification(ACCOUNT_CHANGE_HANLDER)
     }
 

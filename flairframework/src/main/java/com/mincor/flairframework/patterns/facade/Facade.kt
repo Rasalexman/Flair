@@ -13,7 +13,7 @@ import com.mincor.flairframework.interfaces.IFacade
 /**
  * Created by a.minkin on 21.11.2017.
  */
-class Facade(override var multitonKey: String = "",
+class Facade(override var multitonKey: String,
              override val appContext: Context,
              facadeInitializer:FacadeInitializer? = null) : IFacade {
 
@@ -23,9 +23,9 @@ class Facade(override var multitonKey: String = "",
     override val facade: IFacade by lazy { this }
 
     /**
-     * Reference to the Controller
+     * The Multiton core of `Controller` or create new if not exist
      */
-    override val controller by lazy { Controller.getInstance(multitonKey)  }
+    override val controller by lazy { Controller.getInstance(multitonKey) }
 
     /**
      * Reference to the Model

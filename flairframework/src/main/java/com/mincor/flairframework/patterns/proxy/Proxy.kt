@@ -7,7 +7,7 @@ import com.mincor.flairframework.patterns.observer.Notifier
  * Created by a.minkin on 21.11.2017.
  * @param data - stored data
  */
-abstract class Proxy<out T>(override val data: T) : Notifier(), IProxy<T> {
+abstract class Proxy<T>(override var data: T?) : Notifier(), IProxy<T?> {
 
     /**
      * Called by the Model when the Proxy is registered.

@@ -43,18 +43,18 @@ interface IMediator : INotifier {
     fun createLayout(context: Context):View
 
     /**
-     * Called by the create mediator view once
+     * Called by the create mediatorLazy view once
      */
     fun onCreatedView(view:View)
 
     /**
-     * Called when mediator added to view container
+     * Called when mediatorLazy added to view container
      */
     fun onAddedView()
 
 
     /**
-     * Called when mediator view removed from parent
+     * Called when mediatorLazy view removed from parent
      */
     fun onRemovedView()
 
@@ -78,7 +78,7 @@ interface IMediator : INotifier {
 /**
  * Inflate current view component
  */
-fun IMediator.inflateView(layoutId: Int): View = android.view.LayoutInflater.from(activity()).inflate(layoutId, null)
+fun IMediator.inflateView(layoutId: Int): View = android.view.LayoutInflater.from(activity).inflate(layoutId, null)
 
 /**
  * List `INotification` interests.
@@ -111,44 +111,63 @@ fun IMediator.registerObserver(notifName: String, notificator: INotificator): IM
 }
 
 /**
- * Add current mediator to view stage
+ * Add current mediatorLazy to view stage
  *
  * @param popLast
- * Flag that indicates to need remove last showing mediator from backstack
+ * Flag that indicates to need remove last showing mediatorLazy from backstack
  */
 fun IMediator.show(animation: IAnimator? = null, popLast: Boolean = false) {
     facade.showMeditator(this.mediatorName ?: this.className(), popLast, animation)
 }
 
 /**
- * Remove current mediator from view stage
+ * Remove current mediatorLazy from view stage
  *
  * @param popIt
- * Flag that indicates to need remove current mediator from backstack
+ * Flag that indicates to need remove current mediatorLazy from backstack
  */
 fun IMediator.hide(animation: IAnimator? = null, popIt: Boolean = false) {
     facade.hideMediator(this.mediatorName ?: this.className(), popIt, animation)
 }
 
 /**
- * Hide current mediator and remove it from backstack
- * Then show last added mediator from backstack
+ * Get app context resources
+ */
+fun IMediator.resources():Resources {
+    return appContext.resources
+}
+
+/**
+ * Hide current mediatorLazy and remove it from backstack
+ * Then show last added mediatorLazy from backstack
  */
 fun IMediator.popToBack(animation: IAnimator? = null) {
     facade.popMediator(this.mediatorName ?: this.className(), animation)
 }
 
 /**
+ * GO Back to given mediatorName(high priority) or Generic class name.
  *
+ * @param mediatorName
+ * Mediator to which you go back, so if there is no registered mediatorLazy by this name new instance is create as back stacked
  */
-inline fun <reified T : View> IMediator.view(resId:Int): Lazy<T> = lazy {
-    viewComponent?.findViewById(resId) as T
+inline fun <reified T : IMediator> IMediator.popTo(mediatorName: String? = null, animation: IAnimator? = null) {
+    facade.retrieveMediator<T>(mediatorName ?: T::class.className()).show(animation, true)
 }
 
 /**
- * Get app context resources
+ * Show the given generic mediatorLazy or by name
  */
-fun IMediator.resources():Resources {
-    return appContext().resources
+inline fun <reified T : IMediator> IMediator.showMediator(mediatorName: String? = null, animation: IAnimator? = null) {
+    return facade.retrieveMediator<T>(mediatorName ?: T::class.className()).show(animation)
 }
+
+/**
+ *
+ */
+inline fun <reified T : View> IMediator.view(resId:Int): Lazy<T?> = lazy {
+    viewComponent?.findViewById(resId) as? T
+}
+
+
 

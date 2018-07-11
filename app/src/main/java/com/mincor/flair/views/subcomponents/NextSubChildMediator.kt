@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
+import com.mincor.flair.proxies.NextSubProxy
 import com.mincor.flair.views.MVVMMediator
 import com.mincor.flairframework.core.animation.LinearAnimator
 import com.mincor.flairframework.interfaces.*
@@ -12,7 +13,7 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
 
-class NextSubChildMediator : Mediator() {
+class NextSubChildMediator : Mediator(), NextSubProxy.IView {
 
     private var childNameTV:TextView? = null
 
@@ -20,10 +21,15 @@ class NextSubChildMediator : Mediator() {
 
     override fun onAddedView() {
         childNameTV?.text = this.mediatorName
+        proxy<NextSubProxy>(this).callViewNameToMediator()
+    }
+
+    override fun onProxyCalledHandler(str: String?) {
+        println("HELLOW FROM NEW PROXY AND MEDIATOR NAME $str")
     }
 
     fun onAnotherClickHandler() {
-        facade.retrieveMediator<NextSubChildMediator>(UUID.randomUUID().toString()).show(LinearAnimator())
+        showMediator<NextSubChildMediator>(UUID.randomUUID().toString(), LinearAnimator())
     }
 
     inner class NextChildUI : AnkoComponent<NextSubChildMediator> {
@@ -44,6 +50,12 @@ class NextSubChildMediator : Mediator() {
                     }
                 }
 
+                button("previous child") {
+                    onClick {
+                        popToBack(LinearAnimator())
+                    }
+                }
+
                 button("POP TO ROOT CHILD") {
                     onClick {
                         popTo<SubChildCoreMediator>()
@@ -60,6 +72,6 @@ class NextSubChildMediator : Mediator() {
     }
 
     private fun onShowParentMediatorHandler() {
-        flair(IFacade.DEFAULT_KEY).retrieveMediator<MVVMMediator>().show(LinearAnimator())
+        flair(IFacade.DEFAULT_KEY).retrieveMediator<MVVMMediator>().show(LinearAnimator(), true)
     }
 }

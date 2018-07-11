@@ -6,7 +6,6 @@ import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.core.controller.Controller
 import com.mincor.flairframework.core.model.Model
 import com.mincor.flairframework.core.view.View
-import com.mincor.flairframework.ext.className
 import com.mincor.flairframework.patterns.facade.Facade
 import com.mincor.flairframework.patterns.observer.Notification
 import com.mincor.flairframework.patterns.observer.Observer
@@ -85,16 +84,6 @@ interface IFacade : INotifier {
 inline fun <reified T : IMediator> IFacade.retrieveMediator(mediatorName: String? = null): T = this.view.retrieveMediator(mediatorName)
 
 /**
- * GO Back to given mediatorName(high priority) or Generic class name.
- *
- * @param mediatorName
- * Mediator to which you go back, so if there is no registered mediator by this name new instance is create as back stacked
- */
-inline fun <reified T : IMediator> IMediator.popTo(mediatorName: String? = null, animation: IAnimator? = null) {
-    facade.retrieveMediator<T>(mediatorName ?: T::class.className()).show(animation, true)
-}
-
-/**
  * Register an `IMediator` core with the `View`.
  */
 inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null) {
@@ -110,11 +99,11 @@ inline fun <reified T : IMediator> IFacade.removeMediator(): T? = this.view.remo
  * Register an `IProxy` with the `Model` by name.
  *
  * @param dataToHold
- * Contructor parameters as example: `mapOf("view" to Mediator@this)`
+ * Contructor parameters that proxyLazy must apply
  *
  * @return IProxy instance with given parameters
  */
-inline fun <reified T : IProxy<*>> IFacade.registerProxy(dataToHold: Map<String, Any>? = null):T = this.model.registerProxy(dataToHold)
+inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg dataToHold:Any):T = this.model.registerProxy(dataToHold.asList())
 
 /**
  * Register an `ICommand` with the `Controller`.
@@ -132,7 +121,7 @@ inline fun <reified T : ICommand> IFacade.registerCommand(noteName: String) {
  *
  * @return the `IProxy` previously regisetered with the `Model`.
  */
-inline fun <reified T : IProxy<*>> IFacade.retrieveProxy(): T = this.model.retrieveProxy()
+inline fun <reified T : IProxy<*>> IFacade.retrieveProxy(params:List<Any>? = null): T = this.model.retrieveProxy(params)
 
 /**
  * Remove an `IProxy` core from the `Model`
@@ -147,7 +136,7 @@ inline fun <reified T : IProxy<*>> IFacade.removeProxy(): T? = this.model.remove
 inline fun <reified T : IProxy<*>> IFacade.hasProxy(): Boolean = this.model.hasProxy<T>()
 
 /**
- * Show last added IMediator from backstack. If there is no mediator in backstack show the one passed before
+ * Show last added IMediator from backstack. If there is no mediatorLazy in backstack show the one passed before
  */
 inline fun <reified T : IMediator> IFacade.showLastOrExistMediator(animation: IAnimator? = null) {
     view.showLastOrExistMediator<T>(animation)
@@ -162,8 +151,8 @@ inline fun <reified T : IMediator> IFacade.hasMediator(): Boolean = view.hasMedi
 ////------------- EXTENSIONS FUNCTION -----////
 
 /**
- * Hide current mediator by the name and remove it from backstack then show last added mediator at backstack
- * If there is no mediator in backstack there is no action will be (only if bacstack size > 1)
+ * Hide current mediatorLazy by the name and remove it from backstack then show last added mediatorLazy at backstack
+ * If there is no mediatorLazy in backstack there is no action will be (only if bacstack size > 1)
  *
  * @param mediatorName
  * the name of the `IMediator` core to be removed from the screen
@@ -173,7 +162,7 @@ fun IFacade.popMediator(mediatorName: String, animation: IAnimator? = null) {
 }
 
 /**
- * Hide current mediator by name
+ * Hide current mediatorLazy by name
  *
  * @param mediatorName
  * the name of the `IMediator` core to be removed from the screen
@@ -189,10 +178,10 @@ fun IFacade.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnima
 }
 
 /**
- * Show current selected mediator
+ * Show current selected mediatorLazy
  *
  * @param mapName
- * This si a current mediator name to put in backstack
+ * This si a current mediatorLazy name to put in backstack
  *
  * @param popLast
  * flag that indicates need to remove last showing from backstack

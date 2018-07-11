@@ -19,13 +19,13 @@ class Controller private constructor(override var multitonKey: String) : IContro
     override val view: View by lazy { View.getInstance(multitonKey) }
 
     companion object : IMapper<Controller> {
-        override val instanceMap: MutableMap<String, Controller> = HashMap()
+        override val instanceMap: MutableMap<String, Controller> = mutableMapOf()
         /**
          * `Controller` Multiton Factory method.
          * @return the Multiton core of `Controller` or create new if not exist
          */
         @Synchronized
-        fun getInstance(key: String): Controller = instance(key) { Controller(key) }
+        fun getInstance(key: String) = instance(key) { Controller(key) }
 
         /**
          * Remove an IController core

@@ -22,12 +22,11 @@ class StartupCommand : SimpleCommand() {
 
     override fun execute(notification: INotification) {
 
-        val cm = appContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val resolver = appContext().contentResolver
+        val cm = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val resolver = appContext.contentResolver
 
-        // proxy with web service Retrofit
-        facade.registerProxy<NetProxy>(hashMapOf("webservice" to createWebServiceApi<IWebService>(createOkHttpClient(cm, takeDeviceID(resolver)),
-                "https://app.dp.ru/api/v1.0/")))
+        // proxyLazy with web service Retrofit
+        facade.registerProxy<NetProxy>(createWebServiceApi<IWebService>(createOkHttpClient(cm, takeDeviceID(resolver)),"https://app.dp.ru/api/v1.0/"))
 
         facade.registerProxy<MVVMProxy>()
         facade.registerMediator<MVPMediator>()

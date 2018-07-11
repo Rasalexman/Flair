@@ -3,9 +3,9 @@ package com.mincor.flairframework.interfaces
 /**
  * Created by a.minkin on 21.11.2017.
  */
-interface IProxy<out T> : INotifier {
+interface IProxy<T> : INotifier {
 
-    val data:T
+    var data:T?
     /**
      * Called by the Model when the Proxy is registered.
      */

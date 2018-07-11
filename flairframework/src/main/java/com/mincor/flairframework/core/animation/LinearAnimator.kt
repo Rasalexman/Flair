@@ -12,9 +12,27 @@ import com.mincor.flairframework.interfaces.hide
 
 /**
  * Created by a.minkin on 24.11.2017.
+ * @param from
+ * From what mediatorLazy animation played
+ *
+ * @param to
+ * to what mediatorLazy animation played
+ *
+ * @param isShow
+ * directional of animation show or hide
+ *
+ * @param duration
+ * duration of animation
+ *
+ * @param popLast
+ * Need to remove last mediatorLazy
+ *
  */
 class LinearAnimator(override var from: IMediator? = null, override var to: IMediator? = null, override var isShow: Boolean = true, override var duration: Long = 500, override var popLast: Boolean = false) : IAnimator {
 
+    /**
+     * Get current animation
+     */
     override fun getAnimator(): Animator {
         val animatorSet = AnimatorSet()
         val fromView = from?.viewComponent
@@ -40,6 +58,9 @@ class LinearAnimator(override var from: IMediator? = null, override var to: IMed
         return animatorSet
     }
 
+    /**
+     * Play animation
+     */
     override fun playAnimation() {
         to?.let {
             it.viewComponent?.viewTreeObserver?.addOnPreDrawListener(AnimationPreDrawListener(to!!.viewComponent))
@@ -48,6 +69,9 @@ class LinearAnimator(override var from: IMediator? = null, override var to: IMed
         }
     }
 
+    /**
+     * Prepare animation for play
+     */
     private fun startAnimation() {
         val animator: Animator = getAnimator()
         if (duration > 0) {
@@ -74,6 +98,9 @@ class LinearAnimator(override var from: IMediator? = null, override var to: IMed
         animator.start()
     }
 
+    /**
+     * Animation PreDraw Listener used as event handler when view added to stage and initialized
+     */
     inner class AnimationPreDrawListener(private var toView: android.view.View?) : ViewTreeObserver.OnPreDrawListener {
         private var hasRun: Boolean = false
         override fun onPreDraw(): Boolean {

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.interfaces.*
 import com.mincor.flairframework.patterns.observer.Notification
+import java.util.*
 
 
 /**
@@ -29,7 +30,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     // List of current added mediators on the screen
     override val mediatorBackStack: MutableList<IMediator> = mutableListOf()
-    // Current showing mediator
+    // Current showing mediatorLazy
     override var currentShowingMediator: IMediator? = null
 
     /**
@@ -62,7 +63,6 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
          *
          * @return the Singleton core of `View`
          */
-        @Synchronized
         fun getInstance(key: String): View = instance(key) {
             val viewInstance = View()
             viewInstance.multitonKey = key

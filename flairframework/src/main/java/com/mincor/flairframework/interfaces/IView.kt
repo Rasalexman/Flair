@@ -1,9 +1,9 @@
 package com.mincor.flairframework.interfaces
 
-import android.util.Log
 import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.ext.className
+import com.mincor.flairframework.ext.clear
 import com.mincor.flairframework.ext.createInstance
 import com.mincor.flairframework.ext.removeFromParent
 
@@ -53,30 +53,30 @@ inline fun <reified T : IMediator> IView.hasMediator(): Boolean = mediatorMap[T:
  */
 inline fun <reified T : IMediator> IView.removeMediator(): IMediator? {
     val mediatorName = T::class.className()
-    // Retrieve the named mediator
+    // Retrieve the named mediatorLazy
     val mediator = mediatorMap[mediatorName]
     mediator?.let {
-        // hide mediator and remove from backstack
+        // hide mediatorLazy and remove from backstack
         it.hide(null, true)
-        // for every notification this mediator is interested in...
+        // for every notification this mediatorLazy is interested in...
         val interests = it.listNotificationInterests
-        // remove the observer linking the mediator
+        // remove the observer linking the mediatorLazy
         // to the notification interest
         interests.forEach { s ->
             removeObserver(s, it.multitonKey)
         }
         interests.clear()
 
-        // remove the mediator from the map
+        // remove the mediatorLazy from the map
         mediatorMap.remove(mediatorName)
-        // alert the mediator that it has been removed
+        // alert the mediatorLazy that it has been removed
         it.onRemove()
     }
     return mediator
 }
 
 /**
- * Show last added IMediator from backstack. If there is no mediator in backstack show the one passed by name
+ * Show last added IMediator from backstack. If there is no mediatorLazy in backstack show the one passed by name
  *
  * @param animation
  * the name of the `IMediator` animation to show on the screen
@@ -118,34 +118,34 @@ inline fun <reified T : IMediator> IView.registerMediator(mediatorName: String? 
         currentMediator.multitonKey = this.multitonKey
         currentMediator.mediatorName = clazzName
     }
-    // call mediator lifecycle function
+    // call mediatorLazy lifecycle function
     currentMediator.onRegister()
     return currentMediator as T
 }
 
 /////----------- EXTENSIONS FUNCTION
 /**
- * Hide current mediator by the name and remove it from backstack then show last added mediator at backstack
- * If there is no mediator in backstack there is no action will be (only if backstack size > 1)
+ * Hide current mediatorLazy by the name and remove it from backstack then show last added mediatorLazy at backstack
+ * If there is no mediatorLazy in backstack there is no action will be (only if backstack size > 1)
  *
  * @param mediatorName
  * the name of the `IMediator` core to be removed from the screen
  */
 fun IView.popMediator(mediatorName: String, animation: IAnimator? = null) {
     mediatorMap[mediatorName]?.let { mediatorToPop ->
-        // if mediator to pop equal current showing mediator and backstack has more than one mediator
+        // if mediatorLazy to pop equal current showing mediatorLazy and backstack has more than one mediatorLazy
         if (mediatorToPop == currentShowingMediator && mediatorBackStack.size > 1) {
 
-            // get last added mediator from backstack and show it on the screen
+            // get last added mediatorLazy from backstack and show it on the screen
             val lastIndex = mediatorBackStack.lastIndexOf(mediatorToPop) - 1
             val lastAddedMediator = mediatorBackStack[lastIndex]
-            lastAddedMediator.show(animation)
+            lastAddedMediator.show(animation, true)
         }
     }
 }
 
 /**
- * Hide current mediator by name
+ * Hide current mediatorLazy by name
  *
  * @param mediatorName
  * the name of the `IMediator` core to be removed from the screen
@@ -169,40 +169,41 @@ fun IView.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimato
         } ?: let {
             mediator.viewComponent?.removeFromParent() // remove viewComponent from ui layer
             mediator.onRemovedView()
-            // if flag `true` we remove mediator from backstack and clear view
+            // if flag `true` we remove mediatorLazy from backstack and clear view
             if (popIt) {
+                (mediator.viewComponent as? ViewGroup)?.clear()
                 mediator.viewComponent = null
                 if (mediatorBackStack.contains(mediator))
                     mediatorBackStack.remove(mediator)
                 mediator.onDestroyView()
 
-                val names: String = mediatorBackStack.joinToString { it.mediatorName ?: "" }
-                Log.w("------->", "BACKSTACK AFTER POP  $names")
+                //val names: String = mediatorBackStack.joinToString { it.mediatorName ?: "" }
+                //Log.w("------->", "BACKSTACK AFTER POP  $names")
             }
         }
     }
 }
 
 /**
- * Show current selected mediator
+ * Show current selected mediatorLazy
  *
  * @param mediatorName
- * Current name of mediator
+ * Current name of mediatorLazy
  *
  * @param popLastMediator
  * flag that indicates need to remove last showing from backstack and clear view
  */
 fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation: IAnimator? = null) {
     val lastMediator = currentShowingMediator
-    // Retrieve the named mediator
+    // Retrieve the named mediatorLazy
     currentShowingMediator = mediatorMap[mediatorName]
-    // if showing mediator the same just return
+    // if showing mediatorLazy the same just return
     if (currentShowingMediator == lastMediator) {
         return
     }
     currentShowingMediator?.apply {
         viewComponent = viewComponent ?: let {
-            val layout = createLayout(activity())
+            val layout = createLayout(activity)
             onCreatedView(layout)
             layout
         }
@@ -214,7 +215,7 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
 
         // indicator to animation direction
         var isShowAnimation = true
-        // add to backstack if we don't have any mediators in it or last mediator does not equal the same mediator as we showing on the screen
+        // add to backstack if we don't have any mediators in it or last mediatorLazy does not equal the same mediatorLazy as we showing on the screen
         if (!mediatorBackStack.contains(this)) {
             if (!popLastMediator) {
                 mediatorBackStack.add(this)
@@ -222,11 +223,11 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
                 val indexOf = mediatorBackStack.indexOf(lastMediator)
                 mediatorBackStack.add(indexOf, this)
             }
-        } else {
+        } else if(popLastMediator) {
             val indexOf = mediatorBackStack.indexOf(this) + 1
             while (mediatorBackStack.size > indexOf) {
                 val mediator = mediatorBackStack[indexOf]
-                // we dont need to remove last mediator `viewComponent`
+                // we dont need to remove last mediatorLazy `viewComponent`
                 if (mediator.mediatorName == lastMediator?.mediatorName) {
                     // only if we have an animation we simulate back
                     mediatorBackStack.remove(mediator)

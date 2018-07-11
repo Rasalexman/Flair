@@ -2,6 +2,8 @@ package com.mincor.flairframework.interfaces
 
 import com.mincor.flairframework.ext.className
 import com.mincor.flairframework.ext.createInstance
+import com.mincor.flairframework.ext.injectInConstructor
+import kotlin.reflect.full.primaryConstructor
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -22,14 +24,15 @@ inline fun <reified T : IProxy<*>> IModel.hasProxy(): Boolean = proxyMap.contain
  *
  * @return the `IProxy` core previously registered
  */
-inline fun <reified T : IProxy<*>> IModel.retrieveProxy(): T = this.proxyMap[T::class.className()] as? T ?: registerProxy()
+inline fun <reified T : IProxy<*>> IModel.retrieveProxy(params:List<Any>? = null): T = this.proxyMap[T::class.className()]?.injectInConstructor(params) as? T ?: registerProxy(params)
+
 
 /**
  * Register an `IProxy` core with the `Model`.
  */
-inline fun <reified T : IProxy<*>> IModel.registerProxy(dataToHold:Map<String, Any>? = null):T {
+inline fun <reified T : IProxy<*>> IModel.registerProxy(consParams:List<Any>? = null):T {
     val clazz = T::class
-    val proxy = clazz.createInstance(dataToHold ?: hashMapOf())
+    val proxy = clazz.createInstance(consParams)
     proxy.multitonKey = this.multitonKey
     this.proxyMap[clazz.className()] = proxy
     proxy.onRegister()

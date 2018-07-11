@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import com.mincor.flair.R
 import com.mincor.flairframework.core.animation.LinearAnimator
@@ -20,25 +21,34 @@ class UserListsMediator : ToolbarMediator() {
 
     override var hasOptionalMenu: Boolean = true
 
-    val mvpMediator: MVPMediator by mediator()
+    val mvpMediator: MVPMediator by mediatorLazy()
 
     override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) //UserListUI().createView(AnkoContext.create(context, this))
 
     override fun onCreatedView(context: View) {
-        toolBar = viewComponent?.simple_tool_bar
+        toolBar = context.simple_tool_bar
         super.onCreatedView(context)
         setHomeButtonEnable()
 
-        val button = viewComponent!!.button
-        button.onClick { mvpMediator.show(animation = LinearAnimator()) }
+        val button = context.button
+        button.onClick {
+            mvpMediator.show(animation = LinearAnimator())
+        }
 
-        val button2 = viewComponent!!.button2
+        val button2 = context.button2
         button2.onClick { popTo<MVPMediator>() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_list, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.action_new -> println("HELLO FROM MENU")
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     inner class UserListUI : AnkoComponent<UserListsMediator> {

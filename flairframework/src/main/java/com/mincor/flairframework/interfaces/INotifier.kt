@@ -1,6 +1,5 @@
 package com.mincor.flairframework.interfaces
 
-import android.app.Activity
 import android.content.Context
 import android.support.annotation.StringRes
 import com.mincor.flairframework.core.FlairActivity
@@ -65,43 +64,63 @@ fun INotifier.sendNotification(notificationName: String, body: Any? = null, type
 /**
  * Retrieve lazy proxyModel data by given generic class
  */
-inline fun <reified T : IProxy<*>, reified R : Any> INotifier.proxyModel(): Lazy<R> = lazy {
-    if(facade.hasProxy<T>())  facade.retrieveProxy<T>().data as R else facade.registerProxy<T>().data as R
+inline fun <reified T : IProxy<*>, reified R : Any> INotifier.proxyLazyModel(): Lazy<R> = lazy {
+    proxyModel<T, R>()
 }
+
+/**
+ * Retrieve proxyModel data by given generic class
+ */
+inline fun <reified T : IProxy<*>, reified R : Any> INotifier.proxyModel(): R = facade.retrieveProxy<T>().data as R
 
 /**
  * Retrieve lazy proxy core or create new one if it does not has, by given generic class
+ *
+ * @param dataToHold
+ * Constructor parameters
  */
-inline fun <reified T : IProxy<*>> INotifier.proxy(dataToHold: Map<String, Any>? = null): Lazy<T> = lazy {
-    if(facade.hasProxy<T>()) facade.retrieveProxy<T>() else facade.registerProxy(dataToHold)
+inline fun <reified T : IProxy<*>> INotifier.proxyLazy(vararg dataToHold: Any): Lazy<T> = lazy {
+    if(facade.hasProxy<T>()) facade.retrieveProxy<T>(dataToHold.asList()) else this.facade.model.registerProxy(dataToHold.asList())
 }
-
 
 /**
- * Retrieve lazy mediator core by given generic class
+ * Retrieve proxy core or create new one if it does not has, by given generic class
+ *
+ * @param dataToHold
+ * Constructor parameters
  */
-inline fun <reified T : IMediator> IMediator.mediator(mediatorName:String? = null): Lazy<T> = lazy {
-    facade.retrieveMediator<T>(mediatorName)
+inline fun <reified T : IProxy<*>> INotifier.proxy(vararg dataToHold: Any): T = facade.retrieveProxy(dataToHold.asList())
+
+/**
+ * Retrieve lazy mediatorLazy core by given generic class
+ */
+inline fun <reified T : IMediator> IMediator.mediatorLazy(mediatorName: String? = null): Lazy<T> = lazy {
+    mediator<T>(mediatorName)
 }
+
+/**
+* Retrieve lazy mediator core by given generic class
+*/
+inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = null): T = facade.retrieveMediator(mediatorName)
 
 /**
  * Main application appContext
  */
-fun INotifier.appContext() : Context = facade.appContext
+val INotifier.appContext:Context
+        get() = facade.appContext
 
 /**
  * Attached to facade single activity
  */
-fun INotifier.activity() : FlairActivity = let {
-    if (facade.view.currentActivity == null) throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
-    facade.view.currentActivity!!
-}
+val INotifier.activity: FlairActivity
+    get() = if (facade.view.currentActivity == null) throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
+    else facade.view.currentActivity!!
 
 /**
  * Get a string resourses from app context by it's id
  */
-fun INotifier.stringRes(@StringRes resId:Int):String {
-    return appContext().getString(resId)
+fun INotifier.stringRes(@StringRes resId: Int): String {
+    return appContext.getString(resId)
 }
 
 /**
@@ -112,4 +131,4 @@ fun INotifier.stringRes(@StringRes resId:Int):String {
  * @param block
  * initialization function. This is a starting point to register Proxy/Mediators/Commands
  */
-fun INotifier.flair(key: String? = null, block: FacadeInitializer? = null) = this.appContext().flair(key ?: this.multitonKey, block)
+fun INotifier.flair(key: String? = null, block: FacadeInitializer? = null) = appContext.flair(key ?: this.multitonKey, block)

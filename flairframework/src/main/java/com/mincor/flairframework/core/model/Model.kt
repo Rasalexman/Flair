@@ -4,6 +4,7 @@ import com.mincor.flairframework.interfaces.IMapper
 import com.mincor.flairframework.interfaces.IModel
 import com.mincor.flairframework.interfaces.IProxy
 import com.mincor.flairframework.interfaces.instance
+import java.util.*
 
 /**
  * Created by a.minkin on 21.11.2017.

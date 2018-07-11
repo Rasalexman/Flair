@@ -37,11 +37,12 @@ class MVVMMediator : ToolbarMediator() {
     var name = ""
     var password = ""
 
-    val accountModel: AccountModel by proxyModel<MVVMProxy, AccountModel>()
+    val accountModel: AccountModel by proxyLazyModel<MVVMProxy, AccountModel>()
 
-    val usersList:MutableList<UserModel> by proxyModel<UserProxy, MutableList<UserModel>>()
+    val usersList:MutableList<UserModel> by proxyLazyModel<UserProxy, MutableList<UserModel>>()
 
-    val accountListMediator: UserListsMediator by mediator()
+    // you can use it like a lazy reference
+    val accountListMediator: UserListsMediator by mediatorLazy()
 
     var accountNameTV:TextView? = null
     var passwordNameTV:TextView? = null
@@ -57,7 +58,7 @@ class MVVMMediator : ToolbarMediator() {
             passwordNameTV?.text = accountModel.pageId
 
         }.registerListObservers(arrayListOf(UserProxy.NOTIFICATION_AUTH_FAILED, UserProxy.NOTIFICATION_AUTH_COMPLETE)) {
-            Toast.makeText(activity(), "Login Failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Login Failed", Toast.LENGTH_SHORT).show()
         }
     }
 

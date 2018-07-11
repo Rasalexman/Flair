@@ -20,7 +20,7 @@ class MVPMediator : ToolbarMediator() {
 
     override var hasOptionalMenu: Boolean = true
 
-    private val presenterProxy: MVPProxy by proxy(hashMapOf("view" to this))
+    private val presenterProxy: MVPProxy by proxyLazy(this)
 
     private var listViw:ListView? = null
 
@@ -44,15 +44,15 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun showFuncyMVPHandler() {
-        println("HELLO MVP MEDIATOR")
+        activity.toast("FANCY HELLO FROM MVP").show()
     }
 
     fun coroutinesResponceHander(resp:List<Tag>?) {
-        println("HELLO coroutinesResponceHander $resp")
+        activity.toast("HELLO coroutinesResponceHander $resp").show()
     }
 
     fun showErrorHandler(error:String) {
-        activity().alert {
+        activity.alert {
             title = "WARNING"
             message = error
             okButton {
@@ -98,7 +98,7 @@ class MVPMediator : ToolbarMediator() {
                     }
                 }
 
-                button("nextMVP mediator") {
+                button("nextMVP mediatorLazy") {
                     onClick {
                         onShowAnotherMediator()
                     }
