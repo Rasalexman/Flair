@@ -80,7 +80,7 @@ class MyCommand : SimpleCommand() {
 ```
 
 You can use powerful feature from kotlin lang like lazy `val` instantiating, this is an example with custom constructor parameters. 
-```
+```kotlin
 class MyProxyWithParams(mediator:MyMediator) : Proxy<MyMediator>(mediator) {
     override fun onRegister() {
         super.onRegister()
