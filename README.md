@@ -31,11 +31,12 @@ class MainActivity : FlairActivity() {
 
 Components:
 1) 'flair' instance is a simple IFacade singleton instance as core functionality point
-2) SimpleCommand instances is a command pattern realisation
-3) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
-4) Mediator is a simple view-hierarchy handler class, it's store and manage lifecyrcle of your view components such as AnkoComponents or xml-layout files. Also it support powerfull view backstack storage.
-5) Also you has `LinearAnimator.kt` for create simple view animation changes such as HorizontalAnimation, or u can extends LinearAnimator and create ur own realisation. 
-6) All components of a FlairFramework are linked together by a powerful messaging system. You can notify every part of your system by calling `sendNotification(event, data)`. Mediator can notify commands, commands can notify mediators and another commands, proxy can notify mediators and another commands. 
+2) SimpleCommand instances is a command pattern realisation. You can manipulate proxy objects from it's instance as like usecases
+3) MacroCommands can combine more than one SimpleCommand and execute it one by one
+4) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
+5) Mediator is a simple view-hierarchy handler class, it's store and manage lifecyrcle of your view components such as AnkoComponents or xml-layout files. Also it support powerfull view backstack storage.
+6) Also you has `LinearAnimator.kt` for create simple view animation changes such as HorizontalAnimation, or u can extends LinearAnimator and create ur own realisation. 
+7) All components of a FlairFramework are linked together by a powerful messaging system. You can notify every part of your system by calling `sendNotification(event, data)` and subscribe on event by calling `registerObserver(event) { INotification -> }` in IMediator or execute another SimpleCommand (see example above). Mediator can notify commands, commands can notify mediators and another commands, proxy can notify mediators and another commands. 
 
 Mediators can handle notification by
 ```kotlin
