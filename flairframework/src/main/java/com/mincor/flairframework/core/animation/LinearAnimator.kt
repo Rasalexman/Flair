@@ -13,10 +13,10 @@ import com.mincor.flairframework.interfaces.hide
 /**
  * Created by a.minkin on 24.11.2017.
  * @param from
- * From what mediatorLazy animation played
+ * From what mediator animation played
  *
  * @param to
- * to what mediatorLazy animation played
+ * to what mediator animation played
  *
  * @param isShow
  * directional of animation show or hide
@@ -25,7 +25,7 @@ import com.mincor.flairframework.interfaces.hide
  * duration of animation
  *
  * @param popLast
- * Need to remove last mediatorLazy
+ * Need to remove last mediator
  *
  */
 class LinearAnimator(override var from: IMediator? = null, override var to: IMediator? = null, override var isShow: Boolean = true, override var duration: Long = 500, override var popLast: Boolean = false) : IAnimator {

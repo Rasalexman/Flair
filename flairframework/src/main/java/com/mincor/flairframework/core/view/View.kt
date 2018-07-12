@@ -30,7 +30,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     // List of current added mediators on the screen
     override val mediatorBackStack: MutableList<IMediator> = mutableListOf()
-    // Current showing mediatorLazy
+    // Current showing mediator
     override var currentShowingMediator: IMediator? = null
 
     /**

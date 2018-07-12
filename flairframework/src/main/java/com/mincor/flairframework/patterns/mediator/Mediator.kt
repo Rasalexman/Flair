@@ -13,10 +13,10 @@ import com.mincor.flairframework.patterns.observer.Notifier
  */
 abstract class Mediator : Notifier(), IMediator {
 
-    override var viewComponent: View? = null            // current view of mediatorLazy
+    override var viewComponent: View? = null            // current view of mediator
     override var hasOptionalMenu:Boolean = false        // does view get opt menu
     override var hideOptionalMenu: Boolean = false      // Is hide optional menu
-    override var mediatorName: String? = null           // Current mediatorLazy name for put in backStack
+    override var mediatorName: String? = null           // Current mediator name for put in backStack
 
     /**
      * List the `INotification` names this `Mediator`

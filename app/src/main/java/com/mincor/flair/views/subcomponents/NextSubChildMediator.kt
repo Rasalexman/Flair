@@ -25,7 +25,7 @@ class NextSubChildMediator : Mediator(), NextSubProxy.IView {
     }
 
     override fun onProxyCalledHandler(str: String?) {
-        println("HELLOW FROM NEW PROXY AND MEDIATOR NAME $str")
+        activity.toast("HELLOW FROM NEW PROXY AND MEDIATOR NAME $str").show()
     }
 
     fun onAnotherClickHandler() {
@@ -58,7 +58,7 @@ class NextSubChildMediator : Mediator(), NextSubProxy.IView {
 
                 button("POP TO ROOT CHILD") {
                     onClick {
-                        popTo<SubChildCoreMediator>()
+                        popTo<SubChildCoreMediator>(null, LinearAnimator())
                     }
                 }
 

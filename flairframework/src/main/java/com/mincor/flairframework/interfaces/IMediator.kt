@@ -43,18 +43,18 @@ interface IMediator : INotifier {
     fun createLayout(context: Context):View
 
     /**
-     * Called by the create mediatorLazy view once
+     * Called by the create mediator view once
      */
     fun onCreatedView(view:View)
 
     /**
-     * Called when mediatorLazy added to view container
+     * Called when mediator added to view container
      */
     fun onAddedView()
 
 
     /**
-     * Called when mediatorLazy view removed from parent
+     * Called when mediator view removed from parent
      */
     fun onRemovedView()
 
@@ -111,20 +111,20 @@ fun IMediator.registerObserver(notifName: String, notificator: INotificator): IM
 }
 
 /**
- * Add current mediatorLazy to view stage
+ * Add current mediator to view stage
  *
  * @param popLast
- * Flag that indicates to need remove last showing mediatorLazy from backstack
+ * Flag that indicates to need remove last showing mediator from backstack
  */
 fun IMediator.show(animation: IAnimator? = null, popLast: Boolean = false) {
-    facade.showMeditator(this.mediatorName ?: this.className(), popLast, animation)
+    facade.showMeditator<IMediator>(this.mediatorName ?: this.className(), popLast, animation)
 }
 
 /**
- * Remove current mediatorLazy from view stage
+ * Remove current mediator from view stage
  *
  * @param popIt
- * Flag that indicates to need remove current mediatorLazy from backstack
+ * Flag that indicates to need remove current mediator from backstack
  */
 fun IMediator.hide(animation: IAnimator? = null, popIt: Boolean = false) {
     facade.hideMediator(this.mediatorName ?: this.className(), popIt, animation)
@@ -138,15 +138,15 @@ fun IMediator.resources():Resources {
 }
 
 /**
- * Hide current mediatorLazy and remove it from backstack
- * Then show last added mediatorLazy from backstack
+ * Hide current mediator and remove it from backstack
+ * Then show last added mediator from backstack
  */
 fun IMediator.popToBack(animation: IAnimator? = null) {
     facade.popMediator(this.mediatorName ?: this.className(), animation)
 }
 
 /**
- * Retrieve lazy mediatorLazy core by given generic class
+ * Retrieve lazy mediator core by given generic class
  */
 inline fun <reified T : IMediator> IMediator.mediatorLazy(mediatorName: String? = null): Lazy<T> = lazy {
     mediator<T>(mediatorName)

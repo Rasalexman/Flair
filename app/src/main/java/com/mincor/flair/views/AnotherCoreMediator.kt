@@ -39,7 +39,7 @@ class AnotherCoreMediator : ToolbarMediator() {
 
                 toolBar = toolbar {
                     setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
-                    title = "Another core mediatorLazy"
+                    title = "Another core mediator"
                     backgroundResource = R.color.colorPrimary
                 }
 

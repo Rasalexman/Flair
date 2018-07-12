@@ -98,7 +98,7 @@ class MVPMediator : ToolbarMediator() {
                     }
                 }
 
-                button("nextMVP mediatorLazy") {
+                button("nextMVP mediator") {
                     onClick {
                         onShowAnotherMediator()
                     }

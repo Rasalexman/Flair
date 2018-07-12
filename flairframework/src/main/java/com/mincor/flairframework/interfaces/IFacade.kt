@@ -6,6 +6,7 @@ import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.core.controller.Controller
 import com.mincor.flairframework.core.model.Model
 import com.mincor.flairframework.core.view.View
+import com.mincor.flairframework.ext.className
 import com.mincor.flairframework.patterns.facade.Facade
 import com.mincor.flairframework.patterns.observer.Notification
 import com.mincor.flairframework.patterns.observer.Observer
@@ -93,7 +94,36 @@ inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String
 /**
  * Remove a `IMediator` core from the `View`.
  */
-inline fun <reified T : IMediator> IFacade.removeMediator(): T? = this.view.removeMediator<T>() as? T
+inline fun <reified T : IMediator> IFacade.removeMediator(mediatorName:String? = null): T? = this.view.removeMediator<T>(mediatorName) as? T
+
+/**
+ * Show last added IMediator from backstack. If there is no mediator in backstack show the one passed before
+ */
+inline fun <reified T : IMediator> IFacade.showLastOrExistMediator(animation: IAnimator? = null) {
+    view.showLastOrExistMediator<T>(animation)
+}
+
+/**
+ * Check if a IMediator is registered or not
+ */
+inline fun <reified T : IMediator> IFacade.hasMediator(mediatorName:String? = null): Boolean = view.hasMediator<T>(mediatorName)
+
+/**
+ * Show current selected mediator
+ *
+ * @param mapName
+ * This is a current mediator name to put in backstack
+ *
+ * @param popLast
+ * flag that indicates need to remove last showing from backstack
+ *
+ * @param animation
+ * Instance of current animation
+ */
+inline fun <reified T : IMediator> IFacade.showMeditator(mapName: String? = null, popLast: Boolean = false, animation: IAnimator? = null) {
+    if(hasMediator<T>(mapName)) view.showMediator(mapName?:T::class.className(), popLast, animation)
+    else retrieveMediator<T>(mapName).show(animation, popLast)
+}
 
 /**
  * Register an `IProxy` with the `Model` by name.
@@ -135,24 +165,12 @@ inline fun <reified T : IProxy<*>> IFacade.removeProxy(): T? = this.model.remove
  */
 inline fun <reified T : IProxy<*>> IFacade.hasProxy(): Boolean = this.model.hasProxy<T>()
 
-/**
- * Show last added IMediator from backstack. If there is no mediatorLazy in backstack show the one passed before
- */
-inline fun <reified T : IMediator> IFacade.showLastOrExistMediator(animation: IAnimator? = null) {
-    view.showLastOrExistMediator<T>(animation)
-}
-
-/**
- * Check if a IMediator is registered or not
- */
-inline fun <reified T : IMediator> IFacade.hasMediator(): Boolean = view.hasMediator<T>()
-
 
 ////------------- EXTENSIONS FUNCTION -----////
 
 /**
- * Hide current mediatorLazy by the name and remove it from backstack then show last added mediatorLazy at backstack
- * If there is no mediatorLazy in backstack there is no action will be (only if bacstack size > 1)
+ * Hide current mediator by the name and remove it from backstack then show last added mediator at backstack
+ * If there is no mediator in backstack there is no action will be (only if bacstack size > 1)
  *
  * @param mediatorName
  * the name of the `IMediator` core to be removed from the screen
@@ -162,7 +180,7 @@ fun IFacade.popMediator(mediatorName: String, animation: IAnimator? = null) {
 }
 
 /**
- * Hide current mediatorLazy by name
+ * Hide current mediator by name
  *
  * @param mediatorName
  * the name of the `IMediator` core to be removed from the screen
@@ -175,22 +193,6 @@ fun IFacade.popMediator(mediatorName: String, animation: IAnimator? = null) {
  */
 fun IFacade.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimator?) {
     view.hideMediator(mediatorName, popIt, animation)
-}
-
-/**
- * Show current selected mediatorLazy
- *
- * @param mapName
- * This si a current mediatorLazy name to put in backstack
- *
- * @param popLast
- * flag that indicates need to remove last showing from backstack
- *
- * @param animation
- * Instance of current animation
- */
-fun IFacade.showMeditator(mapName: String, popLast: Boolean, animation: IAnimator?) {
-    view.showMediator(mapName, popLast, animation)
 }
 
 fun IFacade.registerObserver(notifName: String, notificator: INotificator) {

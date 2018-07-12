@@ -25,7 +25,7 @@ class MVPProxy(view: MVPMediator) : Proxy<MVPMediator>(view) {
         launch(UI){
             delay(2000)
 
-            val result = withContext(CommonPool) {
+            /*val result = withContext(CommonPool) {
                 webService.getTags().awaitResult()
             }
             when(result) {
@@ -43,7 +43,7 @@ class MVPProxy(view: MVPMediator) : Proxy<MVPMediator>(view) {
                 is Result.Exception -> {
                     data?.showErrorHandler("SOME RESULT EXCEPTION")
                 }
-            }
+            }*/
         }
     }
 }
