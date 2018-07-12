@@ -90,7 +90,9 @@ class MyProxyWithParams(mediator:MyMediator) : Proxy<MyMediator>(mediator) {
 
 class MyMediator : Mediator() {
   // lazy proxy initialization with params
-  val proxy:MyProxy:MyProxyWithParams by proxyLazy(this)
+  val proxy:MyProxyWithParams by proxyLazy(this)
+  // or
+  // val proxy by proxyLazy<MyProxyWithParams>(this)
   
   fun showFuncyMVPHandler(){
      println("HELLO FROM PROXY TO MEDIATOR")
@@ -98,7 +100,7 @@ class MyMediator : Mediator() {
 }
 ```
 
-See the sample project `app` for more complex information. Also code base has good comments on every functions
+See the sample project `app` for more complex information. Also code base has good comments and docs on every functions
 
 Maven:
 ```
