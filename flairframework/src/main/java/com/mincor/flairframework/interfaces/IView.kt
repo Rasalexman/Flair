@@ -170,8 +170,11 @@ fun IView.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimato
                 playAnimation()
             }
         } ?: let {
-            mediator.viewComponent?.removeFromParent() // remove viewComponent from ui layer
-            mediator.onRemovedView()
+            // if we have view component to remove from parent
+            mediator.viewComponent?.let {
+                it.removeFromParent() // remove viewComponent from ui layer
+                mediator.onRemovedView()
+            }
             // if flag `true` we remove mediator from backstack and clear view
             if (popIt) {
                 (mediator.viewComponent as? ViewGroup)?.clear()
