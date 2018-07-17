@@ -1,5 +1,8 @@
 package com.mincor.flairframework.interfaces
 
+import android.content.Intent
+import android.content.IntentSender
+import android.os.Bundle
 import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.ext.className
@@ -39,6 +42,31 @@ interface IView : IMultitonKey {
      * The container when ui will be added
      */
     fun attachActivity(activity: FlairActivity, container: ViewGroup? = null)
+
+    /**
+     * When requested activity has come
+     */
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+
+    /**
+     * Start another activity and read result from it
+     */
+    fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?)
+
+    /**
+     * Request permission to access your app additional properties of os ex. camera, contacts, locations
+     */
+    fun requestPermissions(permissions: Array<String>, requestCode: Int)
+
+    /**
+     *
+     */
+    fun checkSelfPermission(permissionToCheck:String):Int
+
+    /**
+     *
+     */
+    fun shouldShowRequestPermissionRationale(permission: String): Boolean
 }
 
 

@@ -2,9 +2,13 @@ package com.mincor.flairframework.core.view
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.content.IntentSender
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
@@ -187,6 +191,33 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
         notifyObservers(Notification(ACTIVITY_STATE_SAVE, bundle))
     }
+
+    /**
+     *
+     * @param requestCode The Activity's onActivityResult requestCode
+     * @param resultCode  The Activity's onActivityResult resultCode
+     * @param data        The Activity's onActivityResult data
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        currentShowingMediator?.onActivityResult(requestCode, resultCode, data)
+    }
+
+    /**
+     * When permission result responded
+     */
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        currentShowingMediator?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    /**
+     * Check if permission already granted
+     *
+     * @param permissionToCheck
+     * Name of the permission ex Manifest.permission.READ_CONTACTS
+     */
+    override fun checkSelfPermission(permissionToCheck: String):Int = ContextCompat.checkSelfPermission(currentActivity as Context, permissionToCheck)
+
+
     /////////------------------------------------///////
 
 

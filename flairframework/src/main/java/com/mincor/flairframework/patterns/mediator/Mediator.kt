@@ -1,5 +1,6 @@
 package com.mincor.flairframework.patterns.mediator
 
+import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -59,5 +60,15 @@ abstract class Mediator : Notifier(), IMediator {
      * Called by the View when viewComponent is null
      */
     override fun onDestroyView() {}
+
+    /**
+     * Called when meditor request onStartActivityForResult method
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { }
+
+    /**
+     * Request permission to access your app additional properties of os ex. camera, contacts, locations
+     */
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {}
 }
 

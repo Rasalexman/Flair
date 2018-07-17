@@ -1,5 +1,6 @@
 package com.mincor.flair.views
 
+import android.Manifest
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -15,6 +16,12 @@ import com.mincor.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import android.support.v4.app.ActivityCompat.startActivityForResult
+import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+
 
 class MVPMediator : ToolbarMediator() {
 
@@ -49,6 +56,63 @@ class MVPMediator : ToolbarMediator() {
 
     fun coroutinesResponceHander(resp:List<Tag>?) {
         activity.toast("HELLO coroutinesResponceHander $resp").show()
+    }
+
+    private fun pickContact() {
+        //val pickContactIntent = Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"))
+        //pickContactIntent.type = Phone.CONTENT_TYPE // Show user only contacts w/ phone numbers
+        //startActivityForResult(pickContactIntent, 1001)
+
+        // Here, thisActivity is the current activity
+        if (checkSelfPermission(Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS),
+                        1002)
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        com.mincor.flair.activity.log { "THIS IS A RESPOND FROM ACTIVITY" }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        com.mincor.flair.activity.log { "THIS IS A REQUESTED PERMISSION RESULT" }
+
+        when (requestCode) {
+            1002 -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
+
+        // Add other 'when' lines to check for other
+        // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
+            }
+        }
     }
 
     fun showErrorHandler(error:String) {
@@ -113,6 +177,12 @@ class MVPMediator : ToolbarMediator() {
                 button("USER LIST AGAIN") {
                     onClick {
                         showUserListAgain()
+                    }
+                }
+
+                button("OPEN CONTACTS") {
+                    onClick {
+                        pickContact()
                     }
                 }
 

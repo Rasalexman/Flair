@@ -1,7 +1,11 @@
 package com.mincor.flairframework.interfaces
 
 import android.content.Context
+import android.content.Intent
+import android.content.IntentSender
 import android.content.res.Resources
+import android.os.Bundle
+import android.support.annotation.NonNull
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -36,6 +40,16 @@ interface IMediator : INotifier {
      * Menu Item Selection section
      */
     fun onOptionsItemSelected(item: MenuItem): Boolean
+
+    /**
+     * Respond function from current activity
+     */
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+
+    /**
+     * WHEN REQUESTED PERMISSIONS IS GRANTED
+     */
+    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
 
     /**
      * Main initialize ViewComponent Function
@@ -79,6 +93,25 @@ interface IMediator : INotifier {
  * Inflate current view component
  */
 fun IMediator.inflateView(layoutId: Int): View = android.view.LayoutInflater.from(activity).inflate(layoutId, null)
+
+/**
+ * Start Activity with given intant and request code
+ */
+fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null) {
+    facade.view.startActivityForResult(intent, requestCode, options)
+}
+
+/**
+ * Request Permissions from user
+ */
+fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int) {
+    facade.view.requestPermissions(permissions, requestCode)
+}
+
+fun IMediator.checkSelfPermission(permissionToCheck:String):Int = facade.view.checkSelfPermission(permissionToCheck)
+fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean = facade.view.shouldShowRequestPermissionRationale(permission)
+
+
 
 /**
  * List `INotification` interests.
