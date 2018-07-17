@@ -104,7 +104,7 @@ Since verson 1.1.3 added new extension functions
 * fun IMediator.checkSelfPermission(permissionToCheck:String):Int
 * fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean
 
-and they callbacks (need):
+and they callbacks:
 ```kotlin
 class MyMediator : Mediator() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
