@@ -1,6 +1,6 @@
 # FlairFramework
 
-[ ![Kotlin 1.2.50](https://img.shields.io/badge/Kotlin-1.2.50-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
+[ ![Kotlin 1.2.51](https://img.shields.io/badge/Kotlin-1.2.51-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, dependency injection and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 
@@ -43,8 +43,6 @@ Mediators can handle notification by
 class MyMediator : Mediator() {
   // called when medaitor is registered
   override fun onRegister() {
-  }
-}
       // register notification for this IMediator instance
       registerObserver(eventName:String) {
             // event handler
@@ -99,6 +97,26 @@ class MyMediator : Mediator() {
   }
 }
 ```
+
+Since verson 1.1.3 added new extension functions
+* fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
+* fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int)
+* fun IMediator.checkSelfPermission(permissionToCheck:String):Int
+* fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean
+
+and they callbacks (need):
+```kotlin
+class MyMediator : Mediator() {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            // do what ever you want with result data
+    }
+    
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+          // check if permission granted or not 
+    }
+}
+```
+
 
 See the sample project `app` for more complex information. Also code base has good comments and docs on every functions
 
