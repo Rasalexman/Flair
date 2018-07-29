@@ -2,6 +2,8 @@ package com.mincor.flair.views
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
@@ -11,16 +13,10 @@ import com.mincor.flair.adapters.SelectedListAdapter
 import com.mincor.flair.proxies.MVPProxy
 import com.mincor.flair.proxies.vo.Tag
 import com.mincor.flairframework.core.animation.LinearAnimator
-import com.mincor.flairframework.core.view.View
 import com.mincor.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import android.support.v4.app.ActivityCompat.startActivityForResult
-import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 
 
 class MVPMediator : ToolbarMediator() {
@@ -40,8 +36,8 @@ class MVPMediator : ToolbarMediator() {
     }
 
     override fun onAddedView() {
-        listViw?.adapter = SelectedListAdapter(
-                View.getInstance(this.multitonKey).mediatorBackStack.mapTo(arrayListOf()) {it.mediatorName!!}.toMutableList(),
+       listViw?.adapter = SelectedListAdapter(
+                facade.view.mediatorBackStack.mapTo(arrayListOf()) {it.mediatorName!!}.toMutableList(),
                 ::onItemSelectedHandler
         )
     }
@@ -126,16 +122,15 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun onShowAnotherMediator() {
-        val mediator = facade.retrieveMediator<MVPMediator>("str${Math.random()*10000*10000}")
-        mediator.show(LinearAnimator())
+        showMediator<MVPMediator>("str${Math.random()*10000*10000}", LinearAnimator())
     }
 
     fun showMVVMAGAIN (){
-        facade.retrieveMediator<MVVMMediator>().show()
+        showMediator<MVVMMediator>()
     }
 
     private fun showUserListAgain() {
-        facade.retrieveMediator<UserListsMediator>().show()
+        showMediator<UserListsMediator>()
     }
 
     /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
