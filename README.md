@@ -117,6 +117,29 @@ class MyMediator : Mediator() {
 }
 ```
 
+Since version 1.1.4 you can use FlairPagerAdapter for control viewPager with mediators
+```kotlin
+viewPager?.adapter = FlairPagerAdapter(
+                listOf(mediator<PageOneMediator>(), mediator<PageTwoMediator>(), mediator<PageThreeMediator>()),
+                listOf("TabOne", "TabTwo", "TabThree"))
+tabLayout?.setupWithViewPager(viewPager)
+        
+        
+class PageOneMediator : Mediator() {
+    override fun createLayout(context: Context): View = with(context) {
+        verticalLayout {
+            lparams(matchParent, matchParent)
+
+            textView("THIS IS A PAGE ONE MEDIATOR") {
+                textSize = 14f
+                textColor = Color.GREEN
+            }.lparams {
+                gravity = Gravity.CENTER_HORIZONTAL
+            }
+        }
+    }
+}
+```
 
 See the sample project `app` for more complex information. Also code base has good comments and docs on every functions
 
@@ -138,11 +161,7 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 Changelog:
 ----
 * 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
-* 1.1.3 - extension functions:
-- fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
-- fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int)
-- fun IMediator.checkSelfPermission(permissionToCheck:String):Int
-- fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean
+* 1.1.3 - extension functions for permissions and activity
 
 License
 ----
