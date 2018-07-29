@@ -135,6 +135,14 @@ Gradle:
 implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 ```
 
+Changelog:
+----
+* 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
+* 1.1.3 - extension functions:
+- fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
+- fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int)
+- fun IMediator.checkSelfPermission(permissionToCheck:String):Int
+- fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean
 
 License
 ----
