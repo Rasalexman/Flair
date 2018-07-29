@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -17,7 +16,6 @@ import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.interfaces.*
 import com.mincor.flairframework.patterns.observer.Notification
-import java.util.*
 
 
 /**
@@ -93,7 +91,10 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * Clear all mediators from map
      */
     private fun clearAll() {
-        mediatorMap.forEach { _, iMediator ->
+        val fragmentManager:FragmentManager? = (activity as? AppCompatActivity)?.supportFragmentManager
+        fragmentManager?.beginTransaction()?.remove(this)?.commit()
+
+        mediatorMap.forEach { (_, iMediator) ->
             iMediator.hide(null, true)
         }
         mediatorMap.clear()
@@ -103,9 +104,9 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         currentContainer?.removeAllViews()
         currentContainer = null
 
-        currentActivity?.application?.registerActivityLifecycleCallbacks(null)
+        isAlreadyRegistered = false
+        currentActivity?.application?.unregisterActivityLifecycleCallbacks(this)
         currentActivity = null
-
     }
 
     /**
@@ -124,7 +125,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         if (!isAlreadyRegistered) {
             currentActivity = activity
             val fragmentManager:FragmentManager? = (activity as? AppCompatActivity)?.supportFragmentManager
-            fragmentManager?.beginTransaction()?.replace(android.R.id.content, this, multitonKey)?.commit() //
+            fragmentManager?.beginTransaction()?.add(this, multitonKey)?.commit()
             activity.application.registerActivityLifecycleCallbacks(this)
             isAlreadyRegistered = true
         }
@@ -162,7 +163,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     //-------------- LIFE CYCLE CALLBACKS -------/////
     override fun onActivityCreated(activity: Activity?, p1: Bundle?) {
-        notifyObservers(Notification(ACTIVITY_STARTED, activity))
+        notifyObservers(Notification(ACTIVITY_CREATED, activity))
     }
 
     override fun onActivityStarted(activity: Activity?) {

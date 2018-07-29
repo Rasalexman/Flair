@@ -13,11 +13,9 @@ import com.mincor.flairframework.interfaces.IFacade
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KParameter
-import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
-import kotlin.reflect.full.valueParameters
-import kotlin.reflect.jvm.javaField
 
 /**
  * Create instance of a given KClass with parameters
@@ -41,12 +39,19 @@ fun <T : Any> KClass<T>.createInstance(values: List<Any>? = null): T {
  * Inject given params to constructor instance members
  */
 fun Any.injectInConstructor(consParams:List<Any>? = null):Any {
-    consParams?.forEach { param ->
-        this.javaClass.kotlin.memberProperties.forEach { kProperty1 ->
-            val paramName = param.className()
-            val propName = kProperty1.returnType.toString().replace("?","")
-            if(paramName == propName) {
-                (kProperty1 as? KMutableProperty1<Any, Any>)?.set(this, param)
+    consParams?.let {params ->
+        val members = this.javaClass.kotlin.memberProperties as? List<KProperty1<Any, Any>>
+        members?.let {
+            val ms = it.size
+            params.forEachIndexed { index, param ->
+                if(ms > index){
+                    val kProperty1 = it[index]
+                    val paramName = param.className()
+                    val propName = kProperty1.returnType.toString().replace("?","")
+                    if(paramName == propName) {
+                        (kProperty1 as? KMutableProperty1<Any, Any>)?.set(this, param)
+                    }
+                }
             }
         }
     }
