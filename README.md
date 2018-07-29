@@ -160,6 +160,7 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.1.5 - fix bug in View.kt clearAll()
 * 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
 * 1.1.3 - extension functions for permissions and activity
 
