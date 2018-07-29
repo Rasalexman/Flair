@@ -145,6 +145,12 @@ class MVVMMediator : ToolbarMediator() {
                     onClick { onHideClicked() }
                 }
 
+                button("show view pager") {
+                    onClick {
+                        showMediator<ViewPagerMediator>()
+                    }
+                }
+
                 button("SHOW SUB CHILD MEDIATOR") {
                     onClick {
                         facade.retrieveMediator<AnotherCoreMediator>().show()
