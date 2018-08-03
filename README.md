@@ -34,7 +34,7 @@ Components:
 2) SimpleCommand instances is a command pattern realisation. You can manipulate proxy objects from it's instance as like usecases
 3) MacroCommands can combine more than one SimpleCommand and execute it one by one
 4) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
-5) Mediator is a simple view-hierarchy handler class, it's store and manage lifecyrcle of your view components such as AnkoComponents or xml-layout files. Also it support powerfull view backstack storage.
+5) Mediator is a simple view-hierarchy handler class, it's store and manage life cycle of your view components such as AnkoComponents or xml-layout files. Also it support powerful view backstack storage.
 6) Also you has `LinearAnimator.kt` for create simple view animation changes such as HorizontalAnimation, or u can extends LinearAnimator and create ur own realisation. 
 7) All components of a FlairFramework are linked together by a powerful messaging system. You can notify every part of your system by calling `sendNotification(event, data)` and subscribe on event by calling `registerObserver(event) { INotification -> }` in IMediator or execute another SimpleCommand (see example above). Mediator can notify commands, commands can notify mediators and another commands, proxy can notify mediators and another commands. 
 
@@ -160,6 +160,7 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.1.5 - fix bug in View.kt clearAll()
 * 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
 * 1.1.3 - extension functions for permissions and activity
 
