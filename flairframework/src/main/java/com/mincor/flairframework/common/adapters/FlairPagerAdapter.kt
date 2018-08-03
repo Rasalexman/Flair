@@ -29,7 +29,7 @@ class FlairPagerAdapter(private val mediators:List<IMediator>, private val tabNa
         }
         val viewLayout = currentMediator.viewComponent!!
         container.addView(viewLayout)
-        currentMediator.onAddedView()
+        currentMediator.onAddedView(viewLayout)
         return viewLayout
     }
 
@@ -37,7 +37,7 @@ class FlairPagerAdapter(private val mediators:List<IMediator>, private val tabNa
         (view as? View)?.let {
             val currentMediator = mediators[position]
             container.removeView(it)
-            currentMediator.onRemovedView()
+            currentMediator.onRemovedView(it)
             (it as? ViewGroup)?.clear()
             currentMediator.viewComponent = null
             currentMediator.onDestroyView()

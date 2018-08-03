@@ -82,6 +82,11 @@ fun ImageView.clear() {
     this.setImageDrawable(null)
 }
 
+fun Button.clear() {
+    this.setOnClickListener(null)
+    this.text = null
+}
+
 /**
  * System clear view function
  */
@@ -92,7 +97,7 @@ fun ViewGroup.clear() {
         when (childView) {
             is ViewGroup -> (childView as ViewGroup).clear()
             is ImageView -> (childView as ImageView).clear()
-            is Button -> (childView as Button).setOnClickListener(null)
+            is Button -> (childView as Button).clear()
             is TextView -> {
                 (childView as TextView).text = null
                 (childView as TextView).setOnClickListener(null)

@@ -25,7 +25,6 @@ interface IMediator : INotifier {
 
     val listNotificationInterests: ArrayList<String>
 
-
     /**
      * When current View has attached your menu
      */
@@ -64,13 +63,13 @@ interface IMediator : INotifier {
     /**
      * Called when mediator added to view container
      */
-    fun onAddedView()
+    fun onAddedView(view:View)
 
 
     /**
      * Called when mediator view removed from parent
      */
-    fun onRemovedView()
+    fun onRemovedView(view:View)
 
     /**
      * When view is destroyed or equal to null

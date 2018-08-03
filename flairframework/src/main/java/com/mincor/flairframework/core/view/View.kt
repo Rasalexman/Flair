@@ -14,6 +14,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
+import com.mincor.flairframework.ext.clear
 import com.mincor.flairframework.interfaces.*
 import com.mincor.flairframework.patterns.observer.Notification
 
@@ -91,22 +92,12 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * Clear all mediators from map
      */
     private fun clearAll() {
-        val fragmentManager:FragmentManager? = (activity as? AppCompatActivity)?.supportFragmentManager
-        fragmentManager?.beginTransaction()?.remove(this)?.commit()
-
+        detachActivity()
         mediatorMap.forEach { (_, iMediator) ->
             iMediator.hide(null, true)
         }
         mediatorMap.clear()
         mediatorBackStack.clear()
-        currentShowingMediator = null
-
-        currentContainer?.removeAllViews()
-        currentContainer = null
-
-        isAlreadyRegistered = false
-        currentActivity?.application?.unregisterActivityLifecycleCallbacks(this)
-        currentActivity = null
     }
 
     /**
@@ -114,7 +105,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * Only one activity can be attached to the core
      *
      * @param activity
-     * Current activity to be attached with lifecycle
+     * Current activity to be attached with lifecicle
      *
      * @param container
      * The container when ui will be added if there no container we take default activity decorView content (frame layout)
@@ -122,34 +113,60 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     override fun attachActivity(activity: FlairActivity, container: ViewGroup?) {
         //this is because we need container to add views anyway
         currentContainer = container ?: activity.window.decorView.findViewById(android.R.id.content)
+        // only if there is no attach
         if (!isAlreadyRegistered) {
             currentActivity = activity
-            val fragmentManager:FragmentManager? = (activity as? AppCompatActivity)?.supportFragmentManager
-            fragmentManager?.beginTransaction()?.add(this, multitonKey)?.commit()
+            val fragmentManager: FragmentManager? = (activity as? AppCompatActivity)?.supportFragmentManager
+            fragmentManager?.beginTransaction()?.add(this, multitonKey)?.commitAllowingStateLoss()
             activity.application.registerActivityLifecycleCallbacks(this)
             isAlreadyRegistered = true
         }
     }
 
+    /**
+     * Detach current activity from view core
+     */
+    private fun detachActivity() {
+        currentActivity?.let {
+            val fragmentManager: FragmentManager? = (it as? AppCompatActivity)?.supportFragmentManager
+            fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
+            // unregister lifecircle callbacks
+            it.application?.unregisterActivityLifecycleCallbacks(this)
+            currentActivity = null
+
+            // clear mediator view and follow it's lifecircle cause we need to recreate view, but don't need to remove from backstack
+            mediatorBackStack.forEach { iMediator ->
+                iMediator.hide()
+                clearMediatorView(iMediator)
+            }
+            // clear current mediator reference
+            currentShowingMediator = null
+            // clear container and it's reference
+            currentContainer?.removeAllViews()
+            currentContainer = null
+
+            isAlreadyRegistered = false
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // every view has options menu by default
         setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        currentShowingMediator?.let {
-            if (it.hasOptionalMenu) {
-                it.onCreateOptionsMenu(menu, inflater)
+        currentShowingMediator?.apply {
+            if (hasOptionalMenu && !hideOptionalMenu) {
+                onCreateOptionsMenu(menu, inflater)
             }
         }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        currentShowingMediator?.let {
-            if (it.hasOptionalMenu) {
-                it.onPrepareOptionsMenu(menu)
+        currentShowingMediator?.apply {
+            if (hasOptionalMenu && !hideOptionalMenu) {
+                onPrepareOptionsMenu(menu)
             }
         }
     }
@@ -180,17 +197,17 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     override fun onActivityStopped(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_STOPPED, activity))
+        if(activity?.isFinishing == true) detachActivity()
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_DESTROYED, activity))
-        currentContainer?.removeAllViews()
-        currentContainer = null
-        currentShowingMediator = null
     }
 
     override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
         notifyObservers(Notification(ACTIVITY_STATE_SAVE, bundle))
+        // only when activity change there configuration state ex rotate
+        if(activity?.isChangingConfigurations == true) detachActivity()
     }
 
     /**
@@ -216,11 +233,21 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * @param permissionToCheck
      * Name of the permission ex Manifest.permission.READ_CONTACTS
      */
-    override fun checkSelfPermission(permissionToCheck: String):Int = ContextCompat.checkSelfPermission(currentActivity as Context, permissionToCheck)
+    override fun checkSelfPermission(permissionToCheck: String): Int = ContextCompat.checkSelfPermission(currentActivity as Context, permissionToCheck)
 
 
     /////////------------------------------------///////
 
+    /**
+     * Private access to clear view on IMediator instance and follow mediator lifecyrcle
+     */
+    override fun clearMediatorView(mediator: IMediator?) {
+        mediator?.apply {
+            (viewComponent as? ViewGroup)?.clear()
+            viewComponent = null
+            onDestroyView()
+        }
+    }
 
     init {
         arguments = Bundle()

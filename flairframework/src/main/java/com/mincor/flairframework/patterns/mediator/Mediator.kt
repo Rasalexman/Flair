@@ -31,6 +31,7 @@ abstract class Mediator : Notifier(), IMediator {
     override fun onPrepareOptionsMenu(menu: Menu) {}
     override fun onOptionsItemSelected(item: MenuItem): Boolean = true
 
+    ///---------- VIEW LIFECIRCLE --------///
     /**
      * When view was created but not added to the stage
      */
@@ -39,13 +40,20 @@ abstract class Mediator : Notifier(), IMediator {
     /**
      * Called by the View when the Mediator is registered.
      */
-    override fun onAddedView() {}
+    override fun onAddedView(view: View) {}
 
     /**
      * Called when `viewComponent` removed from parent
      */
-    override fun onRemovedView() {}
+    override fun onRemovedView(view: View) {}
 
+    /**
+     * Called by the View when viewComponent is null
+     */
+    override fun onDestroyView() {}
+    /////------------------------/////
+
+    ///--------- MEDIATOR LIFECIRCLE --------///
     /**
      * Called by the View when the Mediator is registered.
      */
@@ -55,11 +63,7 @@ abstract class Mediator : Notifier(), IMediator {
      * Called by the View when the Mediator is removed.
      */
     override fun onRemove() {}
-
-    /**
-     * Called by the View when viewComponent is null
-     */
-    override fun onDestroyView() {}
+    /////------------------------/////
 
     /**
      * Called when meditor request onStartActivityForResult method

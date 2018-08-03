@@ -5,10 +5,7 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
-import com.mincor.flairframework.ext.className
-import com.mincor.flairframework.ext.clear
-import com.mincor.flairframework.ext.createInstance
-import com.mincor.flairframework.ext.removeFromParent
+import com.mincor.flairframework.ext.*
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -59,14 +56,19 @@ interface IView : IMultitonKey {
     fun requestPermissions(permissions: Array<String>, requestCode: Int)
 
     /**
-     *
+     * Check self permission for current mediator
      */
     fun checkSelfPermission(permissionToCheck:String):Int
 
     /**
-     *
+     * Check should we show message about permissions
      */
     fun shouldShowRequestPermissionRationale(permission: String): Boolean
+
+    /**
+     * Clear mediator view but do't remove it from backstack for recreating again
+     */
+    fun clearMediatorView(mediator:IMediator?)
 }
 
 
@@ -182,7 +184,7 @@ fun IView.popMediator(mediatorName: String, animation: IAnimator? = null) {
  * the name of the `IMediator` core to be removed from the screen
  *
  * @param popIt
- * Indicates that IMediator is need to be removed from backstack and viewComponent cleared
+ * Indicates that IMediator is need to be removed from backstack and clear viewComponent
  *
  * @param animation
  * Simple hide animation
@@ -200,19 +202,16 @@ fun IView.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimato
         } ?: let {
             // if we have view component to remove from parent
             mediator.viewComponent?.let {
-                it.removeFromParent() // remove viewComponent from ui layer
-                mediator.onRemovedView()
+                // remove viewComponent from ui container
+                it.removeFromParent()
+                // notify lifecyrcle of mediator
+                mediator.onRemovedView(it)
             }
             // if flag `true` we remove mediator from backstack and clear view
             if (popIt) {
-                (mediator.viewComponent as? ViewGroup)?.clear()
-                mediator.viewComponent = null
+                this.clearMediatorView(mediator)
                 if (mediatorBackStack.contains(mediator))
                     mediatorBackStack.remove(mediator)
-                mediator.onDestroyView()
-
-                //val names: String = mediatorBackStack.joinToString { it.mediatorName ?: "" }
-                //Log.w("------->", "BACKSTACK AFTER POP  $names")
             }
         }
     }
@@ -235,16 +234,12 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
     if (currentShowingMediator == lastMediator) {
         return
     }
+    //
     currentShowingMediator?.apply {
         viewComponent = viewComponent ?: let {
             val layout = createLayout(activity)
             onCreatedView(layout)
             layout
-        }
-
-        // check for optional menu and invalidate it if it has
-        if (hasOptionalMenu) {
-            currentActivity?.invalidateOptionsMenu()
         }
 
         // indicator to animation direction
@@ -272,6 +267,12 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
             }
         }
 
+        // check for optional menu and invalidate it if it has
+        if (hasOptionalMenu && !hideOptionalMenu) {
+            currentActivity?.invalidateOptionsMenu()
+        }
+
+        // if we have animation we play it
         animation?.apply {
             from = lastMediator
             to = currentShowingMediator
@@ -280,10 +281,13 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
             playAnimation()
         } ?: lastMediator?.hide(null, popLastMediator)
 
-        currentContainer?.addView(viewComponent)
-        viewComponent?.x = 0f
-        viewComponent?.y = 0f
-        onAddedView()
+        // safe add view to container
+        viewComponent?.let {
+            currentContainer?.addView(it)
+            it.x = 0f
+            it.y = 0f
+            onAddedView(it)
+        }
     }
 }
 
