@@ -1,6 +1,6 @@
 # FlairFramework
 
-[ ![Kotlin 1.2.51](https://img.shields.io/badge/Kotlin-1.2.51-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
+[ ![Kotlin 1.2.60](https://img.shields.io/badge/Kotlin-1.2.51-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, dependency injection and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 
@@ -160,6 +160,7 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.1.6 - fixed rotation bug with menu creation, many improvments
 * 1.1.5 - fix bug in View.kt clearAll()
 * 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
 * 1.1.3 - extension functions for permissions and activity
