@@ -7,12 +7,14 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.ListView
 import com.mincor.flair.R
 import com.mincor.flair.adapters.SelectedListAdapter
 import com.mincor.flair.proxies.MVPProxy
 import com.mincor.flair.proxies.vo.Tag
 import com.mincor.flairframework.core.animation.LinearAnimator
+import com.mincor.flairframework.ext.log
 import com.mincor.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
@@ -25,24 +27,25 @@ class MVPMediator : ToolbarMediator() {
 
     private val presenterProxy: MVPProxy by proxyLazy(this)
 
-    private var listViw:ListView? = null
+    private var listViw: ListView? = null
 
     override fun createLayout(context: Context): android.view.View = MvpUi().createView(AnkoContext.create(context, this))
 
-    override fun onCreatedView(context:android.view.View) {
-        super.onCreatedView(context)
-        setHomeButtonEnable()
+    override fun onCreatedView(view: View) {
+        super.onCreatedView(view)
         presenterProxy.lazynessFunctionCall()
     }
 
-    override fun onAddedView() {
-       listViw?.adapter = SelectedListAdapter(
-                facade.view.mediatorBackStack.mapTo(arrayListOf()) {it.mediatorName!!}.toMutableList(),
+    override fun onAddedView(view: View) {
+        super.onAddedView(view)
+        setHomeButtonEnable()
+        listViw?.adapter = SelectedListAdapter(
+                facade.view.mediatorBackStack.mapTo(arrayListOf()) { it.mediatorName!! }.toMutableList(),
                 ::onItemSelectedHandler
         )
     }
 
-    private fun onItemSelectedHandler(selectedTag:String) {
+    private fun onItemSelectedHandler(selectedTag: String) {
         popTo<IMediator>(selectedTag, LinearAnimator())
     }
 
@@ -50,7 +53,7 @@ class MVPMediator : ToolbarMediator() {
         activity.toast("FANCY HELLO FROM MVP").show()
     }
 
-    fun coroutinesResponceHander(resp:List<Tag>?) {
+    fun coroutinesResponceHander(resp: List<Tag>?) {
         activity.toast("HELLO coroutinesResponceHander $resp").show()
     }
 
@@ -84,11 +87,11 @@ class MVPMediator : ToolbarMediator() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        com.mincor.flair.activity.log { "THIS IS A RESPOND FROM ACTIVITY" }
+        log { "THIS IS A RESPOND FROM ACTIVITY" }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        com.mincor.flair.activity.log { "THIS IS A REQUESTED PERMISSION RESULT" }
+        log { "THIS IS A REQUESTED PERMISSION RESULT" }
 
         when (requestCode) {
             1002 -> {
@@ -103,15 +106,15 @@ class MVPMediator : ToolbarMediator() {
                 return
             }
 
-        // Add other 'when' lines to check for other
-        // permissions this app might request.
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
             else -> {
                 // Ignore all other requests.
             }
         }
     }
 
-    fun showErrorHandler(error:String) {
+    fun showErrorHandler(error: String) {
         activity.alert {
             title = "WARNING"
             message = error
@@ -122,10 +125,10 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun onShowAnotherMediator() {
-        showMediator<MVPMediator>("str${Math.random()*10000*10000}", LinearAnimator())
+        showMediator<MVPMediator>("str${Math.random() * 10000 * 10000}", LinearAnimator())
     }
 
-    fun showMVVMAGAIN (){
+    fun showMVVMAGAIN() {
         showMediator<MVVMMediator>()
     }
 

@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.mincor.flair.R
-import com.mincor.flair.activity.log
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.MVVMProxy
 import com.mincor.flair.proxies.UserProxy
@@ -19,6 +18,7 @@ import com.mincor.flair.proxies.vo.AccountModel
 import com.mincor.flair.proxies.vo.UserModel
 import com.mincor.flair.utils.Keyboards
 import com.mincor.flairframework.core.animation.LinearAnimator
+import com.mincor.flairframework.ext.log
 import com.mincor.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
@@ -39,19 +39,19 @@ class MVVMMediator : ToolbarMediator() {
 
     val accountModel: AccountModel by proxyLazyModel<MVVMProxy, AccountModel>()
 
-    val usersList:MutableList<UserModel> by proxyLazyModel<UserProxy, MutableList<UserModel>>()
+    val usersList: MutableList<UserModel> by proxyLazyModel<UserProxy, MutableList<UserModel>>()
 
     // you can use it like a lazy reference
     val accountListMediator: UserListsMediator by mediatorLazy()
 
-    var accountNameTV:TextView? = null
-    var passwordNameTV:TextView? = null
+    var accountNameTV: TextView? = null
+    var passwordNameTV: TextView? = null
 
     override fun onRegister() {
         registerObserver(UserProxy.NOTIFICATION_AUTH_COMPLETE) {
             println("------> NOTIFICATION AUTH COMPLETE, SIZE = ${usersList.size}")
             accountListMediator.show(LinearAnimator())
-        }.registerObserver( MVVMProxy.ACCOUNT_CHANGE_HANLDER) {
+        }.registerObserver(MVVMProxy.ACCOUNT_CHANGE_HANLDER) {
             println("------> ACCOUNT PROXY social name = ${accountModel.socialName} pageId = ${accountModel.pageId}")
 
             accountNameTV?.text = accountModel.socialName
@@ -87,7 +87,7 @@ class MVVMMediator : ToolbarMediator() {
     }
 
     private fun onHideClicked() {
-        sendNotification(Events.ACCOUNT_CHANGE, arrayListOf("${UUID.randomUUID()}", "id${Math.random()*100_000L.toInt()}"))
+        sendNotification(Events.ACCOUNT_CHANGE, arrayListOf("${UUID.randomUUID()}", "id${Math.random() * 100_000L.toInt()}"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -97,10 +97,28 @@ class MVVMMediator : ToolbarMediator() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> log { "SETTINGS CLICKED" }
-            R.id.action_about -> log { "ABOUT CLICKED" }
+            R.id.action_settings -> log { "-------> SETTINGS CLICKED" }
+            R.id.action_about -> log { "-------> ABOUT CLICKED" }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun onShowAlertPopUp() {
+        activity.alert {
+            title = "This is a test popup"
+            message = "We test alert only for activity view lifecircle"
+
+            okButton {
+                it.dismiss()
+            }
+        }.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // don't forget to clear the references
+        accountNameTV = null
+        passwordNameTV = null
     }
 
     inner class UserAuthUI : AnkoComponent<MVVMMediator> {
@@ -148,6 +166,12 @@ class MVVMMediator : ToolbarMediator() {
                 button("show view pager") {
                     onClick {
                         showMediator<ViewPagerMediator>()
+                    }
+                }
+
+                button("show alert pop up") {
+                    onClick {
+                        onShowAlertPopUp()
                     }
                 }
 

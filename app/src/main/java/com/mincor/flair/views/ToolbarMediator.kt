@@ -20,17 +20,21 @@ abstract class ToolbarMediator : Mediator(), View.OnClickListener {
 
     protected var toolBar: Toolbar? = null
 
-    override fun onCreatedView(context: View) {
+    override fun onAddedView(view: View) {
+        super.onAddedView(view)
         toolBar?.let {
             setActionBar(it)
         }
     }
 
-    override fun onRemove() {
-        super.onRemove()
+    override fun onRemovedView(view: View) {
+        super.onRemovedView(view)
         toolBar?.setNavigationOnClickListener(null)
-        (activity as? IActionBarProvider<ActionBar, Toolbar>)?.setSupportActionBar(null)
+    }
+
+    override fun onDestroyView() {
         toolBar = null
+        super.onDestroyView()
     }
 
     private val actionBar: ActionBar?
@@ -41,7 +45,7 @@ abstract class ToolbarMediator : Mediator(), View.OnClickListener {
 
     protected fun setActionBar(toolbar: Toolbar?) {
         toolbar?.let {
-            (activity as? IActionBarProvider<ActionBar, Toolbar>)?.setSupportActionBar(it)
+            activity.setSupportActionBar(it)
             it.setNavigationOnClickListener(this)
         }
     }

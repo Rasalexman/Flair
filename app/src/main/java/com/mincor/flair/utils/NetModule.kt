@@ -49,7 +49,6 @@ fun createOkHttpClient(cm: ConnectivityManager?, deviceId: String): OkHttpClient
 
     httpClient.addInterceptor { chain ->
         var request = chain.request()
-        val url = request.url().toString()
         request = if (NetModule.isNetworkAvailable(cm)) {
             // if there is connectivity, we tell the request it can reuse the data for sixty seconds.
             request.newBuilder()

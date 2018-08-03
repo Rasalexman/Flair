@@ -19,7 +19,7 @@ class NextSubChildMediator : Mediator(), NextSubProxy.IView {
 
     override fun createLayout(context: Context): View = NextChildUI().createView(AnkoContext.create(context, this))
 
-    override fun onAddedView() {
+    override fun onAddedView(view: View) {
         childNameTV?.text = this.mediatorName
         proxy<NextSubProxy>(this).callViewNameToMediator()
     }

@@ -19,16 +19,14 @@ class AnotherCoreMediator : ToolbarMediator() {
 
     override fun createLayout(context: Context): View = AnotherCoreUI().createView(AnkoContext.create(context, this))
 
-    override fun onCreatedView(context: View) {
-        super.onCreatedView(context)
+    override fun onAddedView(view: View) {
+        super.onAddedView(view)
+        flair(FlairApplication.CORE_SECOND).attach(activity, anotherLayout!!).showLastOrExistMediator<SubChildCoreMediator>()
         setHomeButtonEnable()
     }
 
-    override fun onAddedView() {
-        flair(FlairApplication.CORE_SECOND).attach(activity, anotherLayout!!).showLastOrExistMediator<SubChildCoreMediator>()
-    }
-
-    override fun onRemovedView() {
+    override fun onRemovedView(view: View) {
+        super.onRemovedView(view)
         flair(FlairApplication.CORE_SECOND).remove()
     }
 

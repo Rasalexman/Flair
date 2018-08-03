@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
-import com.mincor.flair.activity.log
+import com.mincor.flairframework.ext.log
 import com.mincor.flairframework.patterns.mediator.Mediator
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.textColor
@@ -31,8 +31,8 @@ class PageThreeMediator : Mediator() {
         log { "------> VIEW PAGE THREE CREATED" }
     }
 
-    override fun onRemovedView() {
-        super.onRemovedView()
+    override fun onRemovedView(view: View) {
+        super.onRemovedView(view)
         log { "------> VIEW PAGE THREE REMOVED" }
     }
 }

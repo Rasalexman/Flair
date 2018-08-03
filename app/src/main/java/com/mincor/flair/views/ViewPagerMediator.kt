@@ -23,8 +23,8 @@ class ViewPagerMediator : ToolbarMediator() {
     private var viewPager:ViewPager? = null
     private var tabLayout:TabLayout? = null
 
-    override fun onCreatedView(context: View) {
-        super.onCreatedView(context)
+    override fun onCreatedView(view: View) {
+        super.onCreatedView(view)
         setHomeButtonEnable()
         com.mincor.flairframework.ext.log { "HELLO FROM PAGER" }
 

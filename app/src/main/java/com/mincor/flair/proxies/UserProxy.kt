@@ -1,8 +1,8 @@
 package com.mincor.flair.proxies
 
-import com.mincor.flair.activity.log
 import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.proxies.vo.UserModel
+import com.mincor.flairframework.ext.log
 import com.mincor.flairframework.interfaces.sendNotification
 import com.mincor.flairframework.patterns.proxy.Proxy
 import kotlinx.coroutines.experimental.CommonPool

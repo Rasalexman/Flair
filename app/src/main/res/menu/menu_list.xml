@@ -5,6 +5,13 @@
     tools:context=".activity.MainActivity">
 
     <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/ic_home_24px"
+        android:title="@string/action_home"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
         android:id="@+id/action_new"
         android:orderInCategory="101"
         android:title="@string/action_new"
