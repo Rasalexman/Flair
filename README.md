@@ -160,6 +160,7 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.1.7 - Added hardware back button support (see example in app)
 * 1.1.6 - fixed rotation bug with menu creation, many improvments
 * 1.1.5 - fix bug in View.kt clearAll()
 * 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
