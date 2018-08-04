@@ -20,7 +20,8 @@ interface IMediator : INotifier {
     var viewComponent: View?
     var hasOptionalMenu: Boolean
     var hideOptionalMenu: Boolean
-
+    var isAdded:Boolean
+    var isDestroyed:Boolean
     var mediatorName: String?
 
     val listNotificationInterests: ArrayList<String>
@@ -86,6 +87,11 @@ interface IMediator : INotifier {
      * Called by the View when the Mediator is removed.
      */
     fun onRemove()
+
+    /**
+     * Handle the hardware back button
+     */
+    fun handleBackButton(animation: IAnimator? = null):Boolean
 }
 
 /**
@@ -107,7 +113,14 @@ fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int) {
     facade.view.requestPermissions(permissions, requestCode)
 }
 
+/**
+ * Check the given permission to be approved by user or system
+ */
 fun IMediator.checkSelfPermission(permissionToCheck:String):Int = facade.view.checkSelfPermission(permissionToCheck)
+
+/**
+ * Should we show permission description dialog for user
+ */
 fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean = facade.view.shouldShowRequestPermissionRationale(permission)
 
 
@@ -208,11 +221,13 @@ inline fun <reified T : IMediator> IMediator.showMediator(mediatorName: String? 
 }
 
 /**
- *
+ * Find the view in `viewComponent` by given resource Id
  */
 inline fun <reified T : View> IMediator.view(resId:Int): Lazy<T?> = lazy {
     viewComponent?.findViewById(resId) as? T
 }
+
+
 
 
 

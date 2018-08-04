@@ -1,11 +1,12 @@
 package com.mincor.flairframework.interfaces
 
 import android.content.Intent
-import android.content.IntentSender
 import android.os.Bundle
 import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
-import com.mincor.flairframework.ext.*
+import com.mincor.flairframework.ext.className
+import com.mincor.flairframework.ext.createInstance
+import com.mincor.flairframework.ext.removeFromParent
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -58,7 +59,7 @@ interface IView : IMultitonKey {
     /**
      * Check self permission for current mediator
      */
-    fun checkSelfPermission(permissionToCheck:String):Int
+    fun checkSelfPermission(permissionToCheck: String): Int
 
     /**
      * Check should we show message about permissions
@@ -68,7 +69,7 @@ interface IView : IMultitonKey {
     /**
      * Clear mediator view but do't remove it from backstack for recreating again
      */
-    fun clearMediatorView(mediator:IMediator?)
+    fun clearMediatorView(mediator: IMediator?)
 }
 
 
@@ -79,12 +80,13 @@ interface IView : IMultitonKey {
  * @param mediatorName
  * Given mediator name
  */
-inline fun <reified T : IMediator> IView.hasMediator(mediatorName:String? = null): Boolean = mediatorMap[mediatorName?:T::class.className()] != null
+inline fun <reified T : IMediator> IView.hasMediator(mediatorName: String? = null): Boolean = mediatorMap[mediatorName
+        ?: T::class.className()] != null
 
 /**
  * Remove an `IMediator` from the `View`.
  */
-inline fun <reified T : IMediator> IView.removeMediator(mediatorName:String? = null): IMediator? {
+inline fun <reified T : IMediator> IView.removeMediator(mediatorName: String? = null): IMediator? {
     val currentName = mediatorName ?: T::class.className()
     // Retrieve the named mediator
     val mediator = mediatorMap[currentName]
@@ -199,19 +201,21 @@ fun IView.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimato
                 popLast = popIt
                 playAnimation()
             }
-        } ?: let {
-            // if we have view component to remove from parent
-            mediator.viewComponent?.let {
-                // remove viewComponent from ui container
-                it.removeFromParent()
-                // notify lifecyrcle of mediator
-                mediator.onRemovedView(it)
+        } ?: mediator.apply {
+            if (isAdded) {
+                // if we have view component to remove from parent
+                viewComponent?.let {
+                    it.removeFromParent()
+                    // notify lifecircle of mediator
+                    onRemovedView(it)
+                }
+                isAdded = false
+
             }
             // if flag `true` we remove mediator from backstack and clear view
-            if (popIt) {
-                this.clearMediatorView(mediator)
-                if (mediatorBackStack.contains(mediator))
-                    mediatorBackStack.remove(mediator)
+            if (popIt && mediatorBackStack.remove(this)) {
+                // only if we has our mediator into backstack
+                clearMediatorView(this)
             }
         }
     }
@@ -241,6 +245,8 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
             onCreatedView(layout)
             layout
         }
+        // mark mediator as not destroyed cause we already create a `viewComponent`
+        isDestroyed = false
 
         // indicator to animation direction
         var isShowAnimation = true
@@ -287,6 +293,8 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
             it.x = 0f
             it.y = 0f
             onAddedView(it)
+            // mark flag about `viewComponent` is already added to hosted view container
+            isAdded = true
         }
     }
 }

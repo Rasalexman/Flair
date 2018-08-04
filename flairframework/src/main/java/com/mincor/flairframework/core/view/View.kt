@@ -239,12 +239,13 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /////////------------------------------------///////
 
     /**
-     * Private access to clear view on IMediator instance and follow mediator lifecyrcle
+     * Private access to clear view on IMediator instance and follow mediator lifecircle
      */
     override fun clearMediatorView(mediator: IMediator?) {
         mediator?.apply {
             (viewComponent as? ViewGroup)?.clear()
             viewComponent = null
+            isDestroyed = true
             onDestroyView()
         }
     }

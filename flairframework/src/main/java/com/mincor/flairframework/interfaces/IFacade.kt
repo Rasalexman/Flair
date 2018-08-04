@@ -3,6 +3,7 @@ package com.mincor.flairframework.interfaces
 import android.content.Context
 import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
+import com.mincor.flairframework.core.animation.LinearAnimator
 import com.mincor.flairframework.core.controller.Controller
 import com.mincor.flairframework.core.model.Model
 import com.mincor.flairframework.core.view.View
@@ -43,7 +44,7 @@ interface IFacade : INotifier {
          * @return the Multiton core of the Facade
          */
         fun core(key: String = DEFAULT_KEY, context: Context? = null, init: FacadeInitializer? = null): IFacade = instance(key) {
-            if(context == null) throw RuntimeException("You need to specified `context` for this core")
+            if (context == null) throw RuntimeException("You need to specified `context` for this core")
             Facade(key, context, init)
         }
 
@@ -85,19 +86,19 @@ interface IFacade : INotifier {
 inline fun <reified T : IMediator> IFacade.retrieveMediator(mediatorName: String? = null): T = this.view.retrieveMediator(mediatorName)
 
 /**
- * Register an `IMediator` core with the `View`.
+ * Register an `IMediator` with the `View` core.
  */
 inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null) {
     this.view.registerMediator<T>(mediatorName)
 }
 
 /**
- * Remove a `IMediator` core from the `View`.
+ * Remove an `IMediator` from the `View` core.
  */
-inline fun <reified T : IMediator> IFacade.removeMediator(mediatorName:String? = null): T? = this.view.removeMediator<T>(mediatorName) as? T
+inline fun <reified T : IMediator> IFacade.removeMediator(mediatorName: String? = null): T? = this.view.removeMediator<T>(mediatorName) as? T
 
 /**
- * Show last added IMediator from backstack. If there is no mediator in backstack show the one passed before
+ * Show last added IMediator from backstack. If there is no mediator in backstack show the one passed by generic type class
  */
 inline fun <reified T : IMediator> IFacade.showLastOrExistMediator(animation: IAnimator? = null) {
     view.showLastOrExistMediator<T>(animation)
@@ -106,7 +107,7 @@ inline fun <reified T : IMediator> IFacade.showLastOrExistMediator(animation: IA
 /**
  * Check if a IMediator is registered or not
  */
-inline fun <reified T : IMediator> IFacade.hasMediator(mediatorName:String? = null): Boolean = view.hasMediator<T>(mediatorName)
+inline fun <reified T : IMediator> IFacade.hasMediator(mediatorName: String? = null): Boolean = view.hasMediator<T>(mediatorName)
 
 /**
  * Show current selected mediator
@@ -121,7 +122,8 @@ inline fun <reified T : IMediator> IFacade.hasMediator(mediatorName:String? = nu
  * Instance of current animation
  */
 inline fun <reified T : IMediator> IFacade.showMeditator(mapName: String? = null, popLast: Boolean = false, animation: IAnimator? = null) {
-    if(hasMediator<T>(mapName)) view.showMediator(mapName?:T::class.className(), popLast, animation)
+    if (hasMediator<T>(mapName)) view.showMediator(mapName
+            ?: T::class.className(), popLast, animation)
     else retrieveMediator<T>(mapName).show(animation, popLast)
 }
 
@@ -133,7 +135,7 @@ inline fun <reified T : IMediator> IFacade.showMeditator(mapName: String? = null
  *
  * @return IProxy instance with given parameters
  */
-inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg dataToHold:Any):T = this.model.registerProxy(dataToHold.asList())
+inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg dataToHold: Any): T = this.model.registerProxy(dataToHold.asList())
 
 /**
  * Register an `ICommand` with the `Controller`.
@@ -151,7 +153,7 @@ inline fun <reified T : ICommand> IFacade.registerCommand(noteName: String) {
  *
  * @return the `IProxy` previously regisetered with the `Model`.
  */
-inline fun <reified T : IProxy<*>> IFacade.retrieveProxy(params:List<Any>? = null): T = this.model.retrieveProxy(params)
+inline fun <reified T : IProxy<*>> IFacade.retrieveProxy(params: List<Any>? = null): T = this.model.retrieveProxy(params)
 
 /**
  * Remove an `IProxy` core from the `Model`
@@ -236,4 +238,16 @@ fun IFacade.sendNotification(notificationName: String, body: Any?, type: String?
  */
 fun IFacade.remove() {
     IFacade.removeCore(this.multitonKey)
+}
+
+/**
+ * Manually handle hardware backbutton
+ */
+fun IFacade.handleBackButton(animation: IAnimator? = LinearAnimator()): Boolean {
+    val backStack = view.mediatorBackStack
+    // only if we has more than one mediator in backstack we manage backbutton by this
+    if (backStack.size > 1) {
+        return view.currentShowingMediator?.handleBackButton(animation) ?: false
+    }
+    return false
 }

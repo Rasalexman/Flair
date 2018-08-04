@@ -5,7 +5,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import com.mincor.flairframework.interfaces.IAnimator
 import com.mincor.flairframework.interfaces.IMediator
+import com.mincor.flairframework.interfaces.popToBack
 import com.mincor.flairframework.patterns.observer.Notifier
 
 
@@ -15,8 +17,10 @@ import com.mincor.flairframework.patterns.observer.Notifier
 abstract class Mediator : Notifier(), IMediator {
 
     override var viewComponent: View? = null            // current view of mediator
-    override var hasOptionalMenu:Boolean = false        // does view get opt menu
+    override var hasOptionalMenu: Boolean = false       // does view get opt menu
     override var hideOptionalMenu: Boolean = false      // Is hide optional menu
+    override var isAdded: Boolean = false               // does mediator view added to hosted view container
+    override var isDestroyed: Boolean = false           // does view destroyed
     override var mediatorName: String? = null           // Current mediator name for put in backStack
 
     /**
@@ -68,11 +72,20 @@ abstract class Mediator : Notifier(), IMediator {
     /**
      * Called when meditor request onStartActivityForResult method
      */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {}
 
     /**
      * Request permission to access your app additional properties of os ex. camera, contacts, locations
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {}
+
+
+    ///----- Hardware button back handler
+    override fun handleBackButton(animation: IAnimator?): Boolean {
+        return if(isAdded && !isDestroyed) {
+            popToBack(animation)
+            true
+        } else false
+    }
 }
 
