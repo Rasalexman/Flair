@@ -30,6 +30,10 @@ class AnotherCoreMediator : ToolbarMediator() {
         flair(FlairApplication.CORE_SECOND).remove()
     }
 
+    override fun handleBackButton(animation: IAnimator?): Boolean {
+        return if(!flair(FlairApplication.CORE_SECOND).handleBackButton(animation)) super.handleBackButton(animation) else true
+    }
+
     inner class AnotherCoreUI : AnkoComponent<AnotherCoreMediator> {
         override fun createView(ui: AnkoContext<AnotherCoreMediator>): View = with(ui) {
             verticalLayout {
