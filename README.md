@@ -3,6 +3,7 @@
 [ ![Kotlin 1.2.60](https://img.shields.io/badge/Kotlin-1.2.60-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, dependency injection and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
+The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecircle.
 
 The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `FlairActivity` or any `Context` implementations
 ```kotlin
@@ -68,7 +69,7 @@ class MyProxy : Proxy<String>("data_to_store_in_proxy") {
 }
 //the command that controls the proxy
 class MyCommand : SimpleCommand() {
-    val myProxy by proxy<MyProxy>()
+    val myProxy by proxyLazy<MyProxy>()
     override fun execute(notification: INotification) {
          myProxy.handleNotification()
          // or you can use inline functions
@@ -126,6 +127,7 @@ tabLayout?.setupWithViewPager(viewPager)
         
         
 class PageOneMediator : Mediator() {
+// or you can inflate your view from xml by calling inflateView(R.layout.simple_layout)
     override fun createLayout(context: Context): View = with(context) {
         verticalLayout {
             lparams(matchParent, matchParent)
