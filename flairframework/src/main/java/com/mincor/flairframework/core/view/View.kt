@@ -131,11 +131,11 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         currentActivity?.let {
             val fragmentManager: FragmentManager? = (it as? AppCompatActivity)?.supportFragmentManager
             fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
-            // unregister lifecircle callbacks
+            // unregister lifecyrcle callbacks
             it.application?.unregisterActivityLifecycleCallbacks(this)
             currentActivity = null
 
-            // clear mediator view and follow it's lifecircle cause we need to recreate view, but don't need to remove from backstack
+            // clear mediator view and follow it's lifecyrcle cause we need to recreate view, but don't need to remove from backstack
             mediatorBackStack.forEach { iMediator ->
                 iMediator.hide()
                 clearMediatorView(iMediator)
@@ -242,7 +242,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /////////------------------------------------///////
 
     /**
-     * Private access to clear view on IMediator instance and follow mediator lifecircle
+     * Private access to clear view on IMediator instance and follow mediator lifecyrcle
      */
     override fun clearMediatorView(mediator: IMediator?) {
         mediator?.apply {

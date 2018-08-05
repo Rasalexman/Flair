@@ -27,7 +27,7 @@ interface IFacade : INotifier {
     /***
      * Attach main Activity class to current Facade Core
      * @param activity
-     * Activity for attachment and life-circle handled
+     * Activity for attachment and life-cyrcle handled
      *
      * @param container
      * Container for add/remove ui

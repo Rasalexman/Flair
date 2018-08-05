@@ -39,7 +39,7 @@ abstract class Mediator : Notifier(), IMediator {
     override fun onPrepareOptionsMenu(menu: Menu) {}
     override fun onOptionsItemSelected(item: MenuItem): Boolean = true
 
-    ///---------- VIEW LIFECIRCLE --------///
+    ///---------- VIEW LIFECYRCLE --------///
     /**
      * Called before create view instance
      */
@@ -66,7 +66,7 @@ abstract class Mediator : Notifier(), IMediator {
     override fun onDestroyView() {}
     /////------------------------/////
 
-    ///--------- MEDIATOR LIFECIRCLE --------///
+    ///--------- MEDIATOR LIFECYRCLE --------///
     /**
      * Called by the View when the Mediator is registered.
      */

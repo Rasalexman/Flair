@@ -215,7 +215,7 @@ fun IView.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimato
                 // if we have view component to remove from parent
                 viewComponent?.let {
                     it.removeFromParent()
-                    // notify lifecircle of mediator
+                    // notify lifecyrcle of mediator
                     onRemovedView(it)
                 }
                 isAdded = false
