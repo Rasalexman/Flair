@@ -16,6 +16,9 @@ interface IView : IMultitonKey {
     val mediatorMap: MutableMap<String, IMediator>
     val observerMap: MutableMap<String, MutableList<IObserver>>
     val mediatorBackStack: MutableList<IMediator>
+    /**
+     * This is a reference to the mediator that on the screen now
+     */
     var currentShowingMediator: IMediator?
 
     /**
@@ -70,6 +73,11 @@ interface IView : IMultitonKey {
      * Clear mediator view but do't remove it from backstack for recreating again
      */
     fun clearMediatorView(mediator: IMediator?)
+
+    /**
+     *
+     */
+    fun getArguments(): Bundle?
 }
 
 
@@ -90,22 +98,23 @@ inline fun <reified T : IMediator> IView.removeMediator(mediatorName: String? = 
     val currentName = mediatorName ?: T::class.className()
     // Retrieve the named mediator
     val mediator = mediatorMap[currentName]
-    mediator?.let {
+    mediator?.apply {
         // hide mediator and remove from backstack
-        it.hide(null, true)
-        // for every notification this mediator is interested in...
-        val interests = it.listNotificationInterests
+        hide(null, true)
         // remove the observer linking the mediator
         // to the notification interest
-        interests.forEach { s ->
-            removeObserver(s, it.multitonKey)
+        listNotificationInterests.forEach { s ->
+            removeObserver(s, multitonKey)
         }
-        interests.clear()
+        listNotificationInterests.clear()
 
         // remove the mediator from the map
         mediatorMap.remove(mediatorName)
+        // clear all references
+        this.multitonKey = ""
+        this.mediatorName = null
         // alert the mediator that it has been removed
-        it.onRemove()
+        onRemove()
     }
     return mediator
 }
@@ -234,13 +243,14 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
     val lastMediator = currentShowingMediator
     // Retrieve the named mediator
     currentShowingMediator = mediatorMap[mediatorName]
-    // if showing mediator the same just return
+    // if showing mediator the same we ajust return
     if (currentShowingMediator == lastMediator) {
         return
     }
     //
     currentShowingMediator?.apply {
         viewComponent = viewComponent ?: let {
+            onPrepareCreateView()
             val layout = createLayout(activity)
             onCreatedView(layout)
             layout

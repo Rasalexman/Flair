@@ -24,6 +24,7 @@ interface IMediator : INotifier {
     var isDestroyed:Boolean
     var mediatorName: String?
 
+    val arguments:Bundle
     val listNotificationInterests: ArrayList<String>
 
     /**
@@ -57,6 +58,12 @@ interface IMediator : INotifier {
     fun createLayout(context: Context):View
 
     /**
+     * It's called before view created
+     * If we need to prepare some things before view is created ex get saved params from bundle
+     */
+    fun onPrepareCreateView()
+
+    /**
      * Called by the create mediator view once
      */
     fun onCreatedView(view:View)
@@ -65,7 +72,6 @@ interface IMediator : INotifier {
      * Called when mediator added to view container
      */
     fun onAddedView(view:View)
-
 
     /**
      * Called when mediator view removed from parent

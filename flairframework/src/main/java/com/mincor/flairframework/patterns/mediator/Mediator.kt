@@ -1,6 +1,7 @@
 package com.mincor.flairframework.patterns.mediator
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,6 +24,9 @@ abstract class Mediator : Notifier(), IMediator {
     override var isDestroyed: Boolean = false           // does view destroyed
     override var mediatorName: String? = null           // Current mediator name for put in backStack
 
+    override val arguments: Bundle
+        get() = facade.view.getArguments()!!
+
     /**
      * List the `INotification` names this `Mediator`
      * is interested in being notified of.
@@ -36,6 +40,11 @@ abstract class Mediator : Notifier(), IMediator {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = true
 
     ///---------- VIEW LIFECIRCLE --------///
+    /**
+     * Called before create view instance
+     */
+    override fun onPrepareCreateView() {}
+
     /**
      * When view was created but not added to the stage
      */

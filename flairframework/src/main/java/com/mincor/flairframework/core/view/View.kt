@@ -15,6 +15,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import com.mincor.flairframework.core.FlairActivity
 import com.mincor.flairframework.ext.clear
+import com.mincor.flairframework.ext.log
 import com.mincor.flairframework.interfaces.*
 import com.mincor.flairframework.patterns.observer.Notification
 
@@ -180,7 +181,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     //-------------- LIFE CYCLE CALLBACKS -------/////
     override fun onActivityCreated(activity: Activity?, p1: Bundle?) {
-        notifyObservers(Notification(ACTIVITY_CREATED, activity))
+        notifyObservers(Notification(ACTIVITY_CREATED, p1))
     }
 
     override fun onActivityStarted(activity: Activity?) {
@@ -195,19 +196,21 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         notifyObservers(Notification(ACTIVITY_PAUSED, activity))
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivityStopped(activity: Activity) {
         notifyObservers(Notification(ACTIVITY_STOPPED, activity))
-        if(activity?.isFinishing == true) detachActivity()
+        // if activity is finish your work we must clear the view
+        // and all references to recreate view state manually when activity is wake up
+        if(activity.isFinishing) detachActivity()
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_DESTROYED, activity))
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
-        notifyObservers(Notification(ACTIVITY_STATE_SAVE, bundle))
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
+        notifyObservers(Notification(ACTIVITY_STATE_SAVE, arguments))
         // only when activity change there configuration state ex rotate
-        if(activity?.isChangingConfigurations == true) detachActivity()
+        if(activity.isChangingConfigurations) detachActivity()
     }
 
     /**
