@@ -121,7 +121,7 @@ class MVPMediator : ToolbarMediator() {
             okButton {
                 it.dismiss()
             }
-        }
+        }.show()
     }
 
     fun onShowAnotherMediator() {

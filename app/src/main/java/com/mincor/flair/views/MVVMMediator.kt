@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import android.widget.Toast
 import com.mincor.flair.R
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.MVVMProxy
@@ -24,7 +23,6 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.sdk25.coroutines.onEditorAction
-import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import java.util.*
 
 /**
@@ -32,18 +30,21 @@ import java.util.*
  */
 class MVVMMediator : ToolbarMediator() {
 
+    companion object {
+        const val BUNDLE_NAME = "user_name"
+        const val BUNDLE_PASSWORD = "user_password"
+    }
+
     override var hasOptionalMenu: Boolean = true
 
-    var name = ""
-    var password = ""
-
-    val accountModel: AccountModel by proxyLazyModel<MVVMProxy, AccountModel>()
-
-    val usersList: MutableList<UserModel> by proxyLazyModel<UserProxy, MutableList<UserModel>>()
-
+    // model as AccountModel
+    private val accountModel by proxyLazyModel<MVVMProxy, AccountModel>()
+    // models as List
+    private val usersList by proxyLazyModel<UserProxy, MutableList<UserModel>>()
     // you can use it like a lazy reference
-    val accountListMediator: UserListsMediator by mediatorLazy()
+    private val accountListMediator: UserListsMediator by mediatorLazy()
 
+    //----- VIEWS
     var accountNameTV: TextView? = null
     var passwordNameTV: TextView? = null
 
@@ -53,24 +54,25 @@ class MVVMMediator : ToolbarMediator() {
             accountListMediator.show(LinearAnimator())
         }.registerObserver(MVVMProxy.ACCOUNT_CHANGE_HANLDER) {
             println("------> ACCOUNT PROXY social name = ${accountModel.socialName} pageId = ${accountModel.pageId}")
-
             accountNameTV?.text = accountModel.socialName
             passwordNameTV?.text = accountModel.pageId
 
-        }.registerListObservers(arrayListOf(UserProxy.NOTIFICATION_AUTH_FAILED, UserProxy.NOTIFICATION_AUTH_COMPLETE)) {
-            Toast.makeText(activity, "Login Failed", Toast.LENGTH_SHORT).show()
+        }.registerListObservers(listOf(UserProxy.NOTIFICATION_AUTH_FAILED, UserProxy.NOTIFICATION_AUTH_COMPLETE)) {
+            when (it.name) {
+                UserProxy.NOTIFICATION_AUTH_FAILED -> activity.toast("Login Failed").show()
+                UserProxy.NOTIFICATION_AUTH_COMPLETE -> activity.toast("Login Complete").show()
+            }
         }
     }
 
+    // We can get some information from Bundle to use it in new layout view
+    override fun onPrepareCreateView() {
+        val name = this.arguments.getString(BUNDLE_NAME, "")
+        val password = this.arguments.getString(BUNDLE_PASSWORD, "")
+        log { "------->  user bundle name = $name and bundle password = $password" }
+    }
+
     override fun createLayout(context: Context): View = UserAuthUI().createView(AnkoContext.create(context, this))
-
-    fun nameUpdated(newName: String) {
-        name = newName
-    }
-
-    private fun passwordUpdated(newPassword: String) {
-        password = newPassword
-    }
 
     private fun handleEditorAction(actionId: Int): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEND) {
@@ -83,7 +85,7 @@ class MVVMMediator : ToolbarMediator() {
     private fun onLoginClicked() {
         Keyboards.hideKeyboard(viewComponent!!.context, viewComponent!!)
         println("-----> account first data $accountModel")
-        sendNotification(Events.AUTH, arrayOf(name, password))
+        sendNotification(Events.AUTH, arrayOf(accountNameTV?.text.toString(), passwordNameTV?.text.toString()))
     }
 
     private fun onHideClicked() {
@@ -116,6 +118,10 @@ class MVVMMediator : ToolbarMediator() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // We can save some information to Bundle here
+        this.arguments.putString(BUNDLE_NAME, accountModel.socialName)
+        this.arguments.putString(BUNDLE_PASSWORD, accountModel.pageId)
+
         // don't forget to clear the references
         accountNameTV = null
         passwordNameTV = null
@@ -131,27 +137,17 @@ class MVVMMediator : ToolbarMediator() {
                     backgroundResource = R.color.colorPrimary
                 }
 
-                accountNameTV = editText(name) {
+                accountNameTV = editText(accountModel.socialName) {
                     hint = "Username"
                     imeOptions = EditorInfo.IME_ACTION_NEXT
                     singleLine = true
-                    textChangedListener {
-                        onTextChanged { text, _, _, _ ->
-                            nameUpdated(text.toString())
-                        }
-                    }
                 }
 
-                passwordNameTV = editText(password) {
+                passwordNameTV = editText(accountModel.pageId) {
                     hint = "Password"
                     singleLine = true
                     imeOptions = EditorInfo.IME_ACTION_SEND
                     inputType = InputType.TYPE_CLASS_TEXT
-                    textChangedListener {
-                        onTextChanged { text, _, _, _ ->
-                            passwordUpdated(text.toString())
-                        }
-                    }
                     onEditorAction { _, actionId, _ -> handleEditorAction(actionId) }
                 }
 
