@@ -52,11 +52,9 @@ class MyMediator : Mediator() {
   }
   
   // the way to create UI
-  override fun onCreateView(context: Context) {
-        viewComponent = UserAuthUI().createView(AnkoContext.create(context, this))
-        // or you can inflate you custom xml layout
-        // viewComponetn = inflateView(R.layout.simple_layout)
-  }
+  override fun createLayout(context: Context): View = UserAuthUI().createView(AnkoContext.create(context, this)) 
+  // or you can inflate you custom xml layout
+  // override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) 
 }
 ```
 
