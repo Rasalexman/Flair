@@ -55,6 +55,15 @@ class MyMediator : Mediator() {
   override fun createLayout(context: Context): View = UserAuthUI().createView(AnkoContext.create(context, this)) 
   // or you can inflate you custom xml layout
   // override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) 
+  
+  inner class UserAuthUI : AnkoComponent<MyMediator> {
+    override fun createView(ui: AnkoContext<MyMediator>) = with(ui) {
+        verticalLayout {
+            lparams(matchParent, matchParent)
+            textView("HELLO WORLD")
+        }
+    }
+  }
 }
 ```
 
