@@ -3,6 +3,7 @@
 [ ![Kotlin 1.2.60](https://img.shields.io/badge/Kotlin-1.2.60-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, dependency injection and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
+The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecircle.
 
 The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `FlairActivity` or any `Context` implementations
 ```kotlin
@@ -34,7 +35,7 @@ Components:
 2) SimpleCommand instances is a command pattern realisation. You can manipulate proxy objects from it's instance as like usecases
 3) MacroCommands can combine more than one SimpleCommand and execute it one by one
 4) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
-5) Mediator is a simple view-hierarchy handler class, it's store and manage life cycle of your view components such as AnkoComponents or xml-layout files. Also it support powerful view backstack storage.
+5) Mediator is a simple view-hierarchy handler class, it's store and manage life cicle of your view components such as AnkoComponents or xml-layout files. Also it support view backstack storage.
 6) Also you has `LinearAnimator.kt` for create simple view animation changes such as HorizontalAnimation, or u can extends LinearAnimator and create ur own realisation. 
 7) All components of a FlairFramework are linked together by a powerful messaging system. You can notify every part of your system by calling `sendNotification(event, data)` and subscribe on event by calling `registerObserver(event) { INotification -> }` in IMediator or execute another SimpleCommand (see example above). Mediator can notify commands, commands can notify mediators and another commands, proxy can notify mediators and another commands. 
 
@@ -68,7 +69,7 @@ class MyProxy : Proxy<String>("data_to_store_in_proxy") {
 }
 //the command that controls the proxy
 class MyCommand : SimpleCommand() {
-    val myProxy by proxy<MyProxy>()
+    val myProxy by proxyLazy<MyProxy>()
     override fun execute(notification: INotification) {
          myProxy.handleNotification()
          // or you can use inline functions
@@ -126,6 +127,7 @@ tabLayout?.setupWithViewPager(viewPager)
         
         
 class PageOneMediator : Mediator() {
+// or you can inflate your view from xml by calling inflateView(R.layout.simple_layout)
     override fun createLayout(context: Context): View = with(context) {
         verticalLayout {
             lparams(matchParent, matchParent)
@@ -160,7 +162,8 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
-* 1.1.6 - fixed rotation bug with menu creation, many improvments
+* 1.1.7 - Added hardware back button support (see example in app)
+* 1.1.6 - fixed rotation bug with menu creation, many improvements
 * 1.1.5 - fix bug in View.kt clearAll()
 * 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
 * 1.1.3 - extension functions for permissions and activity
