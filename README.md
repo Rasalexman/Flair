@@ -3,7 +3,7 @@
 [ ![Kotlin 1.2.60](https://img.shields.io/badge/Kotlin-1.2.60-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, dependency injection and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
-The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecircle.
+The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecyrcle than Fragments and Activities
 
 The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `FlairActivity` or any `Context` implementations
 ```kotlin
@@ -162,6 +162,7 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.1.8 - Added bundle argument to IMediator, added one more lifecyrcle fun onPrepareView()
 * 1.1.7 - Added hardware back button support (see example in app)
 * 1.1.6 - fixed rotation bug with menu creation, many improvements
 * 1.1.5 - fix bug in View.kt clearAll()
