@@ -16,7 +16,7 @@ val flairCoreInstance = flair {
 
 You can register all part of Flair framework in any part of your application by calling lazy functions or inline functions like `proxy()`, `proxyLazy()`, `mediator()`, `mediatorLazy()`
 
-The second point or using 'Flare' is attach created core to single Activity class and root layout container (but u can no specify any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity (that should be an instance of FlairActivity) can be stored in one core of FlairFramework
+The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity (that should be an instance of FlairActivity) can be stored in one core of FlairFramework
 ```kotlin
 class MainActivity : FlairActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ Components:
 2) SimpleCommand instances is a command pattern realisation. You can manipulate proxy objects from it's instance as like usecases
 3) MacroCommands can combine more than one SimpleCommand and execute it one by one
 4) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
-5) Mediator is a simple view-hierarchy handler class, it's store and manage life cicle of your view components such as AnkoComponents or xml-layout files. Also it support view backstack storage.
+5) Mediator is a simple view-hierarchy handler class, it's store and manage life cycle of your view components such as AnkoComponents or xml-layout files. Also it support view backstack storage.
 6) Also you has `LinearAnimator.kt` for create simple view animation changes such as HorizontalAnimation, or u can extends LinearAnimator and create ur own realisation. 
 7) All components of a FlairFramework are linked together by a powerful messaging system. You can notify every part of your system by calling `sendNotification(event, data)` and subscribe on event by calling `registerObserver(event) { INotification -> }` in IMediator or execute another SimpleCommand (see example above). Mediator can notify commands, commands can notify mediators and another commands, proxy can notify mediators and another commands. 
 
@@ -52,10 +52,17 @@ class MyMediator : Mediator() {
   }
   
   // the way to create UI
-  override fun onCreateView(context: Context) {
-        viewComponent = UserAuthUI().createView(AnkoContext.create(context, this))
-        // or you can inflate you custom xml layout
-        // viewComponetn = inflateView(R.layout.simple_layout)
+  override fun createLayout(context: Context): View = UserAuthUI().createView(AnkoContext.create(context, this)) 
+  // or you can inflate you custom xml layout
+  // override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) 
+  
+  inner class UserAuthUI : AnkoComponent<MyMediator> {
+    override fun createView(ui: AnkoContext<MyMediator>) = with(ui) {
+        verticalLayout {
+            lparams(matchParent, matchParent)
+            textView("HELLO WORLD")
+        }
+    }
   }
 }
 ```
@@ -162,6 +169,7 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.1.9 - added IMediator.removeObserver and IMediator.removeAllObservers to manually remove notification observers from mediator instance
 * 1.1.8 - Added bundle argument to IMediator, added one more lifecyrcle fun onPrepareView()
 * 1.1.7 - Added hardware back button support (see example in app)
 * 1.1.6 - fixed rotation bug with menu creation, many improvements
