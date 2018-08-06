@@ -197,12 +197,27 @@ fun IFacade.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnima
     view.hideMediator(mediatorName, popIt, animation)
 }
 
+/**
+ * Register an Observer for given notification name and callback `INotificator`
+ *
+ * @param notifName
+ * notification name for register with callback
+ *
+ * @param notificator
+ * lambda function (INotification)->Unit
+ */
 fun IFacade.registerObserver(notifName: String, notificator: INotificator) {
     view.registerObserver(notifName, Observer(notificator, this.multitonKey))
 }
 
 /**
  * Manually remove observer by given notification name and
+ *
+ * @param notifName
+ * notification name for remove with context
+ *
+ * @param observerContext
+ * this is a context for observable compare
  */
 fun IFacade.removeObserver(notifName: String, observerContext:Any) {
     view.removeObserver(notifName, observerContext)
