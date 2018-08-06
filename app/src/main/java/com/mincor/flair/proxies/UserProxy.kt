@@ -26,11 +26,11 @@ class UserProxy : Proxy<MutableList<UserModel>>(mutableListOf()) {
     fun authorization(email: String, pass: String) {
 
         // some coroutine scopes
-        launch(UI){
-            val result = async(CommonPool){
-                // do some network call or
+        launch(UI) {
+            val result = async(CommonPool) {
+                // do some network call or `hard` operation
                 var counter = 0
-                repeat(5){
+                repeat(5) {
                     log { "-----> email $email pass $pass" }
                     counter++
                 }
@@ -40,7 +40,7 @@ class UserProxy : Proxy<MutableList<UserModel>>(mutableListOf()) {
             log { "${result.await()} count times " }
         }
 
-       sendNotification(ACCOUNT_CLEAR)
+        sendNotification(ACCOUNT_CLEAR)
 
         addItem(UserModel("Alex", "Minkin", 30, "rastarz@yandex.ru", "efdsghghgh"))
         addItem(UserModel("Piter", "Griffin", 44, "piter@gmail.com", "dsds457dfds1224hg"))

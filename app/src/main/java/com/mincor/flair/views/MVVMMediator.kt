@@ -49,6 +49,7 @@ class MVVMMediator : ToolbarMediator() {
     var passwordNameTV: TextView? = null
 
     override fun onRegister() {
+        // this is a perfect place to register your notification
         registerObserver(UserProxy.NOTIFICATION_AUTH_COMPLETE) {
             println("------> NOTIFICATION AUTH COMPLETE, SIZE = ${usersList.size}")
             accountListMediator.show(LinearAnimator())
@@ -56,7 +57,6 @@ class MVVMMediator : ToolbarMediator() {
             println("------> ACCOUNT PROXY social name = ${accountModel.socialName} pageId = ${accountModel.pageId}")
             accountNameTV?.text = accountModel.socialName
             passwordNameTV?.text = accountModel.pageId
-
         }.registerListObservers(listOf(UserProxy.NOTIFICATION_AUTH_FAILED, UserProxy.NOTIFICATION_AUTH_COMPLETE)) {
             when (it.name) {
                 UserProxy.NOTIFICATION_AUTH_FAILED -> activity.toast("Login Failed").show()
@@ -88,7 +88,7 @@ class MVVMMediator : ToolbarMediator() {
         sendNotification(Events.AUTH, arrayOf(accountNameTV?.text.toString(), passwordNameTV?.text.toString()))
     }
 
-    private fun onHideClicked() {
+    private fun onChangeDataClicked() {
         sendNotification(Events.ACCOUNT_CHANGE, arrayListOf("${UUID.randomUUID()}", "id${Math.random() * 100_000L.toInt()}"))
     }
 
@@ -108,7 +108,7 @@ class MVVMMediator : ToolbarMediator() {
     fun onShowAlertPopUp() {
         activity.alert {
             title = "This is a test popup"
-            message = "We test alert only for activity view lifecircle"
+            message = "We test alert only for activity view lifecyrcle"
 
             okButton {
                 it.dismiss()
@@ -156,7 +156,7 @@ class MVVMMediator : ToolbarMediator() {
                 }
 
                 button("GENERATE LIVE DATA") {
-                    onClick { onHideClicked() }
+                    onClick { onChangeDataClicked() }
                 }
 
                 button("show view pager") {
