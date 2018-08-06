@@ -202,6 +202,13 @@ fun IFacade.registerObserver(notifName: String, notificator: INotificator) {
 }
 
 /**
+ * Manually remove observer by given notification name and
+ */
+fun IFacade.removeObserver(notifName: String, observerContext:Any) {
+    view.removeObserver(notifName, observerContext)
+}
+
+/**
  * Check if a Command is registered for a given Notification
  *
  * @param notificationName

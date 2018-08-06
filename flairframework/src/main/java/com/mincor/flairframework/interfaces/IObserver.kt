@@ -16,15 +16,15 @@ fun IObserver.clear():Boolean {
 }
 
 /**
- * Compare an object to the notification appContext.
+ * Compare an compareObj to the notification appContext.
  *
- * @param object
- * the object to compare
- * @return boolean indicating if the object and the notification appContext are
+ * @param `compareObj`
+ * the compareObj to compare
+ * @return boolean indicating if the compareObj and the notification appContext are
  * the same
  */
-fun IObserver.compareNotifyContext(`object`: Any): Boolean {
-    return this.context === `object`
+fun IObserver.compareNotifyContext(compareObj: Any): Boolean {
+    return this.context === compareObj
 }
 
 /**
@@ -35,5 +35,7 @@ fun IObserver.compareNotifyContext(`object`: Any): Boolean {
  * object's notification method.
  */
 fun IObserver.notifyObserver(notification: INotification) {
-    if(this.notify != null) this.notify!!(notification)
+    this.notify?.let {
+        it(notification)
+    }
 }

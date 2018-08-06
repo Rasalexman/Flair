@@ -298,13 +298,15 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
         } ?: lastMediator?.hide(null, popLastMediator)
 
         // safe add view to container
-        viewComponent?.let {
-            currentContainer?.addView(it)
-            it.x = 0f
-            it.y = 0f
-            onAddedView(it)
-            // mark flag about `viewComponent` is already added to hosted view container
-            isAdded = true
+        viewComponent?.apply {
+            currentContainer?.let {
+                it.addView(this)
+                this.x = 0f
+                this.y = 0f
+                onAddedView(this)
+                // mark flag about `viewComponent` is already added to hosted view container
+                isAdded = true
+            }
         }
     }
 }

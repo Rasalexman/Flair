@@ -132,15 +132,18 @@ fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean 
 
 
 /**
- * List `INotification` interests.
+ * Register a list of `INotification` interests.
  *
- * @return an `Array` of the `INotification` names
- * this `IMediator` has an interest in.
+ * @param listNotification
+ * array of string notification names
+ *
+ * @param notificator
+ * the callback function
+ *
  */
 fun IMediator.registerListObservers(listNotification: List<String>, notificator: INotificator): IMediator {
     listNotification.forEach {
-        listNotificationInterests.add(it)
-        facade.registerObserver(it, notificator)
+        registerObserver(it, notificator)
     }
     return this
 }
@@ -162,6 +165,27 @@ fun IMediator.registerObserver(notifName: String, notificator: INotificator): IM
 }
 
 /**
+ * Remove observer by given notification name
+ *
+ * @param notifName
+ * Name of notification that recieve notificator
+ */
+fun IMediator.removeObserver(notifName: String) {
+    listNotificationInterests.remove(notifName)
+    facade.removeObserver(notifName, this.multitonKey)
+}
+
+/**
+ * Remove all notifications from current IMediator implementation instance
+ */
+fun IMediator.removeAllObservers() {
+    listNotificationInterests.forEach {
+        facade.removeObserver(it, this.multitonKey)
+    }
+    listNotificationInterests.clear()
+}
+
+/**
  * Add current mediator to view stage
  *
  * @param popLast
@@ -173,6 +197,9 @@ fun IMediator.show(animation: IAnimator? = null, popLast: Boolean = false) {
 
 /**
  * Remove current mediator from view stage
+ *
+ * @param animation
+ * Current hide animation
  *
  * @param popIt
  * Flag that indicates to need remove current mediator from backstack
@@ -191,6 +218,9 @@ fun IMediator.resources():Resources {
 /**
  * Hide current mediator and remove it from backstack
  * Then show last added mediator from backstack
+ *
+ * @param animation
+ * Current hiding animation for pop
  */
 fun IMediator.popToBack(animation: IAnimator? = null) {
     facade.popMediator(this.mediatorName ?: this.className(), animation)
@@ -198,6 +228,9 @@ fun IMediator.popToBack(animation: IAnimator? = null) {
 
 /**
  * Retrieve lazy mediator core by given generic class
+ *
+ * @param mediatorName
+ * Mediator name to be retrieved by lazy function
  */
 inline fun <reified T : IMediator> IMediator.mediatorLazy(mediatorName: String? = null): Lazy<T> = lazy {
     mediator<T>(mediatorName)
@@ -205,6 +238,9 @@ inline fun <reified T : IMediator> IMediator.mediatorLazy(mediatorName: String? 
 
 /**
  * Retrieve lazy mediator core by given generic class
+ *
+ * @param mediatorName
+ * Mediator name to be retrieved
  */
 inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = null): T = facade.retrieveMediator(mediatorName)
 
@@ -214,6 +250,9 @@ inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = nu
  *
  * @param mediatorName
  * Mediator to which you go back, so if there is no registered mediatorLazy by this name new instance is create as back stacked
+ *
+ * @param animation
+ * Current hiding animation for pop
  */
 inline fun <reified T : IMediator> IMediator.popTo(mediatorName: String? = null, animation: IAnimator? = null) {
     facade.retrieveMediator<T>(mediatorName ?: T::class.className()).show(animation, true)
@@ -221,6 +260,9 @@ inline fun <reified T : IMediator> IMediator.popTo(mediatorName: String? = null,
 
 /**
  * Show the given generic mediatorLazy or by name
+ *
+ * @param mediatorName
+ * Mediator name to be showed
  */
 inline fun <reified T : IMediator> IMediator.showMediator(mediatorName: String? = null, animation: IAnimator? = null) {
     return facade.retrieveMediator<T>(mediatorName ?: T::class.className()).show(animation)
@@ -228,6 +270,9 @@ inline fun <reified T : IMediator> IMediator.showMediator(mediatorName: String? 
 
 /**
  * Find the view in `viewComponent` by given resource Id
+ *
+ * @param resId
+ * Resource view identificator like `R.id.my_button_id`
  */
 inline fun <reified T : View> IMediator.view(resId:Int): Lazy<T?> = lazy {
     viewComponent?.findViewById(resId) as? T
