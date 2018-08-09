@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
-import com.mincor.flairframework.ext.log
-import com.mincor.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flairframework.ext.log
+import com.rasalexman.flairframework.patterns.mediator.Mediator
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.textView

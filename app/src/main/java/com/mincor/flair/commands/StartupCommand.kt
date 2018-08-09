@@ -11,9 +11,9 @@ import com.mincor.flair.utils.createWebServiceApi
 import com.mincor.flair.utils.takeDeviceID
 import com.mincor.flair.views.MVVMMediator
 import com.mincor.flair.views.UserListsMediator
-import com.mincor.flairframework.patterns.command.SimpleCommand
+import com.rasalexman.flairframework.patterns.command.SimpleCommand
 import com.mincor.flair.views.MVPMediator
-import com.mincor.flairframework.interfaces.*
+import com.rasalexman.flairframework.interfaces.*
 
 /**
  * Created by a.minkin on 21.11.2017.

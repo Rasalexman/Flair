@@ -13,9 +13,9 @@ import com.mincor.flair.R
 import com.mincor.flair.adapters.SelectedListAdapter
 import com.mincor.flair.proxies.MVPProxy
 import com.mincor.flair.proxies.vo.Tag
-import com.mincor.flairframework.core.animation.LinearAnimator
-import com.mincor.flairframework.ext.log
-import com.mincor.flairframework.interfaces.*
+import com.rasalexman.flairframework.core.animation.LinearAnimator
+import com.rasalexman.flairframework.ext.log
+import com.rasalexman.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick

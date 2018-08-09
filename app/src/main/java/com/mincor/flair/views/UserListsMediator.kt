@@ -8,9 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import com.mincor.flair.R
-import com.mincor.flairframework.core.animation.LinearAnimator
-import com.mincor.flairframework.ext.log
-import com.mincor.flairframework.interfaces.*
+import com.rasalexman.flairframework.core.animation.LinearAnimator
+import com.rasalexman.flairframework.ext.log
+import com.rasalexman.flairframework.interfaces.inflateView
+import com.rasalexman.flairframework.interfaces.mediatorLazy
+import com.rasalexman.flairframework.interfaces.popTo
+import com.rasalexman.flairframework.interfaces.show
 import kotlinx.android.synthetic.main.simple_layout.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar

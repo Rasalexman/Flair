@@ -9,8 +9,8 @@ import com.mincor.flair.R
 import com.mincor.flair.views.pager.PageOneMediator
 import com.mincor.flair.views.pager.PageThreeMediator
 import com.mincor.flair.views.pager.PageTwoMediator
-import com.mincor.flairframework.common.adapters.FlairPagerAdapter
-import com.mincor.flairframework.interfaces.mediator
+import com.rasalexman.flairframework.common.adapters.FlairPagerAdapter
+import com.rasalexman.flairframework.interfaces.mediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.design.tabLayout
@@ -26,7 +26,7 @@ class ViewPagerMediator : ToolbarMediator() {
     override fun onCreatedView(view: View) {
         super.onCreatedView(view)
         setHomeButtonEnable()
-        com.mincor.flairframework.ext.log { "HELLO FROM PAGER" }
+        com.rasalexman.flairframework.ext.log { "HELLO FROM PAGER" }
 
         viewPager?.adapter = FlairPagerAdapter(
                 listOf(mediator<PageOneMediator>(), mediator<PageTwoMediator>(), mediator<PageThreeMediator>()),
@@ -41,7 +41,6 @@ class ViewPagerMediator : ToolbarMediator() {
         viewPager = null
         tabLayout = null
         super.onDestroyView()
-
     }
 
     inner class ViewPagerUI : AnkoComponent<ViewPagerMediator>{
@@ -55,7 +54,7 @@ class ViewPagerMediator : ToolbarMediator() {
                 }
 
                 tabLayout = tabLayout {
-
+                    tabMode = TabLayout.MODE_FIXED
                 }.lparams(matchParent)
 
                 viewPager = viewPager {

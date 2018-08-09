@@ -10,9 +10,9 @@ import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.events.Events.AUTH
 import com.mincor.flair.events.Events.LOGIC_START
 import com.mincor.flair.events.Events.STARTUP
-import com.mincor.flairframework.ext.flair
-import com.mincor.flairframework.interfaces.registerCommand
-import com.mincor.flairframework.interfaces.sendNotification
+import com.rasalexman.flairframework.ext.flair
+import com.rasalexman.flairframework.interfaces.registerCommand
+import com.rasalexman.flairframework.interfaces.sendNotification
 
 /**
  * Created by a.minkin on 19.11.2017.

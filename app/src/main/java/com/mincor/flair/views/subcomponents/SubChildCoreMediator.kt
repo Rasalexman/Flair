@@ -2,9 +2,10 @@ package com.mincor.flair.views.subcomponents
 
 import android.content.Context
 import android.view.View
-import com.mincor.flairframework.core.animation.LinearAnimator
-import com.mincor.flairframework.interfaces.*
-import com.mincor.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flairframework.core.animation.LinearAnimator
+import com.rasalexman.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flairframework.interfaces.popTo
+import com.rasalexman.flairframework.interfaces.showMediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 

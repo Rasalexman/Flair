@@ -3,9 +3,9 @@ package com.mincor.flair.commands
 import com.mincor.flair.events.Events.ACCOUNT_CHANGE
 import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.proxies.MVVMProxy
-import com.mincor.flairframework.interfaces.INotification
-import com.mincor.flairframework.interfaces.proxyLazy
-import com.mincor.flairframework.patterns.command.SimpleCommand
+import com.rasalexman.flairframework.interfaces.INotification
+import com.rasalexman.flairframework.interfaces.proxyLazy
+import com.rasalexman.flairframework.patterns.command.SimpleCommand
 
 class AccountCommand : SimpleCommand() {
 

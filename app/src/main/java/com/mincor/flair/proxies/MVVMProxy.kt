@@ -1,8 +1,8 @@
 package com.mincor.flair.proxies
 
 import com.mincor.flair.proxies.vo.AccountModel
-import com.mincor.flairframework.interfaces.sendNotification
-import com.mincor.flairframework.patterns.proxy.Proxy
+import com.rasalexman.flairframework.interfaces.sendNotification
+import com.rasalexman.flairframework.patterns.proxy.Proxy
 import kotlin.properties.Delegates
 
 class MVVMProxy : Proxy<AccountModel>(AccountModel("", "")) {

@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import com.mincor.flair.R
 import com.mincor.flair.application.FlairApplication
 import com.mincor.flair.views.subcomponents.SubChildCoreMediator
-import com.mincor.flairframework.core.animation.LinearAnimator
-import com.mincor.flairframework.interfaces.*
+import com.rasalexman.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick

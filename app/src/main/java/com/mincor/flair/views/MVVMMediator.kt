@@ -16,9 +16,9 @@ import com.mincor.flair.proxies.UserProxy
 import com.mincor.flair.proxies.vo.AccountModel
 import com.mincor.flair.proxies.vo.UserModel
 import com.mincor.flair.utils.Keyboards
-import com.mincor.flairframework.core.animation.LinearAnimator
-import com.mincor.flairframework.ext.log
-import com.mincor.flairframework.interfaces.*
+import com.rasalexman.flairframework.core.animation.LinearAnimator
+import com.rasalexman.flairframework.ext.log
+import com.rasalexman.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onClick

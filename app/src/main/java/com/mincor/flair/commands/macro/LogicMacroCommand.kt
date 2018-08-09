@@ -1,9 +1,9 @@
 package com.mincor.flair.commands.macro
 
-import com.mincor.flairframework.ext.log
-import com.mincor.flairframework.interfaces.INotification
-import com.mincor.flairframework.patterns.command.MacroCommand
-import com.mincor.flairframework.patterns.command.SimpleCommand
+import com.rasalexman.flairframework.ext.log
+import com.rasalexman.flairframework.interfaces.INotification
+import com.rasalexman.flairframework.patterns.command.MacroCommand
+import com.rasalexman.flairframework.patterns.command.SimpleCommand
 
 class LogicMacroCommand : MacroCommand() {
 

@@ -1,9 +1,9 @@
 package com.mincor.flair.commands
 
 import com.mincor.flair.proxies.UserProxy
-import com.mincor.flairframework.interfaces.INotification
-import com.mincor.flairframework.interfaces.proxy
-import com.mincor.flairframework.patterns.command.SimpleCommand
+import com.rasalexman.flairframework.interfaces.INotification
+import com.rasalexman.flairframework.interfaces.proxy
+import com.rasalexman.flairframework.patterns.command.SimpleCommand
 
 /**
  * Created by a.minkin on 22.11.2017.

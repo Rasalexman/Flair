@@ -3,11 +3,11 @@ package com.mincor.flair.views
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.View
-import com.mincor.flairframework.core.animation.LinearAnimator
-import com.mincor.flairframework.interfaces.activity
-import com.mincor.flairframework.interfaces.common.IActionBarProvider
-import com.mincor.flairframework.interfaces.popToBack
-import com.mincor.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flairframework.core.animation.LinearAnimator
+import com.rasalexman.flairframework.interfaces.activity
+import com.rasalexman.flairframework.interfaces.common.IActionBarProvider
+import com.rasalexman.flairframework.interfaces.popToBack
+import com.rasalexman.flairframework.patterns.mediator.Mediator
 
 /**
  * Created by a.minkin.

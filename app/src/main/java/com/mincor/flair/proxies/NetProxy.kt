@@ -1,8 +1,8 @@
 package com.mincor.flair.proxies
 
 import com.mincor.flair.proxies.net.IWebService
-import com.mincor.flairframework.ext.log
-import com.mincor.flairframework.patterns.proxy.Proxy
+import com.rasalexman.flairframework.ext.log
+import com.rasalexman.flairframework.patterns.proxy.Proxy
 
 class NetProxy(webservice: IWebService) : Proxy<IWebService>(webservice) {
     override fun onRegister() {
