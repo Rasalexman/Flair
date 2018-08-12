@@ -24,7 +24,7 @@ object NetModule {
         cm?.let {
             val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
             return (activeNetwork?.let {
-                it.isConnected && it.isConnectedOrConnecting && it.isAvailable
+                it.isConnected
             } ?: false)
         }
         return false

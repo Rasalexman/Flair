@@ -13,6 +13,7 @@ import com.mincor.flair.R
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.MVVMProxy
 import com.mincor.flair.proxies.UserProxy
+import com.mincor.flair.proxies.rand
 import com.mincor.flair.proxies.vo.AccountModel
 import com.mincor.flair.proxies.vo.UserModel
 import com.mincor.flair.utils.Keyboards
@@ -53,7 +54,7 @@ class MVVMMediator : ToolbarMediator() {
         registerObserver(UserProxy.NOTIFICATION_AUTH_COMPLETE) {
             println("------> NOTIFICATION AUTH COMPLETE, SIZE = ${usersList.size}")
             accountListMediator.show(LinearAnimator())
-        }.registerObserver(MVVMProxy.ACCOUNT_CHANGE_HANLDER) {
+        }.registerObserver(MVVMProxy.ACCOUNT_CHANGE_HANDLER) {
             println("------> ACCOUNT PROXY social name = ${accountModel.socialName} pageId = ${accountModel.pageId}")
             accountNameTV?.text = accountModel.socialName
             passwordNameTV?.text = accountModel.pageId
@@ -89,7 +90,7 @@ class MVVMMediator : ToolbarMediator() {
     }
 
     private fun onChangeDataClicked() {
-        sendNotification(Events.ACCOUNT_CHANGE, arrayListOf("${UUID.randomUUID()}", "id${Math.random() * 100_000L.toInt()}"))
+        sendNotification(Events.ACCOUNT_CHANGE, arrayListOf("${UUID.randomUUID()}", "id_${rand(1, 100_000)}"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -168,6 +169,12 @@ class MVVMMediator : ToolbarMediator() {
                 button("show alert pop up") {
                     onClick {
                         onShowAlertPopUp()
+                    }
+                }
+
+                button("show live data mediator") {
+                    onClick {
+                        showMediator<LiveDataMediator>()
                     }
                 }
 

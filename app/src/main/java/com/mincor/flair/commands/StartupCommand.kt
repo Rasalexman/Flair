@@ -3,6 +3,7 @@ package com.mincor.flair.commands
 import android.content.Context
 import android.net.ConnectivityManager
 import com.mincor.flair.events.Events
+import com.mincor.flair.proxies.LiveDataProxy
 import com.mincor.flair.proxies.MVVMProxy
 import com.mincor.flair.proxies.NetProxy
 import com.mincor.flair.proxies.net.IWebService
@@ -29,18 +30,19 @@ class StartupCommand : SimpleCommand() {
         facade.registerProxy<NetProxy>(createWebServiceApi<IWebService>(createOkHttpClient(cm, takeDeviceID(resolver)),"https://app.dp.ru/api/v1.0/"))
 
         facade.registerProxy<MVVMProxy>()
+        facade.registerProxy<LiveDataProxy>()
         facade.registerMediator<MVPMediator>()
         facade.registerMediator<MVVMMediator>()
         facade.registerMediator<UserListsMediator>()
 
         // send some notification to start logic case
-        sendNotification(Events.LOGIC_START)
+        // sendNotification(Events.LOGIC_START)
 
         // remove unused commands
         flair().removeCommand(Events.STARTUP)
-        flair().removeCommand(Events.LOGIC_START)
+        //flair().removeCommand(Events.LOGIC_START)
 
         //check to execute again
-        sendNotification(Events.LOGIC_START)
+        //sendNotification(Events.LOGIC_START)
     }
 }
