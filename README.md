@@ -169,6 +169,9 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.2.0:
+1) Change `flair` package name to `com.rasalexman.flairframework`
+2) Added IMediator.startActivity(intent:Intend, bundle:Bundle? = null) for start another activity from mediators
 * 1.1.9 - added IMediator.removeObserver and IMediator.removeAllObservers to manually remove notification observers from mediator instance
 * 1.1.8 - Added bundle argument to IMediator, added one more lifecyrcle fun onPrepareView()
 * 1.1.7 - Added hardware back button support (see example in app)
