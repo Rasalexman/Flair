@@ -317,19 +317,19 @@ inline fun <reified T : View> IMediator.view(resId: Int): Lazy<T?> = lazy {
 /**
  * Get a string resourses from app context by it id
  */
-fun INotifier.string(resId: Int): String {
+fun IMediator.string(resId: Int): String {
     return appContext.getString(resId)
 }
 
 /**
  * Drawable from resource id
  */
-fun INotifier.drawable(resource: Int): Drawable? = ContextCompat.getDrawable(appContext, resource)
+fun IMediator.drawable(resource: Int): Drawable? = ContextCompat.getDrawable(appContext, resource)
 
 /***
  * Custom View For somethings like rounded drawable
  * */
-fun roundedDrawable(col:Int, corners:Float = 100f, withStroke:Boolean = false, strokeColor:Int = Color.LTGRAY, strokeWeight:Int = 2) = GradientDrawable().apply {
+fun IMediator.roundedDrawable(col:Int, corners:Float = 100f, withStroke:Boolean = false, strokeColor:Int = Color.LTGRAY, strokeWeight:Int = 2) = GradientDrawable().apply {
     shape = GradientDrawable.RECTANGLE
     cornerRadius = corners
     setColor(col)
@@ -339,17 +339,17 @@ fun roundedDrawable(col:Int, corners:Float = 100f, withStroke:Boolean = false, s
 /**
  * Color from resources id
  */
-fun INotifier.color(resource: Int): Int = ContextCompat.getColor(appContext, resource)
+fun IMediator.color(resource: Int): Int = ContextCompat.getColor(appContext, resource)
 
 /**
  * For adaptive procent width
  */
-fun INotifier.wdthProc(proc:Float):Int = (Resources.getSystem().displayMetrics.widthPixels*proc).toInt()
+fun IMediator.wdthProc(proc:Float):Int = (Resources.getSystem().displayMetrics.widthPixels*proc).toInt()
 
 /**
  * For adaptive procent height
  */
-fun INotifier.hdthProc(proc:Float):Int = (Resources.getSystem().displayMetrics.heightPixels*proc).toInt()
+fun IMediator.hdthProc(proc:Float):Int = (Resources.getSystem().displayMetrics.heightPixels*proc).toInt()
 
 
 
