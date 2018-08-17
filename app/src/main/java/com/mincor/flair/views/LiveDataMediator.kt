@@ -20,6 +20,8 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class LiveDataMediator : ToolbarMediator(), Observer<AccountModel> {
 
+    override var hashBackButton: Boolean = true
+
     override fun createLayout(context: Context): View = LiveDataUI().createView(AnkoContext.create(context, this))
 
     private val liveData by proxyLazyModel<LiveDataProxy, MutableLiveData<AccountModel>>()
@@ -29,7 +31,6 @@ class LiveDataMediator : ToolbarMediator(), Observer<AccountModel> {
 
     override fun onAddedView(view: View) {
         super.onAddedView(view)
-        setHomeButtonEnable()
         onChanged(liveData.value)
         liveData.observeForever(this)
     }

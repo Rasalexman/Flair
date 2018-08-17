@@ -11,6 +11,7 @@ import com.mincor.flair.views.pager.PageThreeMediator
 import com.mincor.flair.views.pager.PageTwoMediator
 import com.rasalexman.flairframework.common.adapters.FlairPagerAdapter
 import com.rasalexman.flairframework.interfaces.mediator
+import com.rasalexman.flairframework.interfaces.removeMediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.design.tabLayout
@@ -18,14 +19,15 @@ import org.jetbrains.anko.support.v4.viewPager
 
 class ViewPagerMediator : ToolbarMediator() {
 
+    override var hashBackButton: Boolean = true
+
     override fun createLayout(context: Context): View = ViewPagerUI().createView(AnkoContext.Companion.create(context, this))
 
-    private var viewPager:ViewPager? = null
-    private var tabLayout:TabLayout? = null
+    private var viewPager: ViewPager? = null
+    private var tabLayout: TabLayout? = null
 
     override fun onCreatedView(view: View) {
         super.onCreatedView(view)
-        setHomeButtonEnable()
         com.rasalexman.flairframework.ext.log { "HELLO FROM PAGER" }
 
         viewPager?.adapter = FlairPagerAdapter(
@@ -36,6 +38,9 @@ class ViewPagerMediator : ToolbarMediator() {
     }
 
     override fun onDestroyView() {
+        removeMediator<PageOneMediator>()
+        removeMediator<PageTwoMediator>()
+        removeMediator<PageThreeMediator>()
         viewPager?.adapter = null
         tabLayout?.setupWithViewPager(null)
         viewPager = null
@@ -43,8 +48,8 @@ class ViewPagerMediator : ToolbarMediator() {
         super.onDestroyView()
     }
 
-    inner class ViewPagerUI : AnkoComponent<ViewPagerMediator>{
-        override fun createView(ui: AnkoContext<ViewPagerMediator>): View = with(ui){
+    inner class ViewPagerUI : AnkoComponent<ViewPagerMediator> {
+        override fun createView(ui: AnkoContext<ViewPagerMediator>): View = with(ui) {
             verticalLayout {
                 lparams(matchParent, matchParent)
                 toolBar = toolbar {

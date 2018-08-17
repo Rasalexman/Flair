@@ -16,16 +16,18 @@ class AnotherCoreMediator : ToolbarMediator() {
 
     private var anotherLayout:ViewGroup? = null
 
+    override var hashBackButton: Boolean = true
+
     override fun createLayout(context: Context): View = AnotherCoreUI().createView(AnkoContext.create(context, this))
 
     override fun onAddedView(view: View) {
         super.onAddedView(view)
         flair(FlairApplication.CORE_SECOND).attach(activity, anotherLayout!!).showLastOrExistMediator<SubChildCoreMediator>()
-        setHomeButtonEnable()
     }
 
     override fun onRemovedView(view: View) {
         super.onRemovedView(view)
+        anotherLayout = null
         flair(FlairApplication.CORE_SECOND).remove()
     }
 

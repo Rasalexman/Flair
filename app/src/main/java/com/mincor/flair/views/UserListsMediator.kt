@@ -25,6 +25,8 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 class UserListsMediator : ToolbarMediator() {
 
     override var hasOptionalMenu: Boolean = true
+    override var hashBackButton: Boolean = true
+
     val mvpMediator: MVPMediator by mediatorLazy()
 
     override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) //UserListUI().createView(AnkoContext.create(context, this))
@@ -43,11 +45,6 @@ class UserListsMediator : ToolbarMediator() {
 
         button2 = view.button2
         button2!!.onClick { popTo<MVPMediator>() }
-    }
-
-    override fun onAddedView(view: View) {
-        super.onAddedView(view)
-        setHomeButtonEnable()
     }
 
     override fun onDestroyView() {

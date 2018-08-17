@@ -24,6 +24,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 class MVPMediator : ToolbarMediator() {
 
     override var hasOptionalMenu: Boolean = true
+    override var hashBackButton: Boolean = true
 
     private val presenterProxy: MVPProxy by proxyLazy(this)
 
@@ -38,7 +39,6 @@ class MVPMediator : ToolbarMediator() {
 
     override fun onAddedView(view: View) {
         super.onAddedView(view)
-        setHomeButtonEnable()
         listViw?.adapter = SelectedListAdapter(
                 facade.view.mediatorBackStack.mapTo(arrayListOf()) { it.mediatorName!! }.toMutableList(),
                 ::onItemSelectedHandler

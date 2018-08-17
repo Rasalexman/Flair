@@ -18,12 +18,15 @@ abstract class ToolbarMediator : Mediator(), View.OnClickListener {
         const val BACK_BUTTON_ID = -1
     }
 
+    protected open var hashBackButton = false
+
     protected var toolBar: Toolbar? = null
 
     override fun onAddedView(view: View) {
         super.onAddedView(view)
         toolBar?.let {
             setActionBar(it)
+            setHomeButtonEnable()
         }
     }
 
@@ -43,7 +46,7 @@ abstract class ToolbarMediator : Mediator(), View.OnClickListener {
             return actionBarProvider?.getSupportActionBar()
         }
 
-    protected fun setActionBar(toolbar: Toolbar?) {
+    private fun setActionBar(toolbar: Toolbar?) {
         toolbar?.let {
             activity.setSupportActionBar(it)
             it.setNavigationOnClickListener(this)
@@ -56,8 +59,8 @@ abstract class ToolbarMediator : Mediator(), View.OnClickListener {
         }
     }
 
-    protected fun setHomeButtonEnable() {
+    private fun setHomeButtonEnable() {
         //set the back arrow in the toolbar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setDisplayHomeAsUpEnabled(hashBackButton)
     }
 }
