@@ -2,11 +2,13 @@ package com.rasalexman.flairframework.interfaces
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.ArrayMap
 import android.view.ViewGroup
 import com.rasalexman.flairframework.core.FlairActivity
 import com.rasalexman.flairframework.ext.className
 import com.rasalexman.flairframework.ext.createInstance
 import com.rasalexman.flairframework.ext.removeFromParent
+import java.lang.ref.WeakReference
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -16,11 +18,11 @@ interface IView : IMultitonKey {
     /**
      * Storage for all IMedaitor instances when it gonna be registered
      */
-    val mediatorMap: MutableMap<String, IMediator>
+    val mediatorMap: ArrayMap<String, IMediator>
     /**
      * Storage for notifications name that we gonna notify
      */
-    val observerMap: MutableMap<String, MutableList<IObserver>>
+    val observerMap: ArrayMap<String, MutableList<IObserver>>
     /**
      * IMediator `viewComponent` backstack. This is a main place for storing navigation
      */
@@ -33,7 +35,7 @@ interface IView : IMultitonKey {
     /**
      * Reference to the Activity attached on core
      */
-    var currentActivity: FlairActivity?
+    var currentActivity: WeakReference<FlairActivity>?
 
     /**
      * Instance of ui container
@@ -228,10 +230,10 @@ fun IView.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimato
                     onRemovedView(it)
                 }
                 isAdded = false
-
             }
             // if flag `true` we remove mediator from backstack and clear view
-            if (popIt && mediatorBackStack.remove(this)) {
+            if (popIt) {
+                if (mediatorBackStack.contains(this)) mediatorBackStack.remove(this)
                 // only if we has our mediator into backstack
                 clearMediatorView(this)
             }
@@ -252,7 +254,7 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
     val lastMediator = currentShowingMediator
     // Retrieve the named mediator
     currentShowingMediator = mediatorMap[mediatorName]
-    // if showing mediator the same we ajust return
+    // if showing mediator the same we just return
     if (currentShowingMediator == lastMediator) {
         return
     }
@@ -281,9 +283,9 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
             val indexOf = mediatorBackStack.indexOf(this) + 1
             while (mediatorBackStack.size > indexOf) {
                 val mediator = mediatorBackStack[indexOf]
-                // we dont need to remove last mediator `viewComponent`
+                // we don't need to remove last mediator `viewComponent`
                 if (mediator.mediatorName == lastMediator?.mediatorName) {
-                    // only if we have an animation we simulate back
+                    // only if we have an animation we simulate back and clear the `viewComponent` after animation
                     mediatorBackStack.remove(mediator)
                     isShowAnimation = false
                     continue
@@ -294,7 +296,7 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
 
         // check for optional menu and invalidate it if it has
         if (hasOptionalMenu && !hideOptionalMenu) {
-            currentActivity?.invalidateOptionsMenu()
+            currentActivity?.get()?.invalidateOptionsMenu()
         }
 
         // if we have animation we play it
@@ -304,6 +306,7 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
             isShow = isShowAnimation
             popLast = popLastMediator
             playAnimation()
+
         } ?: lastMediator?.hide(null, popLastMediator)
 
         // safe add view to container
@@ -328,16 +331,16 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
 </P> */
 fun IView.removeObserver(notificationName: String, notifyContext: Any) {
     // the observer list for the notification under inspection
-    this.observerMap[notificationName]?.let {
+    this.observerMap[notificationName]?.let { list ->
         // Remove predicate notifications, also we clear observable references
-        it.removeAll {
+        list.removeAll {
             if (it.compareNotifyContext(notifyContext))
                 it.clear()
             else false
         }
         // Also, when a Notification's Observer list length falls to
         // zero, delete the notification key from the observer map
-        if (it.isEmpty()) {
+        if (list.isEmpty()) {
             observerMap.remove(notificationName)
         }
     }

@@ -11,7 +11,7 @@ import com.rasalexman.flairframework.interfaces.IMediator
  * @param mediators
  * the list of registered mediators ex listOf(mediator<T1>(),mediator<T2>(),mediator<T3>())
  */
-class FlairPagerAdapter(private val mediators:List<IMediator>, private val tabNames:List<String> = listOf()) : PagerAdapter() {
+open class FlairPagerAdapter(private val mediators:List<IMediator>, private val tabNames:List<String>) : PagerAdapter() {
 
     override fun isViewFromObject(p0: View, p1: Any): Boolean {
         return p0 == (p1 as? View)

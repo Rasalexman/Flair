@@ -13,18 +13,6 @@ abstract class MacroCommand : Notifier(), ICommand {
     private val subCommands: MutableList<ICommand> = mutableListOf()
 
     /**
-     * Constructor.
-     *
-     * <P>
-     * You should not need to define a constructor, instead, override the
-     * `initializeMacroCommand` method.
-    </P> *
-     */
-    init {
-        initializeMacroCommand()
-    }
-
-    /**
      * Initialize the `MacroCommand`.
      *
      * <P>
@@ -78,5 +66,9 @@ abstract class MacroCommand : Notifier(), ICommand {
             it.multitonKey = multitonKey
             it.execute(notification)
         }
+    }
+
+    fun clear() {
+        subCommands.clear()
     }
 }

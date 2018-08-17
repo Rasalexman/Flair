@@ -1,5 +1,6 @@
 package com.rasalexman.flairframework.core.controller
 
+import android.util.ArrayMap
 import com.rasalexman.flairframework.core.view.View
 import com.rasalexman.flairframework.interfaces.ICommand
 import com.rasalexman.flairframework.interfaces.IController
@@ -17,7 +18,7 @@ class Controller private constructor(override var multitonKey: String) : IContro
     /**
      * Mapping of Notification names to Command Class references
      */
-    override val commandMap: MutableMap<String, ICommand?> = mutableMapOf()
+    override val commandMap = ArrayMap<String, ICommand?>()
 
     /**
      * Local reference to View
@@ -31,7 +32,7 @@ class Controller private constructor(override var multitonKey: String) : IContro
         /**
          * Global storage for all instances of Controller
          */
-        override val instanceMap: MutableMap<String, Controller> = mutableMapOf()
+        override val instanceMap = ArrayMap<String, Controller>()
         /**
          * `Controller` Multiton Factory method.
          * @return the Multiton core of `Controller` or create new if not exist

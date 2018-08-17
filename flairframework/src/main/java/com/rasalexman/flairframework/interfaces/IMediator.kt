@@ -13,7 +13,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import com.rasalexman.flairframework.ext.className
-import java.util.*
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -51,7 +50,7 @@ interface IMediator : INotifier {
     /**
      * List of notification names that this IMediator is listening for
      */
-    val listNotificationInterests: ArrayList<String>
+    val listNotificationInterests: MutableList<String>
 
     /**
      * When current View has attached your menu
@@ -122,8 +121,27 @@ interface IMediator : INotifier {
 
     /**
      * Handle the hardware back button
+     *
+     * @param animation
+     * Current animation changer
      */
     fun handleBackButton(animation: IAnimator? = null): Boolean
+
+    /**
+     * Called when animation is starting
+     *
+     * @param isShow
+     * Flag that indicates is this starting a showing animation for current mediator
+     */
+    fun onAnimationStart(isShow: Boolean)
+
+    /**
+     * Called when animation is finished
+     *
+     * @param isShow
+     * Flag that indicates is this starting a showing animation for current mediator
+     */
+    fun onAnimationFinish(isShow: Boolean)
 }
 
 /**
@@ -141,7 +159,7 @@ fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: 
 /**
  * Start another activity with bundle options or not
  */
-fun IMediator.startActivity(intent: Intent, bundle:Bundle? = null) {
+fun IMediator.startActivity(intent: Intent, bundle: Bundle? = null) {
     bundle?.let {
         activity.startActivity(intent, it)
     } ?: activity.startActivity(intent)
@@ -242,12 +260,6 @@ fun IMediator.hide(animation: IAnimator? = null, popIt: Boolean = false) {
     facade.hideMediator(this.mediatorName ?: this.className(), popIt, animation)
 }
 
-/**
- * Get app context resources
- */
-fun IMediator.resources(): Resources {
-    return appContext.resources
-}
 
 /**
  * Hide current mediator and remove it from backstack
@@ -278,6 +290,13 @@ inline fun <reified T : IMediator> IMediator.mediatorLazy(mediatorName: String? 
  */
 inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = null): T = facade.retrieveMediator(mediatorName)
 
+/**
+ * Remove an `IMediator` from the `View` core.
+ */
+inline fun <reified T : IMediator> IMediator.removeMediator(mediatorName: String? = null) {
+    facade.removeMediator<T>(mediatorName)
+}
+
 
 /**
  * GO Back to given mediatorName(high priority) or Generic class name.
@@ -304,6 +323,14 @@ inline fun <reified T : IMediator> IMediator.showMediator(mediatorName: String? 
 
 
 ////------ SOME USEFUL EXTENSION FUNCTIONS
+
+/**
+ * Get app context resources
+ */
+fun IMediator.resources(): Resources {
+    return appContext.resources
+}
+
 /**
  * Find the view in `viewComponent` by given resource Id
  *
@@ -329,11 +356,11 @@ fun IMediator.drawable(resource: Int): Drawable? = ContextCompat.getDrawable(app
 /***
  * Custom View For somethings like rounded drawable
  * */
-fun IMediator.roundedDrawable(col:Int, corners:Float = 100f, withStroke:Boolean = false, strokeColor:Int = Color.LTGRAY, strokeWeight:Int = 2) = GradientDrawable().apply {
+fun IMediator.roundedDrawable(col: Int, corners: Float = 100f, withStroke: Boolean = false, strokeColor: Int = Color.LTGRAY, strokeWeight: Int = 2) = GradientDrawable().apply {
     shape = GradientDrawable.RECTANGLE
     cornerRadius = corners
     setColor(col)
-    if(withStroke) setStroke(strokeWeight, strokeColor)
+    if (withStroke) setStroke(strokeWeight, strokeColor)
 }
 
 /**
@@ -344,12 +371,12 @@ fun IMediator.color(resource: Int): Int = ContextCompat.getColor(appContext, res
 /**
  * For adaptive procent width
  */
-fun IMediator.wdthProc(proc:Float):Int = (Resources.getSystem().displayMetrics.widthPixels*proc).toInt()
+fun IMediator.wdthProc(proc: Float): Int = (Resources.getSystem().displayMetrics.widthPixels * proc).toInt()
 
 /**
  * For adaptive procent height
  */
-fun IMediator.hdthProc(proc:Float):Int = (Resources.getSystem().displayMetrics.heightPixels*proc).toInt()
+fun IMediator.hdthProc(proc: Float): Int = (Resources.getSystem().displayMetrics.heightPixels * proc).toInt()
 
 
 

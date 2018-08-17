@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
+import android.util.ArrayMap
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import com.rasalexman.flairframework.core.FlairActivity
 import com.rasalexman.flairframework.ext.clear
 import com.rasalexman.flairframework.interfaces.*
 import com.rasalexman.flairframework.patterns.observer.Notification
+import java.lang.ref.WeakReference
 
 
 /**
@@ -28,9 +30,9 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     override var multitonKey: String = ""
 
     // Mapping of Notification names to Observer lists
-    override val observerMap: MutableMap<String, MutableList<IObserver>> = mutableMapOf()
+    override val observerMap = ArrayMap<String, MutableList<IObserver>>()
     // Mapping of Mediator names to Mediator instances
-    override val mediatorMap: MutableMap<String, IMediator> = mutableMapOf()
+    override val mediatorMap = ArrayMap<String, IMediator>()
 
     // List of current added mediators on the screen
     override val mediatorBackStack: MutableList<IMediator> = mutableListOf()
@@ -40,7 +42,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /**
      * Reference to the Activity attached on core
      */
-    override var currentActivity: FlairActivity? = null
+    override var currentActivity: WeakReference<FlairActivity>? = null
     /**
      * Instance of ui container
      */
@@ -60,12 +62,13 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         const val ACTIVITY_DESTROYED = "destroyed"
         const val ACTIVITY_STATE_SAVE = "state_save"
 
-        override val instanceMap: MutableMap<String, View> = mutableMapOf()
+        override val instanceMap = ArrayMap<String, View>()
         /**
          * View Singleton Factory method.
          *
          * @return the Singleton core of `View`
          */
+        @Synchronized
         fun getInstance(key: String): View = instance(key) {
             val viewInstance = View()
             viewInstance.multitonKey = key
@@ -115,7 +118,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         currentContainer = container ?: activity.window.decorView.findViewById(android.R.id.content)
         // only if there is no attach
         if (!isAlreadyRegistered) {
-            currentActivity = activity
+            currentActivity = WeakReference(activity)
             val fragmentManager: FragmentManager? = (activity as? AppCompatActivity)?.supportFragmentManager
             fragmentManager?.beginTransaction()?.add(this, multitonKey)?.commitAllowingStateLoss()
             activity.application.registerActivityLifecycleCallbacks(this)
@@ -127,7 +130,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * Detach current activity from view core
      */
     private fun detachActivity() {
-        currentActivity?.let {
+        currentActivity?.get()?.let {
             val fragmentManager: FragmentManager? = (it as? AppCompatActivity)?.supportFragmentManager
             fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
             // unregister lifecyrcle callbacks
@@ -218,6 +221,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     override fun onActivityDestroyed(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_DESTROYED, activity))
+        detachActivity()
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {

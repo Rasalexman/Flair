@@ -1,5 +1,6 @@
 package com.rasalexman.flairframework.core.model
 
+import android.util.ArrayMap
 import com.rasalexman.flairframework.interfaces.IMapper
 import com.rasalexman.flairframework.interfaces.IModel
 import com.rasalexman.flairframework.interfaces.IProxy
@@ -12,10 +13,10 @@ open class Model private constructor(override var multitonKey: String) : IModel 
     /**
      * Mapping of proxyNames to IProxy instances.
      */
-    override val proxyMap: MutableMap<String, IProxy<*>> = mutableMapOf()
+    override val proxyMap = ArrayMap<String, IProxy<*>>()
 
     companion object : IMapper<Model> {
-        override val instanceMap: MutableMap<String, Model> = mutableMapOf()
+        override val instanceMap = ArrayMap<String, Model>()
         /**
          * `Model` Multiton Factory method.
          *

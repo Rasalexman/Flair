@@ -1,5 +1,7 @@
 package com.rasalexman.flairframework.interfaces
 
+import android.util.ArrayMap
+import com.rasalexman.flairframework.patterns.command.MacroCommand
 import com.rasalexman.flairframework.patterns.observer.Observer
 import kotlin.reflect.full.createInstance
 
@@ -7,7 +9,7 @@ import kotlin.reflect.full.createInstance
  * Created by a.minkin on 21.11.2017.
  */
 interface IController : IMultitonKey {
-    val commandMap: MutableMap<String, ICommand?>
+    val commandMap: ArrayMap<String, ICommand?>
     val view: IView
 }
 
@@ -43,7 +45,8 @@ fun IController.removeCommand(notificationName: String) {
     if (this.hasCommand(notificationName)) {
         // remove the observer
         this.view.removeObserver(notificationName, this)
-        this.commandMap.remove(notificationName)
+        // remove command and clear mapped commands if it's the MacroCommand only
+        (this.commandMap.remove(notificationName) as? MacroCommand)?.clear()
     }
 }
 
@@ -65,6 +68,8 @@ inline fun <reified T : ICommand> IController.registerCommand(notificationName: 
         // Only fresh commands can register observers
         if (inst.multitonKey.isEmpty()) {
             inst.multitonKey = this.multitonKey
+            // we manually initialize the MacroCommand
+            (inst as? MacroCommand)?.initializeMacroCommand()
         }
          inst
     }

@@ -1,17 +1,13 @@
 package com.rasalexman.flairframework.ext
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.ImageView
+import android.widget.TextView
 import com.rasalexman.flairframework.BuildConfig
 import com.rasalexman.flairframework.interfaces.FacadeInitializer
 import com.rasalexman.flairframework.interfaces.IFacade
@@ -85,14 +81,26 @@ fun ImageView.clear() {
     this.setImageResource(0)
     this.setImageBitmap(null)
     this.setImageDrawable(null)
+    this.background = null
 }
 
 /**
  * Clear button
  */
 fun Button.clear() {
+    this.background = null
     this.setOnClickListener(null)
     this.text = null
+}
+
+/**
+ * Clear TextView
+ */
+fun TextView.clear() {
+    this.text = null
+    this.setOnClickListener(null)
+    this.setCompoundDrawables(null, null, null, null)
+    this.background = null
 }
 
 /**
@@ -106,11 +114,7 @@ fun ViewGroup.clear() {
             is ViewGroup -> (childView as ViewGroup).clear()
             is ImageView -> (childView as ImageView).clear()
             is Button -> (childView as Button).clear()
-            is TextView -> {
-                (childView as TextView).text = null
-                (childView as TextView).setOnClickListener(null)
-                (childView as TextView).setCompoundDrawables(null, null, null, null)
-            }
+            is TextView -> (childView as TextView).clear()
             is CompoundButton -> {
                 (childView as CompoundButton).text = null
                 (childView as CompoundButton).setOnCheckedChangeListener(null)

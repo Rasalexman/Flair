@@ -33,7 +33,7 @@ abstract class Mediator : Notifier(), IMediator {
      *
      * @return String[] the list of `INotification` names
      */
-    override val listNotificationInterests: ArrayList<String> = arrayListOf()
+    override val listNotificationInterests = mutableListOf<String>()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {}
     override fun onPrepareOptionsMenu(menu: Menu) {}
@@ -78,6 +78,24 @@ abstract class Mediator : Notifier(), IMediator {
     override fun onRemove() {}
     /////------------------------/////
 
+    ////---------- Animation change handlers -------////
+    /**
+     * Called when animation is starting
+     *
+     * @param isShow
+     * Flag that indicates is this starting a showing animation for current mediator
+     */
+    override fun onAnimationStart(isShow: Boolean) {}
+
+    /**
+     * Called when animation is finished
+     *
+     * @param isShow
+     * Flag that indicates is this starting a showing animation for current mediator
+     */
+    override fun onAnimationFinish(isShow: Boolean) {}
+    ////--------------------------////
+
     /**
      * Called when meditor request onStartActivityForResult method
      */
@@ -89,7 +107,9 @@ abstract class Mediator : Notifier(), IMediator {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {}
 
 
-    ///----- Hardware button back handler
+    /**
+     * Hardware button back handler
+     */
     override fun handleBackButton(animation: IAnimator?): Boolean {
         return if(isAdded && !isDestroyed) {
             popToBack(animation)

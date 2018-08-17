@@ -1,6 +1,7 @@
 package com.rasalexman.flairframework.interfaces
 
 import android.content.Context
+import android.util.ArrayMap
 import android.view.ViewGroup
 import com.rasalexman.flairframework.core.FlairActivity
 import com.rasalexman.flairframework.core.animation.LinearAnimator
@@ -46,6 +47,9 @@ interface IFacade : INotifier {
      */
     fun attach(activity: FlairActivity, container: ViewGroup? = null): IFacade
 
+    /**
+     * Static object holder
+     */
     companion object : IMapper<IFacade> {
         /**
          * Default key for single facade core
@@ -54,7 +58,7 @@ interface IFacade : INotifier {
         /**
          * Global storage for all instance cores of IFacade
          */
-        override val instanceMap: MutableMap<String, IFacade> = mutableMapOf()
+        override val instanceMap  = ArrayMap<String, IFacade>()
 
         /**
          * Facade Multiton Factory method.

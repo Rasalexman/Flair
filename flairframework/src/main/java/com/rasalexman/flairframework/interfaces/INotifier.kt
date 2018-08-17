@@ -1,9 +1,6 @@
 package com.rasalexman.flairframework.interfaces
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
 import com.rasalexman.flairframework.core.FlairActivity
 import com.rasalexman.flairframework.ext.flair
 
@@ -103,8 +100,8 @@ val INotifier.appContext:Context
  * Attached to facade single activity
  */
 val INotifier.activity: FlairActivity
-    get() = if (facade.view.currentActivity == null) throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
-    else facade.view.currentActivity!!
+    get() = if (facade.view.currentActivity?.get() == null) throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
+    else facade.view.currentActivity!!.get()!!
 
 /**
  * Register or Retrieve an instance of flair core
