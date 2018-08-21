@@ -7,4 +7,23 @@
     <string name="action_new">New user</string>
     <string name="action_blacklist">Blacklist</string>
     <string name="action_sort">Sort</string>
+
+    <string name="nameTF">Name</string>
+    <string name="passTF">Password</string>
+    <string name="logInTF">Enter</string>
+    <string name="emailTF">Email</string>
+    <string name="okTF">OK</string>
+    <string name="backTF">Back</string>
+    <string name="registerTF">Registration</string>
+    <string name="registerFinishTF">Next</string>
+    <string name="haveAccTF">Have an account? Sing up</string>
+    <string name="warningTF">Warning</string>
+    <string name="submitTF">Send</string>
+    <string name="passRepeatTF">Repeat password</string>
+    <string name="forgotPassTF">Forgot Pass?</string>
+    <string name="notSetNameTF">Set the name</string>
+    <string name="notSetEmailTF">Set the email</string>
+    <string name="notSetPassTF">Pass error</string>
+    <string name="minPassErrorTF">Min length of path is</string>
+    <string name="notEqualPassTF">Wrong password</string>
 </resources>

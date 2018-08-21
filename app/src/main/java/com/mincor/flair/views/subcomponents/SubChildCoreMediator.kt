@@ -14,7 +14,7 @@ class SubChildCoreMediator : Mediator() {
     override fun createLayout(context: Context): View = SubChildUI().createView(AnkoContext.create(context, this))
 
     fun onAnotherClickHandler() {
-        showMediator<NextSubChildMediator>(null, LinearAnimator())
+        showMediator<NextSubChildMediator>(LinearAnimator())
     }
 
     inner class SubChildUI : AnkoComponent<SubChildCoreMediator> {

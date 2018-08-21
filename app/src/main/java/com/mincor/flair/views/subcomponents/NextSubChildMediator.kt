@@ -29,7 +29,7 @@ class NextSubChildMediator : Mediator(), NextSubProxy.IView {
     }
 
     fun onAnotherClickHandler() {
-        showMediator<NextSubChildMediator>(UUID.randomUUID().toString(), LinearAnimator())
+        showMediator<NextSubChildMediator>(LinearAnimator(), UUID.randomUUID().toString())
     }
 
     inner class NextChildUI : AnkoComponent<NextSubChildMediator> {

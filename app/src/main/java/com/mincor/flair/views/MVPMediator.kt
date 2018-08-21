@@ -125,7 +125,7 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun onShowAnotherMediator() {
-        showMediator<MVPMediator>("str${Math.random() * 10000 * 10000}", LinearAnimator())
+        showMediator<MVPMediator>(LinearAnimator(), "str${Math.random() * 10000 * 10000}")
     }
 
     fun showMVVMAGAIN() {

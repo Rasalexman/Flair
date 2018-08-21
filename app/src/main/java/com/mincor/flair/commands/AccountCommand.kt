@@ -15,7 +15,7 @@ class AccountCommand : SimpleCommand() {
 
         when (notification.name) {
             ACCOUNT_CHANGE -> {
-                val body = notification.body as? ArrayList<String>
+                val body = notification.body as? List<String>
                 body?.let {
                     accountProxy.changeAccount(body[0], body[1])
                 }

@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import com.mincor.askme.mediators.login.LoginMediator
 import com.mincor.flair.R
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.MVVMProxy
@@ -17,6 +18,7 @@ import com.mincor.flair.proxies.rand
 import com.mincor.flair.proxies.vo.AccountModel
 import com.mincor.flair.proxies.vo.UserModel
 import com.mincor.flair.utils.Keyboards
+import com.mincor.flair.utils.dip16
 import com.rasalexman.flairframework.core.animation.LinearAnimator
 import com.rasalexman.flairframework.ext.log
 import com.rasalexman.flairframework.interfaces.*
@@ -90,7 +92,7 @@ class MVVMMediator : ToolbarMediator() {
     }
 
     private fun onChangeDataClicked() {
-        sendNotification(Events.ACCOUNT_CHANGE, arrayListOf("${UUID.randomUUID()}", "id_${rand(1, 100_000)}"))
+        sendNotification(Events.ACCOUNT_CHANGE, listOf("${UUID.randomUUID()}", "id_${rand(1, 100_000)}"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -158,12 +160,22 @@ class MVVMMediator : ToolbarMediator() {
 
                 button("GENERATE LIVE DATA") {
                     onClick { onChangeDataClicked() }
+                }.lparams(matchParent) {
+                    bottomMargin = dip16()
                 }
 
                 button("show view pager") {
                     onClick {
-                        showMediator<ViewPagerMediator>()
+                        showMediator<ViewPagerMediator>(LinearAnimator())
                     }
+                }
+
+                button("show login mediator") {
+                    onClick {
+                        showMediator<LoginMediator>(LinearAnimator())
+                    }
+                }.lparams(matchParent) {
+                    bottomMargin = dip16()
                 }
 
                 button("show alert pop up") {
