@@ -169,6 +169,18 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.2.3:
+1) fixed bug in IView.hideMediator when pop curent Mediator after animation changed
+2) added hashBackButton:Boolean to ToolbarMediator
+3) minSdkVersion 19
+4) split inner classes from com.rasalexman.flairframework.core.animation.* to AnimationPreDrawListener, BaseAnimationListenerAdapter and added abstract class BaseAnimator
+5) changed MutableMap to ArrayMap for memory improvements
+6) View.currentActivity is WeakReference
+7) changed MacroCommand.initializeMacroCommand from constructor to IController.registerCommand
+8) added IMediator.onAnimationStart and IMediator.onAnimationFinish
+9) added IMediator.removeMediator
+10) Docs added, plus a lot of memory improvements and code refactoring. 
+
 * 1.2.0:
 1) Change `flair` package name to `com.rasalexman.flairframework`
 2) Added IMediator.startActivity(intent:Intend, bundle:Bundle? = null) for start another activity from mediators
