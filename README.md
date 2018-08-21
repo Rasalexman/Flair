@@ -169,6 +169,10 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.2.4
+1) added some useful extension functions
+2) Model is final class now
+
 * 1.2.3:
 1) fixed bug in IView.hideMediator when pop curent Mediator after animation changed
 2) added hashBackButton:Boolean to ToolbarMediator
