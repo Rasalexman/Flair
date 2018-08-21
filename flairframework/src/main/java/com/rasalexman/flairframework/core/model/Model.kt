@@ -9,7 +9,7 @@ import com.rasalexman.flairframework.interfaces.instance
 /**
  * Created by a.minkin on 21.11.2017.
  */
-open class Model private constructor(override var multitonKey: String) : IModel {
+class Model private constructor(override var multitonKey: String) : IModel {
     /**
      * Mapping of proxyNames to IProxy instances.
      */

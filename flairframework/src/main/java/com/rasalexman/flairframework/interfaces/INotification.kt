@@ -13,6 +13,14 @@ interface INotification {
 }
 
 /**
+ * Clear notification after it was pushed
+ */
+fun INotification.clear() {
+    body = null
+    type = null
+}
+
+/**
  * Get the string representation of the `Notification`
  * core.
  *

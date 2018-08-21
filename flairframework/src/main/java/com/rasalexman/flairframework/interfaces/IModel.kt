@@ -1,5 +1,6 @@
 package com.rasalexman.flairframework.interfaces
 
+import android.util.ArrayMap
 import com.rasalexman.flairframework.ext.className
 import com.rasalexman.flairframework.ext.createInstance
 import com.rasalexman.flairframework.ext.injectInConstructor
@@ -8,7 +9,7 @@ import com.rasalexman.flairframework.ext.injectInConstructor
  * Created by a.minkin on 21.11.2017.
  */
 interface IModel : IMultitonKey {
-    val proxyMap: MutableMap<String, IProxy<*>>
+    val proxyMap: ArrayMap<String, IProxy<*>>
 }
 
 /**

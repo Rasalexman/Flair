@@ -315,9 +315,10 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
                 it.addView(this)
                 this.x = 0f
                 this.y = 0f
-                onAddedView(this)
                 // mark flag about `viewComponent` is already added to hosted view container
                 isAdded = true
+                // call the lifecyrcle of view
+                onAddedView(this)
             }
         }
     }
@@ -334,8 +335,7 @@ fun IView.removeObserver(notificationName: String, notifyContext: Any) {
     this.observerMap[notificationName]?.let { list ->
         // Remove predicate notifications, also we clear observable references
         list.removeAll {
-            if (it.compareNotifyContext(notifyContext))
-                it.clear()
+            if (it.compareNotifyContext(notifyContext))it.clear()
             else false
         }
         // Also, when a Notification's Observer list length falls to

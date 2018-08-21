@@ -37,5 +37,6 @@ fun IObserver.compareNotifyContext(compareObj: Any): Boolean {
 fun IObserver.notifyObserver(notification: INotification) {
     this.notify?.let {
         it(notification)
+        notification.clear()
     }
 }

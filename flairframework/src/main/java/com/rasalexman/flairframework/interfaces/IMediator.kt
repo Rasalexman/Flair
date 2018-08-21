@@ -6,8 +6,10 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -317,7 +319,7 @@ inline fun <reified T : IMediator> IMediator.popTo(mediatorName: String? = null,
  * @param mediatorName
  * Mediator name to be showed
  */
-inline fun <reified T : IMediator> IMediator.showMediator(mediatorName: String? = null, animation: IAnimator? = null) {
+inline fun <reified T : IMediator> IMediator.showMediator(animation: IAnimator? = null, mediatorName: String? = null) {
     return facade.retrieveMediator<T>(mediatorName ?: T::class.className()).show(animation)
 }
 
@@ -327,8 +329,30 @@ inline fun <reified T : IMediator> IMediator.showMediator(mediatorName: String? 
 /**
  * Get app context resources
  */
-fun IMediator.resources(): Resources {
-    return appContext.resources
+val IMediator.resources: Resources
+    get() = appContext.resources
+
+/**
+ * Drawable from resource id
+ */
+fun IMediator.drawable(resource: Int, init:((Drawable?)->Drawable?)? = null): Drawable? = init?.let {
+    it(ContextCompat.getDrawable(appContext, resource))
+} ?: ContextCompat.getDrawable(appContext, resource)
+
+/***
+ * Custom View For somethings like rounded drawable
+ * */
+fun IMediator.roundedBg(col: Int, corners: Float = 100f, withStroke: Boolean = false, strokeColor: Int = Color.LTGRAY, strokeWeight: Int = 2) = GradientDrawable().apply {
+    shape = GradientDrawable.RECTANGLE
+    cornerRadius = corners
+    setColor(col)
+    if (withStroke) setStroke(strokeWeight, strokeColor)
+}
+
+fun gradientBg(colors: Array<Int>, orient: GradientDrawable.Orientation = GradientDrawable.Orientation.BOTTOM_TOP, corners: Float = 0f, withStroke: Boolean = false, strokeColor: Int = Color.LTGRAY, strokeWeight: Int = 2 ): GradientDrawable = GradientDrawable(orient, colors.toIntArray()).apply {
+    shape = GradientDrawable.RECTANGLE
+    cornerRadius = corners
+    if (withStroke) setStroke(strokeWeight, strokeColor)
 }
 
 /**
@@ -337,48 +361,38 @@ fun IMediator.resources(): Resources {
  * @param resId
  * Resource view identificator like `R.id.my_button_id`
  */
-inline fun <reified T : View> IMediator.view(resId: Int): Lazy<T?> = lazy {
+inline infix fun <reified T : View> IMediator.view(resId: Int): Lazy<T?> = lazy {
     viewComponent?.findViewById(resId) as? T
+}
+
+
+/**
+ * Color from resources id
+ */
+fun IMediator.color(resource: Int): Int = if (Build.VERSION.SDK_INT >= 23) appContext.getColor(resource) else appContext.resources.getColor(resource)
+
+/**
+ * For adaptive procent width
+ */
+fun IMediator.wdthProc(proc: Float): Int {
+    val dm = DisplayMetrics()
+    activity.windowManager.defaultDisplay.getMetrics(dm)
+    return (dm.widthPixels * proc).toInt()
+}
+
+/**
+ * For adaptive procent height
+ */
+fun IMediator.hdthProc(proc: Float): Int {
+    val dm = DisplayMetrics()
+    activity.windowManager.defaultDisplay.getMetrics(dm)
+    return (dm.heightPixels * proc).toInt()
 }
 
 /**
  * Get a string resourses from app context by it id
  */
-fun IMediator.string(resId: Int): String {
-    return appContext.getString(resId)
-}
-
-/**
- * Drawable from resource id
- */
-fun IMediator.drawable(resource: Int): Drawable? = ContextCompat.getDrawable(appContext, resource)
-
-/***
- * Custom View For somethings like rounded drawable
- * */
-fun IMediator.roundedDrawable(col: Int, corners: Float = 100f, withStroke: Boolean = false, strokeColor: Int = Color.LTGRAY, strokeWeight: Int = 2) = GradientDrawable().apply {
-    shape = GradientDrawable.RECTANGLE
-    cornerRadius = corners
-    setColor(col)
-    if (withStroke) setStroke(strokeWeight, strokeColor)
-}
-
-/**
- * Color from resources id
- */
-fun IMediator.color(resource: Int): Int = ContextCompat.getColor(appContext, resource)
-
-/**
- * For adaptive procent width
- */
-fun IMediator.wdthProc(proc: Float): Int = (Resources.getSystem().displayMetrics.widthPixels * proc).toInt()
-
-/**
- * For adaptive procent height
- */
-fun IMediator.hdthProc(proc: Float): Int = (Resources.getSystem().displayMetrics.heightPixels * proc).toInt()
-
-
+fun IMediator.string(resId: Int): String = appContext.getString(resId)
 
 
 

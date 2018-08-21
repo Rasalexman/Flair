@@ -124,6 +124,31 @@ fun ViewGroup.clear() {
 }
 
 /**
+ * Hide or show view by boolean flag
+ */
+var android.view.View.visible
+    get() = visibility == View.VISIBLE
+    set(value) {
+        visibility = if (value) View.VISIBLE else View.GONE
+    }
+
+/**
+ * Hide view with optional param
+ * @param gone
+ * Does the view removed from parent (optional true)
+ */
+fun android.view.View.hide(gone: Boolean = true) {
+    visibility = if (gone) View.GONE else View.INVISIBLE
+}
+
+/**
+ * Show the view
+ */
+fun android.view.View.show() {
+    visibility = View.VISIBLE
+}
+
+/**
  * Instantiate new Facade for given core name
  *
  * @param key

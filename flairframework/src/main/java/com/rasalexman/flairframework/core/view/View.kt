@@ -135,19 +135,23 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
             fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
             // unregister lifecyrcle callbacks
             it.application?.unregisterActivityLifecycleCallbacks(this)
-            currentActivity = null
-
+            
             // clear mediator view and follow it's lifecyrcle cause we need to recreate view, but don't need to remove from backstack
             mediatorBackStack.forEach { iMediator ->
                 iMediator.hide()
+                // we also need to clear mediator view cause it referenced to current activity that should be destroyed
                 clearMediatorView(iMediator)
             }
-            // clear current mediator reference
-            currentShowingMediator = null
             // clear container and it's reference
+            currentContainer?.clear()
             currentContainer?.removeAllViews()
             currentContainer = null
-
+            // clear the reference of current mediator
+            currentShowingMediator = null
+            // clear reference to the activity
+            currentActivity?.clear()
+            currentActivity = null
+            //
             isAlreadyRegistered = false
         }
     }
