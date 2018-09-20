@@ -111,7 +111,7 @@ abstract class Mediator : Notifier(), IMediator {
      * Hardware button back handler
      */
     override fun handleBackButton(animation: IAnimator?): Boolean {
-        return if(isAdded && !isDestroyed) {
+        return if (isAdded && !isDestroyed) {
             popToBack(animation)
             true
         } else false

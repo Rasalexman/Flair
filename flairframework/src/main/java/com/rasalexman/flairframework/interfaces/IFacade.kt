@@ -143,7 +143,7 @@ inline fun <reified T : IMediator> IFacade.hasMediator(mediatorName: String? = n
  * @param animation
  * Instance of current animation
  */
-inline fun <reified T : IMediator> IFacade.showMeditator(mapName: String? = null, popLast: Boolean = false, animation: IAnimator? = null) {
+inline fun <reified T : IMediator> IFacade.showMediator(mapName: String? = null, popLast: Boolean = false, animation: IAnimator? = null) {
     if (hasMediator<T>(mapName)) view.showMediator(mapName
             ?: T::class.className(), popLast, animation)
     else retrieveMediator<T>(mapName).show(animation, popLast)

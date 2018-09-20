@@ -246,7 +246,7 @@ fun IMediator.removeAllObservers() {
  * Flag that indicates to need remove last showing mediator from backstack
  */
 fun IMediator.show(animation: IAnimator? = null, popLast: Boolean = false) {
-    facade.showMeditator<IMediator>(this.mediatorName ?: this.className(), popLast, animation)
+    facade.showMediator<IMediator>(this.mediatorName ?: this.className(), popLast, animation)
 }
 
 /**
@@ -335,7 +335,7 @@ val IMediator.resources: Resources
 /**
  * Drawable from resource id
  */
-fun IMediator.drawable(resource: Int, init:((Drawable?)->Drawable?)? = null): Drawable? = init?.let {
+fun IMediator.drawable(resource: Int, init: ((Drawable?) -> Drawable?)? = null): Drawable? = init?.let {
     it(ContextCompat.getDrawable(appContext, resource))
 } ?: ContextCompat.getDrawable(appContext, resource)
 
@@ -349,7 +349,7 @@ fun IMediator.roundedBg(col: Int, corners: Float = 100f, withStroke: Boolean = f
     if (withStroke) setStroke(strokeWeight, strokeColor)
 }
 
-fun gradientBg(colors: Array<Int>, orient: GradientDrawable.Orientation = GradientDrawable.Orientation.BOTTOM_TOP, corners: Float = 0f, withStroke: Boolean = false, strokeColor: Int = Color.LTGRAY, strokeWeight: Int = 2 ): GradientDrawable = GradientDrawable(orient, colors.toIntArray()).apply {
+fun gradientBg(colors: Array<Int>, orient: GradientDrawable.Orientation = GradientDrawable.Orientation.BOTTOM_TOP, corners: Float = 0f, withStroke: Boolean = false, strokeColor: Int = Color.LTGRAY, strokeWeight: Int = 2): GradientDrawable = GradientDrawable(orient, colors.toIntArray()).apply {
     shape = GradientDrawable.RECTANGLE
     cornerRadius = corners
     if (withStroke) setStroke(strokeWeight, strokeColor)

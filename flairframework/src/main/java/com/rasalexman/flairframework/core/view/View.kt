@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.ArrayMap
 import android.view.Menu
@@ -257,7 +258,11 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * @param permissionToCheck
      * Name of the permission ex Manifest.permission.READ_CONTACTS
      */
-    override fun checkSelfPermission(permissionToCheck: String): Int = this.checkSelfPermission(permissionToCheck)
+    override fun checkSelfPermission(permissionToCheck: String): Int {
+        return currentActivity?.get()?.let {
+            ContextCompat.checkSelfPermission(it, permissionToCheck)
+        } ?: -1
+    }
 
 
     /////////------------------------------------///////

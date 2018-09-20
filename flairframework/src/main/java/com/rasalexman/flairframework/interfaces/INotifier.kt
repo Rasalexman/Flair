@@ -100,8 +100,7 @@ val INotifier.appContext:Context
  * Attached to facade single activity
  */
 val INotifier.activity: FlairActivity
-    get() = if (facade.view.currentActivity?.get() == null) throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
-    else facade.view.currentActivity!!.get()!!
+    get() = facade.view.currentActivity?.get() ?: throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
 
 /**
  * Register or Retrieve an instance of flair core

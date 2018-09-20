@@ -39,17 +39,17 @@ fun <T : Any> KClass<T>.createInstance(values: List<Any>? = null): T {
 /**
  * Inject given params to constructor instance members
  */
-fun Any.injectInConstructor(consParams:List<Any>? = null):Any {
-    consParams?.let {params ->
+fun Any.injectInConstructor(consParams: List<Any>? = null): Any {
+    consParams?.let { params ->
         val members = this.javaClass.kotlin.memberProperties as? List<KProperty1<Any, Any>>
         members?.let {
             val ms = it.size
             params.forEachIndexed { index, param ->
-                if(ms > index){
+                if (ms > index) {
                     val kProperty1 = it[index]
                     val paramName = param.className()
-                    val propName = kProperty1.returnType.toString().replace("?","")
-                    if(paramName == propName) {
+                    val propName = kProperty1.returnType.toString().replace("?", "")
+                    if (paramName == propName) {
                         (kProperty1 as? KMutableProperty1<Any, Any>)?.set(this, param)
                     }
                 }
