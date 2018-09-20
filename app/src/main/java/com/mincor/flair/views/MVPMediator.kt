@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.provider.ContactsContract
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ListView
@@ -58,12 +60,12 @@ class MVPMediator : ToolbarMediator() {
     }
 
     private fun pickContact() {
-        //val pickContactIntent = Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"))
-        //pickContactIntent.type = Phone.CONTENT_TYPE // Show user only contacts w/ phone numbers
-        //startActivityForResult(pickContactIntent, 1001)
+        val pickContactIntent = Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"))
+        pickContactIntent.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE // Show user only contacts w/ phone numbers
+        startActivityForResult(pickContactIntent, 1001)
 
         // Here, thisActivity is the current activity
-        if (checkSelfPermission(Manifest.permission.READ_CONTACTS)
+        /*if (checkSelfPermission(Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Permission is not granted
@@ -83,7 +85,7 @@ class MVPMediator : ToolbarMediator() {
             }
         } else {
             // Permission has already been granted
-        }
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -99,9 +101,11 @@ class MVPMediator : ToolbarMediator() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    activity.toast("PERMISSION GRANTED").show()
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+                    activity.toast("PERMISSION DENIED").show()
                 }
                 return
             }
