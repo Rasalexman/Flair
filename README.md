@@ -171,6 +171,10 @@ implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
 
 Changelog:
 ----
+* 1.2.5
+1) fix bug with IView.checkSelfPermission(permissionToCheck: String)
+2) update kotlin version to 1.2.70
+
 * 1.2.4
 1) added some useful extension functions
 2) Model is final class now
