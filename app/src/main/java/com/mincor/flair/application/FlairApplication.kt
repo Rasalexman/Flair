@@ -26,13 +26,13 @@ class FlairApplication : Application() {
 
 
     /// That's how u register ur flair components
-    /*private val flairFirstCore = flair {
+    private val flairFirstCore = flair {
         registerCommand<StartupCommand>(STARTUP)
         registerCommand<UserAuthCommand>(AUTH)
         registerCommand<AccountCommand>(ACCOUNT_CHANGE)
         registerCommand<AccountCommand>(ACCOUNT_CLEAR)
         registerCommand<LogicMacroCommand>(LOGIC_START)
-    }*/
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -47,6 +47,6 @@ class FlairApplication : Application() {
             sendNotification(STARTUP)
         }*/
 
-        //flairFirstCore.sendNotification(STARTUP)
+        flairFirstCore.sendNotification(STARTUP)
     }
 }

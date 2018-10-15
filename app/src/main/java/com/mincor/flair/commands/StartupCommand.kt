@@ -27,7 +27,7 @@ class StartupCommand : SimpleCommand() {
         val resolver = appContext.contentResolver
 
         // proxyLazy with web service Retrofit
-        //facade.registerProxy<NetProxy>(createWebServiceApi<IWebService>(createOkHttpClient(cm, takeDeviceID(resolver)),"https://app.dp.ru/api/v1.0/"))
+        facade.registerProxy<NetProxy>(createWebServiceApi<IWebService>(createOkHttpClient(cm, takeDeviceID(resolver)),"https://app.dp.ru/api/v1.0/"))
 
         //facade.registerProxy<MVVMProxy>()
         //facade.registerProxy<LiveDataProxy>()
