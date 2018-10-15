@@ -15,6 +15,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import com.rasalexman.flairframework.ext.className
+import kotlin.properties.ReadWriteProperty
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -183,7 +184,6 @@ fun IMediator.checkSelfPermission(permissionToCheck: String): Int = facade.view.
  * Should we show permission description dialog for user
  */
 fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean = facade.view.shouldShowRequestPermissionRationale(permission)
-
 
 /**
  * Register a list of `INotification` interests.
@@ -369,7 +369,7 @@ inline infix fun <reified T : View> IMediator.view(resId: Int): Lazy<T?> = lazy 
 /**
  * Color from resources id
  */
-fun IMediator.color(resource: Int): Int = if (Build.VERSION.SDK_INT >= 23) appContext.getColor(resource) else appContext.resources.getColor(resource)
+fun IMediator.color(resource: Int): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) appContext.getColor(resource) else appContext.resources.getColor(resource)
 
 /**
  * For adaptive procent width
@@ -393,6 +393,25 @@ fun IMediator.hdthProc(proc: Float): Int {
  * Get a string resourses from app context by it id
  */
 fun IMediator.string(resId: Int): String = appContext.getString(resId)
+
+/**
+ * Get optional
+ */
+fun <T : Any?> IMediator.optional(
+        defaultValue: T? = null
+): Lazy<ReadWriteProperty<Any?, T?>> = lazy {
+    this.facade.optionalValue(defaultValue)
+}
+
+/**
+ *
+ */
+fun <T : Any> IMediator.nonNull(
+        defaultValue: T
+): Lazy<ReadWriteProperty<Any?, T>> = lazy {
+    this.facade.notNullValue(defaultValue)
+}
+
 
 
 

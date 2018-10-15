@@ -14,8 +14,7 @@ import com.rasalexman.flairframework.interfaces.IFacade
  * Created by a.minkin on 21.11.2017.
  */
 class Facade(override var multitonKey: String,
-             override val appContext: Context,
-             facadeInitializer: FacadeInitializer? = null) : IFacade {
+             override val appContext: Context) : IFacade {
 
     /**
      * Lazy IFacade instance
@@ -36,23 +35,4 @@ class Facade(override var multitonKey: String,
      * Reference to the View
      */
     override val view by lazy { View.getInstance(multitonKey) }
-
-    init {
-        facadeInitializer?.let { it() }
-    }
-
-    /**
-     * Attach current activity and parent container to this core
-     * only one core can has one activity to attach, we cant reattach activity to the core
-     *
-     * @param activity
-     * Current Activity to attach the core
-     *
-     * @param container
-     * Current container (ViewGroup) to add childs viewComponents from Mediators
-     */
-    override fun attach(activity: FlairActivity, container: ViewGroup?): IFacade {
-        view.attachActivity(activity, container)
-        return this
-    }
 }

@@ -15,6 +15,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.allSuperclasses
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
@@ -34,6 +35,11 @@ fun <T : Any> KClass<T>.createInstance(values: List<Any>? = null): T {
         }
     }
     return cons.callBy(valmap)
+}
+
+fun <T : Any>filterSupers(kClass:KClass<T>, countParams:Int) {
+    val cons = kClass.allSuperclasses
+
 }
 
 /**

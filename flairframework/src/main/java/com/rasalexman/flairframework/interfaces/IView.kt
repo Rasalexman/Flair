@@ -16,6 +16,11 @@ import java.lang.ref.WeakReference
 interface IView : IMultitonKey {
 
     /**
+     * Bundle for save parameters when configuration change
+     */
+    val stateBundle:Bundle
+
+    /**
      * Storage for all IMedaitor instances when it gonna be registered
      */
     val mediatorMap: ArrayMap<String, IMediator>
@@ -312,12 +317,13 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
         // safe add view to container
         viewComponent?.apply {
             currentContainer?.let {
+                this.removeFromParent()
                 it.addView(this)
                 this.x = 0f
                 this.y = 0f
                 // mark flag about `viewComponent` is already added to hosted view container
                 isAdded = true
-                // call the lifecyrcle of view
+                // call the lifecycle of view
                 onAddedView(this)
             }
         }

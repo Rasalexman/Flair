@@ -1,8 +1,11 @@
 package com.rasalexman.flairframework.interfaces
 
+import android.app.Activity
 import android.content.Context
 import android.util.ArrayMap
 import android.view.ViewGroup
+import com.rasalexman.flairframework.common.bundle.NotNullStateProvider
+import com.rasalexman.flairframework.common.bundle.NullableStateProvider
 import com.rasalexman.flairframework.core.FlairActivity
 import com.rasalexman.flairframework.core.animation.LinearAnimator
 import com.rasalexman.flairframework.core.controller.Controller
@@ -12,6 +15,7 @@ import com.rasalexman.flairframework.ext.className
 import com.rasalexman.flairframework.patterns.facade.Facade
 import com.rasalexman.flairframework.patterns.observer.Notification
 import com.rasalexman.flairframework.patterns.observer.Observer
+import kotlin.properties.ReadWriteProperty
 
 typealias FacadeInitializer = IFacade.() -> Unit
 
@@ -37,16 +41,6 @@ interface IFacade : INotifier {
      */
     val view: IView
 
-    /***
-     * Attach main Activity class to current Facade Core
-     * @param activity
-     * Activity for attachment and life-cyrcle handled
-     *
-     * @param container
-     * Container for add/remove ui
-     */
-    fun attach(activity: FlairActivity, container: ViewGroup? = null): IFacade
-
     /**
      * Static object holder
      */
@@ -58,16 +52,31 @@ interface IFacade : INotifier {
         /**
          * Global storage for all instance cores of IFacade
          */
-        override val instanceMap  = ArrayMap<String, IFacade>()
+        override val instanceMap = ArrayMap<String, IFacade>()
 
         /**
          * Facade Multiton Factory method.
          *
+         * @param key
+         * the name and multiton key for this IFacade core
+         *
+         * @param context
+         * Application or Activity main classes
+         *
+         * @param init
+         * init function for this core
+         *
          * @return the Multiton core of the Facade
          */
-        fun core(key: String = DEFAULT_KEY, context: Context? = null, init: FacadeInitializer? = null): IFacade = instance(key) {
-            if (context == null) throw RuntimeException("You need to specified `context` for this core")
-            Facade(key, context, init)
+        fun core(key: String = DEFAULT_KEY, context: Context? = null, init: FacadeInitializer? = null): IFacade {
+            val facade = instance(key) {
+                if (context == null) throw RuntimeException("You need to specified `context` for this core")
+                Facade(key, if (context is Activity) context.applicationContext else context)
+            }
+            init?.let {
+                facade.it()
+            }
+            return facade
         }
 
         /**
@@ -96,6 +105,7 @@ interface IFacade : INotifier {
 }
 
 /////---------- INLINE SECTION -----///
+
 /**
  * Retrieve an `IMediator` core from the `View`.
  *
@@ -191,6 +201,20 @@ inline fun <reified T : IProxy<*>> IFacade.hasProxy(): Boolean = this.model.hasP
 
 
 ////------------- EXTENSIONS FUNCTION -----////
+/**
+ * Attach current activity and parent container to this core
+ * only one core can has one activity to attach, we cant reattach activity to the core
+ *
+ * @param activity
+ * Current Activity to attach the core
+ *
+ * @param container
+ * Current container (ViewGroup) to add childs viewComponents from Mediators
+ */
+fun IFacade.attach(activity: FlairActivity, container: ViewGroup? = null): IFacade {
+    view.attachActivity(activity, container)
+    return this
+}
 
 /**
  * Hide current mediator by the name and remove it from backstack then show last added mediator at backstack
@@ -241,7 +265,7 @@ fun IFacade.registerObserver(notifName: String, notificator: INotificator) {
  * @param observerContext
  * this is a context for observable compare
  */
-fun IFacade.removeObserver(notifName: String, observerContext:Any) {
+fun IFacade.removeObserver(notifName: String, observerContext: Any) {
     view.removeObserver(notifName, observerContext)
 }
 
@@ -301,3 +325,17 @@ fun IFacade.handleBackButton(animation: IAnimator? = LinearAnimator()): Boolean 
     }
     return false
 }
+
+/**
+ * Get optional value from saveState Bundle
+ */
+fun <T : Any?> IFacade.optionalValue(
+        defaultValue: T? = null
+): ReadWriteProperty<Any?, T?> = NullableStateProvider(defaultValue) { this.view.stateBundle }
+
+/**
+ *
+ */
+fun <T : Any> IFacade.notNullValue(
+        defaultValue: T
+): ReadWriteProperty<Any?, T> = NotNullStateProvider(defaultValue) { this.view.stateBundle }

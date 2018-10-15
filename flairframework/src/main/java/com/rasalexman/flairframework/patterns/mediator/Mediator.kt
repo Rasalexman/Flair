@@ -15,7 +15,10 @@ import com.rasalexman.flairframework.patterns.observer.Notifier
 /**
  * Created by a.minkin on 21.11.2017.
  */
-abstract class Mediator : Notifier(), IMediator {
+abstract class Mediator : Notifier, IMediator {
+
+    constructor()
+    constructor(multitonKey:String) : super(multitonKey)
 
     override var viewComponent: View? = null            // current view of mediator
     override var hasOptionalMenu: Boolean = false       // does view get opt menu
@@ -25,7 +28,7 @@ abstract class Mediator : Notifier(), IMediator {
     override var mediatorName: String? = null           // Current mediator name for put in backStack
 
     override val arguments: Bundle
-        get() = facade.view.getArguments()!!
+        get() = facade.view.stateBundle
 
     /**
      * List the `INotification` names this `Mediator`

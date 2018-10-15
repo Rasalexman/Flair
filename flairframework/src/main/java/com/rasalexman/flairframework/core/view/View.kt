@@ -25,6 +25,8 @@ import java.lang.ref.WeakReference
  */
 class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
+    override val stateBundle: Bundle
+        get() = arguments ?: Bundle()
     /**
      * Main key for IFacade instance core
      */
@@ -54,7 +56,9 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     private var isAlreadyRegistered: Boolean = false
 
 
-    companion object : IMapper<View> {
+    companion object ViewMapper : IMapper<View> {
+        const val STATE_BUNDLE_KEY = "state_bundle_key"
+
         const val ACTIVITY_CREATED = "created"
         const val ACTIVITY_STARTED = "started"
         const val ACTIVITY_RESUMED = "resumed"
@@ -161,6 +165,10 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * Called when the IView is going to create
      */
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            stateBundle.putAll(savedInstanceState.getBundle(STATE_BUNDLE_KEY))
+        }
+
         super.onCreate(savedInstanceState)
         // every view has options menu by default
         setHasOptionsMenu(true)
@@ -230,6 +238,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
+        bundle.putBundle(STATE_BUNDLE_KEY, stateBundle)
         notifyObservers(Notification(ACTIVITY_STATE_SAVE, arguments))
         // only when activity change there configuration state ex rotate
         if(activity.isChangingConfigurations) detachActivity()
