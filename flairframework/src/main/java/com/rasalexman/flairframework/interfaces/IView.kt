@@ -113,7 +113,7 @@ inline fun <reified T : IMediator> IView.hasMediator(mediatorName: String? = nul
 inline fun <reified T : IMediator> IView.removeMediator(mediatorName: String? = null): IMediator? {
     val currentName = mediatorName ?: T::class.className()
     // Retrieve the named mediator
-    val mediator = mediatorMap[currentName]
+    val mediator = mediatorMap.remove(currentName)
     mediator?.apply {
         // hide mediator and remove from backstack
         hide(null, true)
@@ -124,8 +124,6 @@ inline fun <reified T : IMediator> IView.removeMediator(mediatorName: String? = 
         }
         listNotificationInterests.clear()
 
-        // remove the mediator from the map
-        mediatorMap.remove(mediatorName)
         // clear all references
         this.multitonKey = ""
         this.mediatorName = null
