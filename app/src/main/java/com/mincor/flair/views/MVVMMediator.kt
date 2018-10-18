@@ -132,67 +132,70 @@ class MVVMMediator : ToolbarMediator() {
 
     inner class UserAuthUI : AnkoComponent<MVVMMediator> {
         override fun createView(ui: AnkoContext<MVVMMediator>) = with(ui) {
-            verticalLayout {
-                lparams(matchParent, matchParent)
-                toolBar = toolbar {
-                    setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
-                    title = "Login"
-                    backgroundResource = R.color.colorPrimary
-                }
+            scrollView {
 
-                accountNameTV = editText(accountModel.socialName) {
-                    hint = "Username"
-                    imeOptions = EditorInfo.IME_ACTION_NEXT
-                    singleLine = true
-                }
-
-                passwordNameTV = editText(accountModel.pageId) {
-                    hint = "Password"
-                    singleLine = true
-                    imeOptions = EditorInfo.IME_ACTION_SEND
-                    inputType = InputType.TYPE_CLASS_TEXT
-                    onEditorAction { _, actionId, _ -> handleEditorAction(actionId) }
-                }
-
-                button("Login") {
-                    onClick { onLoginClicked() }
-                }
-
-                button("GENERATE LIVE DATA") {
-                    onClick { onChangeDataClicked() }
-                }.lparams(matchParent) {
-                    bottomMargin = dip16()
-                }
-
-                button("show view pager") {
-                    onClick {
-                        showMediator<ViewPagerMediator>(LinearAnimator())
+                verticalLayout {
+                    lparams(matchParent, matchParent)
+                    toolBar = toolbar {
+                        setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
+                        title = "Login"
+                        backgroundResource = R.color.colorPrimary
                     }
-                }
 
-                button("show login mediator") {
-                    onClick {
-                        showMediator<LoginMediator>(LinearAnimator())
+                    accountNameTV = editText(accountModel.socialName) {
+                        hint = "Username"
+                        imeOptions = EditorInfo.IME_ACTION_NEXT
+                        singleLine = true
                     }
-                }.lparams(matchParent) {
-                    bottomMargin = dip16()
-                }
 
-                button("show alert pop up") {
-                    onClick {
-                        onShowAlertPopUp()
+                    passwordNameTV = editText(accountModel.pageId) {
+                        hint = "Password"
+                        singleLine = true
+                        imeOptions = EditorInfo.IME_ACTION_SEND
+                        inputType = InputType.TYPE_CLASS_TEXT
+                        onEditorAction { _, actionId, _ -> handleEditorAction(actionId) }
                     }
-                }
 
-                button("show live data mediator") {
-                    onClick {
-                        showMediator<LiveDataMediator>()
+                    button("Login") {
+                        onClick { onLoginClicked() }
                     }
-                }
 
-                button("SHOW SUB CHILD MEDIATOR") {
-                    onClick {
-                        facade.retrieveMediator<AnotherCoreMediator>().show()
+                    button("GENERATE LIVE DATA") {
+                        onClick { onChangeDataClicked() }
+                    }.lparams(matchParent) {
+                        bottomMargin = dip16()
+                    }
+
+                    button("show view pager") {
+                        onClick {
+                            showMediator<ViewPagerMediator>(LinearAnimator())
+                        }
+                    }
+
+                    button("show login mediator") {
+                        onClick {
+                            showMediator<LoginMediator>(LinearAnimator())
+                        }
+                    }.lparams(matchParent) {
+                        bottomMargin = dip16()
+                    }
+
+                    button("show alert pop up") {
+                        onClick {
+                            onShowAlertPopUp()
+                        }
+                    }
+
+                    button("show live data mediator") {
+                        onClick {
+                            showMediator<LiveDataMediator>()
+                        }
+                    }
+
+                    button("SHOW SUB CHILD MEDIATOR") {
+                        onClick {
+                            facade.retrieveMediator<AnotherCoreMediator>().show()
+                        }
                     }
                 }
             }

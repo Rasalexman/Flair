@@ -1,6 +1,5 @@
 package com.mincor.flair.views
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,7 +14,9 @@ import com.mincor.flair.R
 import com.mincor.flair.adapters.SelectedListAdapter
 import com.mincor.flair.proxies.MVPProxy
 import com.mincor.flair.proxies.vo.Tag
+import com.rasalexman.flairframework.core.animation.BackLinearAnimator
 import com.rasalexman.flairframework.core.animation.LinearAnimator
+import com.rasalexman.flairframework.core.animation.NextLinearAnimator
 import com.rasalexman.flairframework.ext.log
 import com.rasalexman.flairframework.interfaces.*
 import org.jetbrains.anko.*
@@ -42,7 +43,7 @@ class MVPMediator : ToolbarMediator() {
     override fun onAddedView(view: View) {
         super.onAddedView(view)
         listViw?.adapter = SelectedListAdapter(
-                facade.view.mediatorBackStack.mapTo(arrayListOf()) { it.mediatorName!! }.toMutableList(),
+                facade.view.mediatorBackStack.asSequence().mapTo(arrayListOf()) { it.mediatorName!! }.toMutableList(),
                 ::onItemSelectedHandler
         )
     }
@@ -129,7 +130,7 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun onShowAnotherMediator() {
-        showMediator<MVPMediator>(LinearAnimator(), "str${Math.random() * 10000 * 10000}")
+        showMediator<MVPMediator>(NextLinearAnimator(), "str${Math.random() * 10000 * 10000}")
     }
 
     fun showMVVMAGAIN() {
@@ -160,7 +161,7 @@ class MVPMediator : ToolbarMediator() {
 
                 button("back") {
                     onClick {
-                        popToBack(LinearAnimator())
+                        popToBack(BackLinearAnimator())
                     }
                 }
 
