@@ -24,7 +24,13 @@ import com.rasalexman.flairframework.interfaces.IMediator
  * Need to remove last mediator
  *
  */
-class LinearAnimator(override var from: IMediator? = null, override var to: IMediator? = null, override var isShow: Boolean = true, override var duration: Long = 500, override var popLast: Boolean = false) : BaseAnimator() {
+open class LinearAnimator : BaseAnimator() {
+
+    override var from: IMediator? = null
+    override var to: IMediator? = null
+    override var isShow: Boolean = true
+    override var duration: Long = 500
+    override var popLast: Boolean = false
 
     /**
      * Get current animation
