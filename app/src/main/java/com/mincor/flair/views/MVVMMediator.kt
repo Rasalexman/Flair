@@ -24,8 +24,7 @@ import com.rasalexman.flairframework.ext.log
 import com.rasalexman.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
-import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.sdk25.coroutines.onEditorAction
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
 /**
@@ -153,7 +152,6 @@ class MVVMMediator : ToolbarMediator() {
                         singleLine = true
                         imeOptions = EditorInfo.IME_ACTION_SEND
                         inputType = InputType.TYPE_CLASS_TEXT
-                        onEditorAction { _, actionId, _ -> handleEditorAction(actionId) }
                     }
 
                     button("Login") {

@@ -12,7 +12,6 @@ import android.view.View
 import android.widget.ListView
 import com.mincor.flair.R
 import com.mincor.flair.adapters.SelectedListAdapter
-import com.mincor.flair.proxies.MVPProxy
 import com.mincor.flair.proxies.vo.Tag
 import com.rasalexman.flairframework.core.animation.BackLinearAnimator
 import com.rasalexman.flairframework.core.animation.LinearAnimator
@@ -21,7 +20,7 @@ import com.rasalexman.flairframework.ext.log
 import com.rasalexman.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
 class MVPMediator : ToolbarMediator() {
@@ -29,16 +28,9 @@ class MVPMediator : ToolbarMediator() {
     override var hasOptionalMenu: Boolean = true
     override var hashBackButton: Boolean = true
 
-    private val presenterProxy: MVPProxy by proxyLazy(this)
-
     private var listViw: ListView? = null
 
     override fun createLayout(context: Context): android.view.View = MvpUi().createView(AnkoContext.create(context, this))
-
-    override fun onCreatedView(view: View) {
-        super.onCreatedView(view)
-        presenterProxy.lazynessFunctionCall()
-    }
 
     override fun onAddedView(view: View) {
         super.onAddedView(view)

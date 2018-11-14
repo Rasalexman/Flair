@@ -17,7 +17,7 @@ import com.rasalexman.flairframework.interfaces.show
 import kotlinx.android.synthetic.main.simple_layout.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 /**
  * Created by a.minkin.

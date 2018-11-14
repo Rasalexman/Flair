@@ -16,7 +16,7 @@ import com.rasalexman.flairframework.interfaces.proxyLazyModel
 import com.rasalexman.flairframework.interfaces.sendNotification
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class LiveDataMediator : ToolbarMediator(), Observer<AccountModel> {
 

@@ -10,7 +10,7 @@ import com.mincor.flair.views.subcomponents.SubChildCoreMediator
 import com.rasalexman.flairframework.interfaces.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class AnotherCoreMediator : ToolbarMediator() {
 

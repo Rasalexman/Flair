@@ -16,7 +16,7 @@ import com.rasalexman.flairframework.ext.log
 import com.rasalexman.flairframework.interfaces.*
 import com.rasalexman.flairframework.patterns.mediator.Mediator
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 /**
  * Created by Alex on 22.01.2017.

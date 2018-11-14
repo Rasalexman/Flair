@@ -2,13 +2,8 @@ package com.mincor.flair.proxies
 
 import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.proxies.vo.UserModel
-import com.rasalexman.flairframework.ext.log
 import com.rasalexman.flairframework.interfaces.sendNotification
 import com.rasalexman.flairframework.patterns.proxy.Proxy
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -24,21 +19,6 @@ class UserProxy : Proxy<MutableList<UserModel>>(mutableListOf()) {
      * Authorization User
      */
     fun authorization(email: String, pass: String) {
-
-        // some coroutine scopes
-        launch(UI) {
-            val result = async(CommonPool) {
-                // do some network call or `hard` operation
-                var counter = 0
-                repeat(5) {
-                    log { "-----> email $email pass $pass" }
-                    counter++
-                }
-                counter
-            }
-
-            log { "${result.await()} count times " }
-        }
 
         sendNotification(ACCOUNT_CLEAR)
 
