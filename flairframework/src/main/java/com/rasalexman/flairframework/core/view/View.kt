@@ -229,19 +229,19 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         notifyObservers(Notification(ACTIVITY_STOPPED, activity))
         // if activity is finish there work we must clear the view
         // and all references to recreate view state manually when activity is wake up
-        if(activity.isFinishing) detachActivity()
+        if(this.currentActivity?.get()?.isFinishing == true) detachActivity()
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_DESTROYED, activity))
-        detachActivity()
+        if(this.currentActivity?.get() == activity) detachActivity()
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
         bundle.putBundle(STATE_BUNDLE_KEY, stateBundle)
         notifyObservers(Notification(ACTIVITY_STATE_SAVE, arguments))
         // only when activity change there configuration state ex rotate
-        if(activity.isChangingConfigurations) detachActivity()
+        if(this.currentActivity?.get()?.isChangingConfigurations == true) detachActivity()
     }
 
     /**

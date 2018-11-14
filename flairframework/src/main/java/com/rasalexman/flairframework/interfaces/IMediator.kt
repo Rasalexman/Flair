@@ -41,6 +41,14 @@ interface IMediator : INotifier {
      * Does IMediator `viewComponent` was destroyed
      */
     var isDestroyed: Boolean
+
+    /**
+     * Does this mediator need to be added in backstack.
+     * It's true by default
+     * so framework is automatically navigate you by his backstack store
+     */
+    var isAddToBackStack:Boolean
+
     /**
      * Current IMediator name for retrieving
      */

@@ -37,11 +37,6 @@ fun <T : Any> KClass<T>.createInstance(values: List<Any>? = null): T {
     return cons.callBy(valmap)
 }
 
-fun <T : Any>filterSupers(kClass:KClass<T>, countParams:Int) {
-    val cons = kClass.allSuperclasses
-
-}
-
 /**
  * Inject given params to constructor instance members
  */

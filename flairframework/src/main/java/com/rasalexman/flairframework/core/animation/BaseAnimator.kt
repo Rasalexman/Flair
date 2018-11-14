@@ -19,8 +19,8 @@ abstract class BaseAnimator : IAnimator {
         animator.duration = duration
         listenerAdapter = BaseAnimationListenerAdapter(::finishAnimation)
         animator.addListener(listenerAdapter)
-        to?.onAnimationStart(!popLast)
-        from?.onAnimationStart(!popLast)
+        to?.onAnimationStart(true)
+        from?.onAnimationStart(false)
         animator.start()
     }
 
@@ -32,10 +32,9 @@ abstract class BaseAnimator : IAnimator {
         animation.end()
         animation.cancel()
 
-        from?.onAnimationFinish(!popLast)
+        from?.onAnimationFinish(false)
         from?.hide(null, popLast)
-        to?.onAnimationFinish(!popLast)
-
+        to?.onAnimationFinish(true)
         clearAnimator()
     }
 

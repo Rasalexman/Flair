@@ -25,6 +25,7 @@ abstract class Mediator : Notifier, IMediator {
     override var hideOptionalMenu: Boolean = false      // Is hide optional menu
     override var isAdded: Boolean = false               // does mediator view added to hosted view container
     override var isDestroyed: Boolean = false           // does view destroyed
+    override var isAddToBackStack: Boolean = true       // does it's need to be added in backstack
     override var mediatorName: String? = null           // Current mediator name for put in backStack
 
     override val arguments: Bundle

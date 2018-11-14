@@ -257,6 +257,23 @@ fun IFacade.registerObserver(notifName: String, notificator: INotificator) {
 }
 
 /**
+ * Register a list of `INotification` interests.
+ *
+ * @param listNotification
+ * array of string notification names
+ *
+ * @param notificator
+ * the callback function
+ *
+ */
+fun IFacade.registerListObservers(listNotification: List<String>, notificator: INotificator): IFacade {
+    listNotification.forEach {
+        registerObserver(it, notificator)
+    }
+    return this
+}
+
+/**
  * Manually remove observer by given notification name and
  *
  * @param notifName

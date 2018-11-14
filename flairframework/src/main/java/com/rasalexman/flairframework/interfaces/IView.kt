@@ -113,10 +113,10 @@ inline fun <reified T : IMediator> IView.hasMediator(mediatorName: String? = nul
 inline fun <reified T : IMediator> IView.removeMediator(mediatorName: String? = null): IMediator? {
     val currentName = mediatorName ?: T::class.className()
     // Retrieve the named mediator
-    val mediator = mediatorMap.remove(currentName)
+    val mediator = mediatorMap[currentName]
     mediator?.apply {
         // hide mediator and remove from backstack
-        hide(null, true)
+        hideMediator(currentName, true, null)
         // remove the observer linking the mediator
         // to the notification interest
         listNotificationInterests.forEach { s ->
@@ -130,7 +130,7 @@ inline fun <reified T : IMediator> IView.removeMediator(mediatorName: String? = 
         // alert the mediator that it has been removed
         onRemove()
     }
-    return mediator
+    return mediatorMap.remove(currentName)
 }
 
 /**
@@ -275,27 +275,33 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
         // indicator to animation direction
         var isShowAnimation = true
         // add to backstack if we don't have any mediators in it or last mediator does not equal the same mediator as we showing on the screen
-        if (!mediatorBackStack.contains(this)) {
-            if (!popLastMediator) {
-                mediatorBackStack.add(this)
-            } else {
-                val indexOf = mediatorBackStack.indexOf(lastMediator)
-                mediatorBackStack.add(indexOf, this)
-            }
-        } else {
-            val indexOf = mediatorBackStack.indexOf(this) + 1
-            while (mediatorBackStack.size > indexOf) {
-                val mediator = mediatorBackStack[indexOf]
-                // we don't need to remove last mediator `viewComponent`
-                if (mediator.mediatorName == lastMediator?.mediatorName) {
-                    // only if we have an animation we simulate back and clear the `viewComponent` after animation
-                    mediatorBackStack.remove(mediator)
-                    isShowAnimation = false
-                    continue
+        if(isAddToBackStack) {
+            isShowAnimation = animation?.isShow ?: true
+
+            if (!mediatorBackStack.contains(this)) {
+                if (!popLastMediator) {
+                    mediatorBackStack.add(this)
+                } else {
+                    val indexOf = mediatorBackStack.indexOf(lastMediator)
+                    mediatorBackStack.add(indexOf, this)
                 }
-                mediator.hide(null, true)
+            } else {
+                val indexOf = mediatorBackStack.indexOf(this) + 1
+                while (mediatorBackStack.size > indexOf) {
+                    val mediator = mediatorBackStack[indexOf]
+                    // we don't need to remove last mediator `viewComponent`
+                    if (mediator.mediatorName == lastMediator?.mediatorName) {
+                        // only if we have an animation we simulate back and clear the `viewComponent` after animation
+                        mediatorBackStack.remove(mediator)
+                        isShowAnimation = false
+                        continue
+                    }
+                    mediator.hide(null, true)
+                }
             }
         }
+
+
 
         // check for optional menu and invalidate it if it has
         if (hasOptionalMenu && !hideOptionalMenu) {

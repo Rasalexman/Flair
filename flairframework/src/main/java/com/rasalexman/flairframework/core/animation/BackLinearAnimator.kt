@@ -2,12 +2,16 @@ package com.rasalexman.flairframework.core.animation
 
 import com.rasalexman.flairframework.interfaces.IMediator
 
-class BackLinearAnimator : LinearAnimator() {
+/**
+ * Base linear back to animation without knowing of backstack navigation
+ *
+ * @param duration
+ * time in ms
+ */
+class BackLinearAnimator(override var duration: Long = 500) : LinearAnimator() {
 
     override var to: IMediator? = null
     override var from: IMediator? = null
-
-    override var duration: Long = 500
 
     override var isShow: Boolean = false
             get() = false
