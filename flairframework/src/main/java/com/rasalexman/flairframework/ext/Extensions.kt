@@ -78,3 +78,11 @@ inline fun <reified T : IMediator> IView.registerMediator(mediatorName: String? 
     val clazzName = mediatorName ?: clazz.className()
     return this.registerMediator(clazzName) { clazz.createInstance() }
 }
+
+/**
+ * Retrieve an `IProxy` core from the Model.
+ *
+ * @return the `IProxy` core previously registered
+ */
+inline fun <reified T : IProxy<*>> IModel.retrieveProxy(params:List<Any>? = null): T = this.proxyMap[T::class.className()]?.injectInConstructor(params) as? T ?: registerProxy(params)
+
