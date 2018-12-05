@@ -1,21 +1,10 @@
 package com.rasalexman.flairframework.ext
 
-import android.content.Context
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.TextView
-import com.rasalexman.flairframework.BuildConfig
-import com.rasalexman.flairframework.interfaces.FacadeInitializer
-import com.rasalexman.flairframework.interfaces.IFacade
+import com.rasalexman.flaircore.interfaces.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty1
-import kotlin.reflect.full.allSuperclasses
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
@@ -61,13 +50,6 @@ fun Any.injectInConstructor(consParams: List<Any>? = null): Any {
 }
 
 /**
- * Remove child from parent if it has
- */
-fun View.removeFromParent() {
-    (this.parent as? ViewGroup)?.removeView(this)
-}
-
-/**
  * Ext function
  */
 fun Any.className(): String {
@@ -76,95 +58,23 @@ fun Any.className(): String {
 }
 
 /**
- * System function
+ * Register an `IProxy` core with the `Model`.
  */
-fun ImageView.clear() {
-    this.setImageResource(0)
-    this.setImageBitmap(null)
-    this.setImageDrawable(null)
-    this.background = null
+inline fun <reified T : IProxy<*>> IModel.registerProxy(consParams: List<Any>? = null): T {
+    return this.registerProxy { T::class.createInstance(consParams) }
 }
 
 /**
- * Clear button
- */
-fun Button.clear() {
-    this.background = null
-    this.setOnClickListener(null)
-    this.text = null
-}
-
-/**
- * Clear TextView
- */
-fun TextView.clear() {
-    this.text = null
-    this.setOnClickListener(null)
-    this.setCompoundDrawables(null, null, null, null)
-    this.background = null
-}
-
-/**
- * System clear view function
- */
-fun ViewGroup.clear() {
-    var childView: View
-    repeat(this.childCount) {
-        childView = this.getChildAt(it)
-        when (childView) {
-            is ViewGroup -> (childView as ViewGroup).clear()
-            is ImageView -> (childView as ImageView).clear()
-            is Button -> (childView as Button).clear()
-            is TextView -> (childView as TextView).clear()
-            is CompoundButton -> {
-                (childView as CompoundButton).text = null
-                (childView as CompoundButton).setOnCheckedChangeListener(null)
-            }
-        }
-    }
-}
-
-/**
- * Hide or show view by boolean flag
- */
-var android.view.View.visible
-    get() = visibility == View.VISIBLE
-    set(value) {
-        visibility = if (value) View.VISIBLE else View.GONE
-    }
-
-/**
- * Hide view with optional param
- * @param gone
- * Does the view removed from parent (optional true)
- */
-fun android.view.View.hide(gone: Boolean = true) {
-    visibility = if (gone) View.GONE else View.INVISIBLE
-}
-
-/**
- * Show the view
- */
-fun android.view.View.show() {
-    visibility = View.VISIBLE
-}
-
-/**
- * Instantiate new Facade for given core name
+ * Register an `IMediator` core with the `View`.
  *
- * @param key
- * Core Name, used to get IFacade instance
- *
- * @param block
- * initialization function. This is a starting point to register Proxy/Mediators/Commands
+ * <P>
+ * Registers the `IMediator` so that it can be retrieved by
+ * name, and further interrogates the `IMediator` for its
+ * `INotification` interests.
+</P> *
  */
-fun Context.flair(key: String = IFacade.DEFAULT_KEY, block: FacadeInitializer? = null): IFacade = IFacade.core(key, this, block)
-
-/**
- * Log any messages with given lambda func
- */
-inline fun log(lambda: () -> String) {
-    if (BuildConfig.DEBUG) {
-        Log.d("FLAIR_LOG ------>", lambda())
-    }
+inline fun <reified T : IMediator> IView.registerMediator(mediatorName: String? = null): T {
+    val clazz = T::class
+    val clazzName = mediatorName ?: clazz.className()
+    return this.registerMediator(clazzName) { clazz.createInstance() }
 }
