@@ -1,10 +1,10 @@
-package com.rasalexman.flairframework.common.adapters
+package com.rasalexman.flaircore.common.adapters
 
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
-import com.rasalexman.flairframework.ext.clear
-import com.rasalexman.flairframework.interfaces.IMediator
+import com.rasalexman.flaircore.ext.clear
+import com.rasalexman.flaircore.interfaces.IMediator
 
 /**
  * Custom flair pager adapter
