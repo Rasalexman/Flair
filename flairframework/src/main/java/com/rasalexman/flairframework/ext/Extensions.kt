@@ -86,3 +86,13 @@ inline fun <reified T : IMediator> IView.registerMediator(mediatorName: String? 
  */
 inline fun <reified T : IProxy<*>> IModel.retrieveProxy(params:List<Any>? = null): T = this.proxyMap[T::class.className()]?.injectInConstructor(params) as? T ?: registerProxy(params)
 
+/**
+ * Retrieve lazy proxy core or create new one if it does not has, by given generic class
+ *
+ * @param dataToHold
+ * Constructor parameters
+ */
+inline fun <reified T : IProxy<*>> INotifier.proxyLazy(vararg dataToHold: Any): Lazy<T> = lazy {
+    if(facade.hasProxy<T>()) facade.model.retrieveProxy<T>(dataToHold.asList()) else this.facade.model.registerProxy(dataToHold.asList())
+}
+
