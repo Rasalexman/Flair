@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 10309
-        versionName "1.3.9"
+        versionCode 10401
+        versionName "1.4.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -33,16 +33,7 @@ dokka {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation ("com.android.support:appcompat-v7:$supportVersion") {
-        exclude group: 'support', module: 'support-media-compat'
-        exclude group: 'support', module: 'cardview-v7'
-        exclude group: 'support', module: 'versionedparcelable'
-        exclude group: 'support', module: 'cursoradapter'
-        exclude group: 'support', module: 'documentfile'
-        exclude group: 'support', module: 'recyclerview-v7'
-        exclude group: 'support', module: 'support-vector-drawable'
-    }
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation project(':flaircore')
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 repositories {

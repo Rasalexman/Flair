@@ -1,21 +1,17 @@
-package com.rasalexman.flairframework.interfaces
+package com.rasalexman.flaircore.interfaces
 
 import android.app.Activity
 import android.content.Context
-import android.util.ArrayMap
+import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
-import com.rasalexman.flairframework.common.bundle.NotNullStateProvider
-import com.rasalexman.flairframework.common.bundle.NullableStateProvider
-import com.rasalexman.flairframework.core.FlairActivity
-import com.rasalexman.flairframework.core.animation.LinearAnimator
-import com.rasalexman.flairframework.core.controller.Controller
-import com.rasalexman.flairframework.core.model.Model
-import com.rasalexman.flairframework.core.view.View
-import com.rasalexman.flairframework.ext.className
-import com.rasalexman.flairframework.patterns.facade.Facade
-import com.rasalexman.flairframework.patterns.observer.Notification
-import com.rasalexman.flairframework.patterns.observer.Observer
-import kotlin.properties.ReadWriteProperty
+import com.rasalexman.flaircore.animation.LinearAnimator
+import com.rasalexman.flaircore.controller.Controller
+import com.rasalexman.flaircore.model.Model
+import com.rasalexman.flaircore.patterns.facade.Facade
+import com.rasalexman.flaircore.patterns.observer.Notification
+import com.rasalexman.flaircore.patterns.observer.Observer
+import com.rasalexman.flaircore.view.View
+import com.rasalexman.flairframework.interfaces.IAnimator
 
 typealias FacadeInitializer = IFacade.() -> Unit
 
@@ -52,7 +48,7 @@ interface IFacade : INotifier {
         /**
          * Global storage for all instance cores of IFacade
          */
-        override val instanceMap = ArrayMap<String, IFacade>()
+        override val instanceMap = HashMap<String, IFacade>()
 
         /**
          * Facade Multiton Factory method.
@@ -120,8 +116,8 @@ inline fun <reified T : IMediator> IFacade.retrieveMediator(mediatorName: String
 /**
  * Register an `IMediator` with the `View` core.
  */
-inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null) {
-    this.view.registerMediator<T>(mediatorName)
+inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null, mediatorBuilder:()->T) {
+    this.view.registerMediator(mediatorName, mediatorBuilder)
 }
 
 /**
@@ -154,8 +150,7 @@ inline fun <reified T : IMediator> IFacade.hasMediator(mediatorName: String? = n
  * Instance of current animation
  */
 inline fun <reified T : IMediator> IFacade.showMediator(mapName: String? = null, popLast: Boolean = false, animation: IAnimator? = null) {
-    if (hasMediator<T>(mapName)) view.showMediator(mapName
-            ?: T::class.className(), popLast, animation)
+    if (hasMediator<T>(mapName)) view.showMediator(mapName ?: T::class.toString(), popLast, animation)
     else retrieveMediator<T>(mapName).show(animation, popLast)
 }
 
@@ -167,7 +162,7 @@ inline fun <reified T : IMediator> IFacade.showMediator(mapName: String? = null,
  *
  * @return IProxy instance with given parameters
  */
-inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg dataToHold: Any): T = this.model.registerProxy(dataToHold.asList())
+inline fun <reified T : IProxy<*>> IFacade.registerProxy(proxyBuilder:()->T): T = this.model.registerProxy(proxyBuilder)
 
 /**
  * Register an `ICommand` with the `Controller`.
@@ -175,9 +170,12 @@ inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg dataToHold: Any)
  * @param noteName
  * the name of the `INotification` to associate the
  * `ICommand` with.
+ *
+ * @param commandBuilder
+ * The builder function to instantiate instance of ICommand class
  */
-inline fun <reified T : ICommand> IFacade.registerCommand(noteName: String) {
-    this.controller.registerCommand<T>(noteName)
+inline fun <reified T : ICommand> IFacade.registerCommand(noteName: String, commandBuilder:()->T) {
+    this.controller.registerCommand(noteName, commandBuilder)
 }
 
 /**
@@ -185,7 +183,7 @@ inline fun <reified T : ICommand> IFacade.registerCommand(noteName: String) {
  *
  * @return the `IProxy` previously regisetered with the `Model`.
  */
-inline fun <reified T : IProxy<*>> IFacade.retrieveProxy(params: List<Any>? = null): T = this.model.retrieveProxy(params)
+inline fun <reified T : IProxy<*>> IFacade.retrieveProxy(): T = this.model.retrieveProxy()
 
 /**
  * Remove an `IProxy` core from the `Model`
@@ -211,7 +209,7 @@ inline fun <reified T : IProxy<*>> IFacade.hasProxy(): Boolean = this.model.hasP
  * @param container
  * Current container (ViewGroup) to add childs viewComponents from Mediators
  */
-fun IFacade.attach(activity: FlairActivity, container: ViewGroup? = null): IFacade {
+fun IFacade.attach(activity: AppCompatActivity, container: ViewGroup? = null): IFacade {
     view.attachActivity(activity, container)
     return this
 }
@@ -349,17 +347,3 @@ fun IFacade.remove() {
 fun IFacade.handleBackButton(animation: IAnimator? = LinearAnimator()): Boolean {
     return view.currentShowingMediator?.handleBackButton(animation) ?: false
 }
-
-/**
- * Get optional value from saveState Bundle
- */
-fun <T : Any?> IFacade.optionalValue(
-        defaultValue: T? = null
-): ReadWriteProperty<Any?, T?> = NullableStateProvider(defaultValue) { this.view.stateBundle }
-
-/**
- *
- */
-fun <T : Any> IFacade.notNullValue(
-        defaultValue: T
-): ReadWriteProperty<Any?, T> = NotNullStateProvider(defaultValue) { this.view.stateBundle }

@@ -1,1 +1,1 @@
-include ':app', ':flairframework'
+include ':app', ':flairframework', ':flairframeworklite', ':flaircore'
