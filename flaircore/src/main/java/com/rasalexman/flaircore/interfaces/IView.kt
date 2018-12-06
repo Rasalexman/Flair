@@ -1,11 +1,10 @@
 package com.rasalexman.flaircore.interfaces
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.rasalexman.flaircore.ext.removeFromParent
-import com.rasalexman.flairframework.interfaces.IAnimator
 import java.lang.ref.WeakReference
 
 /**
@@ -16,7 +15,7 @@ interface IView : IMultitonKey {
     /**
      * Bundle for save parameters when configuration change
      */
-    val stateBundle:Bundle
+    val stateBundle: Bundle
 
     /**
      * Storage for all IMedaitor instances when it gonna be registered
@@ -38,7 +37,7 @@ interface IView : IMultitonKey {
     /**
      * Reference to the Activity attached on core
      */
-    var currentActivity: WeakReference<AppCompatActivity>?
+    var currentActivity: WeakReference<Activity>?
 
     /**
      * Instance of ui container
@@ -56,7 +55,7 @@ interface IView : IMultitonKey {
      * @param container
      * The container when ui will be added
      */
-    fun attachActivity(activity: AppCompatActivity, container: ViewGroup? = null)
+    fun attachActivity(activity: Activity, container: ViewGroup? = null)
 
     /**
      * When requested activity has come
@@ -102,7 +101,7 @@ interface IView : IMultitonKey {
  * @param mediatorName
  * Given mediator name
  */
-inline fun <reified T : IMediator> IView.hasMediator(mediatorName: String? = null): Boolean = mediatorMap[mediatorName?:T::class.toString()] != null
+inline fun <reified T : IMediator> IView.hasMediator(mediatorName: String? = null): Boolean = mediatorMap[mediatorName ?: T::class.toString()] != null
 
 /**
  * Remove an `IMediator` from the `View`.
@@ -163,7 +162,7 @@ inline fun <reified T : IMediator> IView.retrieveMediator(mediatorName: String? 
  * `INotification` interests.
 </P> *
  */
-inline fun <reified T : IMediator> IView.registerMediator(mediatorName: String? = null, mediatorBuilder:()->T): T {
+inline fun <reified T : IMediator> IView.registerMediator(mediatorName: String? = null, mediatorBuilder: () -> T): T {
     val clazz = T::class
     val clazzName = mediatorName ?: clazz.toString()
     // Register the Mediator for retrieval by name
@@ -272,7 +271,7 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
         // indicator to animation direction
         var isShowAnimation = true
         // add to backstack if we don't have any mediators in it or last mediator does not equal the same mediator as we showing on the screen
-        if(isAddToBackStack) {
+        if (isAddToBackStack) {
             isShowAnimation = animation?.isShow ?: true
 
             if (!mediatorBackStack.contains(this)) {
@@ -297,7 +296,6 @@ fun IView.showMediator(mediatorName: String, popLastMediator: Boolean, animation
                 }
             }
         }
-
 
 
         // check for optional menu and invalidate it if it has
@@ -342,7 +340,7 @@ fun IView.removeObserver(notificationName: String, notifyContext: Any) {
     this.observerMap[notificationName]?.let { list ->
         // Remove predicate notifications, also we clear observable references
         list.removeAll {
-            if (it.compareNotifyContext(notifyContext))it.clear()
+            if (it.compareNotifyContext(notifyContext)) it.clear()
             else false
         }
         // Also, when a Notification's Observer list length falls to

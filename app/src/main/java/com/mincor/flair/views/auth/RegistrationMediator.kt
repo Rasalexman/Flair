@@ -11,10 +11,10 @@ import com.mincor.flair.utils.Consts.FONT_SIZE_12
 import com.mincor.flair.utils.Consts.FONT_SIZE_14
 import com.mincor.flair.utils.Consts.ROUND_CORNERS_16
 import com.mincor.flair.utils.dip8
-import com.rasalexman.flairframework.core.animation.LinearAnimator
-import com.rasalexman.flairframework.ext.log
-import com.rasalexman.flairframework.interfaces.*
-import com.rasalexman.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flaircore.animation.LinearAnimator
+import com.rasalexman.flaircore.ext.log
+import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flaircore.patterns.mediator.Mediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 

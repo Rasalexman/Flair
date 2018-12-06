@@ -6,9 +6,11 @@ import android.view.View
 import android.widget.TextView
 import com.mincor.flair.proxies.NextSubProxy
 import com.mincor.flair.views.MVVMMediator
-import com.rasalexman.flairframework.core.animation.LinearAnimator
-import com.rasalexman.flairframework.interfaces.*
-import com.rasalexman.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flaircore.animation.LinearAnimator
+import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flaircore.patterns.mediator.Mediator
+import com.rasalexman.flairreflect.proxy
+import com.rasalexman.flairreflect.showMediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*

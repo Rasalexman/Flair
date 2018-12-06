@@ -2,7 +2,7 @@ package com.mincor.flair.proxies
 
 import android.arch.lifecycle.MutableLiveData
 import com.mincor.flair.proxies.vo.AccountModel
-import com.rasalexman.flairframework.patterns.proxy.Proxy
+import com.rasalexman.flaircore.patterns.proxy.Proxy
 import java.util.*
 
 class LiveDataProxy : Proxy<MutableLiveData<AccountModel>>(MutableLiveData()) {

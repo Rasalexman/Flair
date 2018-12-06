@@ -1,23 +1,19 @@
 package com.rasalexman.flaircore.animation
 
-import com.rasalexman.flaircore.interfaces.IMediator
-
 /**
  * This is a base Next Mediator Animator
  *
  * @param duration
  * The time. it's how long animation will be playing in ms
  */
-class NextLinearAnimator(override var duration: Long = 500) : LinearAnimator() {
-
-    override var to: IMediator? = null
-    override var from: IMediator? = null
+class NextLinearAnimator(override var duration: Long = 500,
+                         private val localShow:Boolean = true,
+                         private val localPopLast:Boolean = false
+) : LinearAnimator() {
 
     override var isShow: Boolean = false
-        get() = true
+        get() = localShow
 
     override var popLast: Boolean = true
-        get() = false
-
-
+        get() = localPopLast
 }

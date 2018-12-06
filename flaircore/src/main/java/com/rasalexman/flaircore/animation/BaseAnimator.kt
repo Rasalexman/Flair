@@ -1,10 +1,14 @@
 package com.rasalexman.flaircore.animation
 
 import android.animation.Animator
-import com.rasalexman.flairframework.interfaces.IAnimator
+import com.rasalexman.flaircore.interfaces.IAnimator
+import com.rasalexman.flaircore.interfaces.IMediator
 import com.rasalexman.flaircore.interfaces.hide
 
 abstract class BaseAnimator : IAnimator {
+
+    override var from: IMediator? = null
+    override var to: IMediator? = null
 
     /**
      * Animation listener adapter
@@ -39,9 +43,20 @@ abstract class BaseAnimator : IAnimator {
     }
 
     /**
+     * Play animation
+     */
+    override fun playAnimation() {
+        to?.let {
+            it.viewComponent?.viewTreeObserver?.addOnPreDrawListener(AnimationPreDrawListener(to!!.viewComponent, ::startAnimation))
+        } ?: from?.let {
+            startAnimation()
+        }
+    }
+
+    /**
      * Clear all references
      */
-    private fun clearAnimator() {
+    open protected fun clearAnimator() {
         listenerAdapter = null
         from = null
         to = null

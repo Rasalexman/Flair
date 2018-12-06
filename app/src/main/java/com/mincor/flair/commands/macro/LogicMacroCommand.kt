@@ -1,11 +1,11 @@
 package com.mincor.flair.commands.macro
 
 import com.mincor.flair.proxies.LiveDataProxy
-import com.rasalexman.flairframework.ext.log
-import com.rasalexman.flairframework.interfaces.INotification
-import com.rasalexman.flairframework.interfaces.proxyLazy
-import com.rasalexman.flairframework.patterns.command.MacroCommand
-import com.rasalexman.flairframework.patterns.command.SimpleCommand
+import com.rasalexman.flaircore.ext.log
+import com.rasalexman.flaircore.interfaces.INotification
+import com.rasalexman.flaircore.patterns.command.MacroCommand
+import com.rasalexman.flaircore.patterns.command.SimpleCommand
+import com.rasalexman.flairreflect.proxyLazy
 
 class LogicMacroCommand : MacroCommand() {
 

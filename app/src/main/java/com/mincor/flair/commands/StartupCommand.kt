@@ -3,18 +3,16 @@ package com.mincor.flair.commands
 import android.content.Context
 import android.net.ConnectivityManager
 import com.mincor.flair.events.Events
-import com.mincor.flair.proxies.LiveDataProxy
-import com.mincor.flair.proxies.MVVMProxy
 import com.mincor.flair.proxies.NetProxy
-import com.mincor.flair.proxies.net.IWebService
 import com.mincor.flair.utils.createOkHttpClient
 import com.mincor.flair.utils.createWebServiceApi
 import com.mincor.flair.utils.takeDeviceID
+import com.mincor.flair.views.MVPMediator
 import com.mincor.flair.views.MVVMMediator
 import com.mincor.flair.views.UserListsMediator
-import com.rasalexman.flairframework.patterns.command.SimpleCommand
-import com.mincor.flair.views.MVPMediator
-import com.rasalexman.flairframework.interfaces.*
+import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flaircore.patterns.command.SimpleCommand
+import com.rasalexman.flairreflect.registerMediator
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -27,7 +25,9 @@ class StartupCommand : SimpleCommand() {
         val resolver = appContext.contentResolver
 
         // proxyLazy with web service Retrofit
-        facade.registerProxy<NetProxy>(createWebServiceApi<IWebService>(createOkHttpClient(cm, takeDeviceID(resolver)),"https://app.dp.ru/api/v1.0/"))
+        facade.registerProxy {
+            NetProxy(createWebServiceApi(createOkHttpClient(cm, takeDeviceID(resolver)),"https://app.dp.ru/api/v1.0/"))
+        }
 
         //facade.registerProxy<MVVMProxy>()
         //facade.registerProxy<LiveDataProxy>()
@@ -39,7 +39,7 @@ class StartupCommand : SimpleCommand() {
         // sendNotification(Events.LOGIC_START)
 
         // remove unused commands
-        flair().removeCommand(Events.STARTUP)
+        facade.removeCommand(Events.STARTUP)
         //flair().removeCommand(Events.LOGIC_START)
 
         //check to execute again

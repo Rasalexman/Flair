@@ -13,7 +13,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
  */
 typealias ListSelectCallback = (String) -> Unit
 
-class SelectedListAdapter(val tags: MutableList<String>, private val callback: ListSelectCallback? = null) : BaseAdapter() {
+class SelectedListAdapter(private val tags: MutableList<String>, private val callback: ListSelectCallback? = null) : BaseAdapter() {
     override fun getView(i: Int, convertView: View?, parent: ViewGroup?): View {
         val viewholder: TagsViewHolder
         val selectedTag: String = getItem(i)

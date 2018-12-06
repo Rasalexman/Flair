@@ -9,9 +9,10 @@ import com.mincor.flair.R
 import com.mincor.flair.views.pager.PageOneMediator
 import com.mincor.flair.views.pager.PageThreeMediator
 import com.mincor.flair.views.pager.PageTwoMediator
-import com.rasalexman.flairframework.common.adapters.FlairPagerAdapter
-import com.rasalexman.flairframework.interfaces.mediator
-import com.rasalexman.flairframework.interfaces.removeMediator
+import com.rasalexman.flaircore.common.adapters.FlairPagerAdapter
+import com.rasalexman.flaircore.ext.log
+import com.rasalexman.flaircore.interfaces.removeMediator
+import com.rasalexman.flairreflect.mediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.design.tabLayout
@@ -21,14 +22,14 @@ class ViewPagerMediator : ToolbarMediator() {
 
     override var hashBackButton: Boolean = true
 
-    override fun createLayout(context: Context): View = ViewPagerUI().createView(AnkoContext.Companion.create(context, this))
+    override fun createLayout(context: Context): View = ViewPagerUI().createView(AnkoContext.create(context, this))
 
     private var viewPager: ViewPager? = null
     private var tabLayout: TabLayout? = null
 
     override fun onCreatedView(view: View) {
         super.onCreatedView(view)
-        com.rasalexman.flairframework.ext.log { "HELLO FROM PAGER" }
+        log { "HELLO FROM PAGER" }
 
         viewPager?.adapter = FlairPagerAdapter(
                 listOf(mediator<PageOneMediator>(), mediator<PageTwoMediator>(), mediator<PageThreeMediator>()),

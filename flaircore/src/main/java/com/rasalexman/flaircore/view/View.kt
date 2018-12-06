@@ -43,7 +43,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /**
      * Reference to the Activity attached on core
      */
-    override var currentActivity: WeakReference<AppCompatActivity>? = null
+    override var currentActivity: WeakReference<Activity>? = null
     /**
      * Instance of ui container
      */
@@ -116,13 +116,13 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * @param container
      * The container when ui will be added if there no container we take default activity decorView content (frame layout)
      */
-    override fun attachActivity(activity: AppCompatActivity, container: ViewGroup?) {
+    override fun attachActivity(activity: Activity, container: ViewGroup?) {
         //this is because we need container to add views anyway
         currentContainer = container ?: activity.window.decorView.findViewById(android.R.id.content)
         // only if there is no attach
         if (!isAlreadyRegistered) {
             currentActivity = WeakReference(activity)
-            val fragmentManager = activity.supportFragmentManager
+            //val fragmentManager = c.supportFragmentManager
             fragmentManager?.beginTransaction()?.add(this, multitonKey)?.commitAllowingStateLoss()
             activity.application.registerActivityLifecycleCallbacks(this)
             isAlreadyRegistered = true

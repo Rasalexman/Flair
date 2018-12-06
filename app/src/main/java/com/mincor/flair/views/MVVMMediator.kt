@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import com.mincor.askme.mediators.login.LoginMediator
 import com.mincor.flair.R
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.MVVMProxy
@@ -19,9 +18,14 @@ import com.mincor.flair.proxies.vo.AccountModel
 import com.mincor.flair.proxies.vo.UserModel
 import com.mincor.flair.utils.Keyboards
 import com.mincor.flair.utils.dip16
-import com.rasalexman.flairframework.core.animation.LinearAnimator
-import com.rasalexman.flairframework.ext.log
-import com.rasalexman.flairframework.interfaces.*
+import com.mincor.flair.views.auth.LoginMediator
+import com.rasalexman.flaircore.animation.FadeAnimator
+import com.rasalexman.flaircore.animation.LinearAnimator
+import com.rasalexman.flaircore.ext.log
+import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flairreflect.mediatorLazy
+import com.rasalexman.flairreflect.proxyLazyModel
+import com.rasalexman.flairreflect.showMediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -75,14 +79,6 @@ class MVVMMediator : ToolbarMediator() {
     }
 
     override fun createLayout(context: Context): View = UserAuthUI().createView(AnkoContext.create(context, this))
-
-    private fun handleEditorAction(actionId: Int): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_SEND) {
-            onLoginClicked()
-            return true
-        }
-        return false
-    }
 
     private fun onLoginClicked() {
         Keyboards.hideKeyboard(viewComponent!!.context, viewComponent!!)
@@ -166,7 +162,7 @@ class MVVMMediator : ToolbarMediator() {
 
                     button("show view pager") {
                         onClick {
-                            showMediator<ViewPagerMediator>(LinearAnimator())
+                            showMediator<ViewPagerMediator>(FadeAnimator())
                         }
                     }
 
@@ -192,7 +188,7 @@ class MVVMMediator : ToolbarMediator() {
 
                     button("SHOW SUB CHILD MEDIATOR") {
                         onClick {
-                            facade.retrieveMediator<AnotherCoreMediator>().show()
+                            showMediator<AnotherCoreMediator>()
                         }
                     }
                 }

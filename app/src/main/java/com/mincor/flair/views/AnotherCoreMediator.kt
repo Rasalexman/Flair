@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import com.mincor.flair.R
 import com.mincor.flair.application.FlairApplication
 import com.mincor.flair.views.subcomponents.SubChildCoreMediator
-import com.rasalexman.flairframework.interfaces.*
+import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flairreflect.showLastOrExistMediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk27.coroutines.onClick

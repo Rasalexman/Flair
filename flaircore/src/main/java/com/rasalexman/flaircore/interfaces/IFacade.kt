@@ -2,7 +2,6 @@ package com.rasalexman.flaircore.interfaces
 
 import android.app.Activity
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.controller.Controller
@@ -11,7 +10,6 @@ import com.rasalexman.flaircore.patterns.facade.Facade
 import com.rasalexman.flaircore.patterns.observer.Notification
 import com.rasalexman.flaircore.patterns.observer.Observer
 import com.rasalexman.flaircore.view.View
-import com.rasalexman.flairframework.interfaces.IAnimator
 
 typealias FacadeInitializer = IFacade.() -> Unit
 
@@ -115,6 +113,12 @@ inline fun <reified T : IMediator> IFacade.retrieveMediator(mediatorName: String
 
 /**
  * Register an `IMediator` with the `View` core.
+ *
+ * @param mediatorName
+ * The name of the mediator to register with
+ *
+ * @param mediatorBuilder
+ * Mediator instance builder function
  */
 inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null, mediatorBuilder:()->T) {
     this.view.registerMediator(mediatorName, mediatorBuilder)
@@ -127,6 +131,9 @@ inline fun <reified T : IMediator> IFacade.removeMediator(mediatorName: String? 
 
 /**
  * Show last added IMediator from backstack. If there is no mediator in backstack show the one passed by generic type class
+ *
+ * @param animation
+ * The animation instance to show last mediator
  */
 inline fun <reified T : IMediator> IFacade.showLastOrExistMediator(animation: IAnimator? = null) {
     view.showLastOrExistMediator<T>(animation)
@@ -134,6 +141,9 @@ inline fun <reified T : IMediator> IFacade.showLastOrExistMediator(animation: IA
 
 /**
  * Check if a IMediator is registered or not
+ *
+ * @param mediatorName
+ * Optional mediator name to check for
  */
 inline fun <reified T : IMediator> IFacade.hasMediator(mediatorName: String? = null): Boolean = view.hasMediator<T>(mediatorName)
 
@@ -157,8 +167,8 @@ inline fun <reified T : IMediator> IFacade.showMediator(mapName: String? = null,
 /**
  * Register an `IProxy` with the `Model` by name.
  *
- * @param dataToHold
- * Contructor parameters that proxyLazy must apply
+ * @param proxyBuilder
+ * Instance Builder function
  *
  * @return IProxy instance with given parameters
  */
@@ -209,7 +219,7 @@ inline fun <reified T : IProxy<*>> IFacade.hasProxy(): Boolean = this.model.hasP
  * @param container
  * Current container (ViewGroup) to add childs viewComponents from Mediators
  */
-fun IFacade.attach(activity: AppCompatActivity, container: ViewGroup? = null): IFacade {
+fun IFacade.attach(activity: Activity, container: ViewGroup? = null): IFacade {
     view.attachActivity(activity, container)
     return this
 }

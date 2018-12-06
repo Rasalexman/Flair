@@ -7,7 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import com.rasalexman.flaircore.patterns.observer.Notifier
-import com.rasalexman.flairframework.interfaces.IAnimator
+import com.rasalexman.flaircore.interfaces.IAnimator
 import com.rasalexman.flaircore.interfaces.IMediator
 import com.rasalexman.flaircore.interfaces.popToBack
 

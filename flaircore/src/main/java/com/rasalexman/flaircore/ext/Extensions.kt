@@ -26,6 +26,7 @@ fun ImageView.clear() {
     this.setImageResource(0)
     this.setImageBitmap(null)
     this.setImageDrawable(null)
+    this.setOnClickListener(null)
     this.background = null
 }
 

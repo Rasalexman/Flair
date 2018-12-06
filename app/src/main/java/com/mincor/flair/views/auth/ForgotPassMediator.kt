@@ -11,9 +11,9 @@ import com.mincor.flair.utils.Consts.FONT_SIZE_12
 import com.mincor.flair.utils.Consts.FONT_SIZE_14
 import com.mincor.flair.utils.Consts.ROUND_CORNERS_16
 import com.mincor.flair.utils.dip8
-import com.rasalexman.flairframework.core.animation.LinearAnimator
-import com.rasalexman.flairframework.interfaces.*
-import com.rasalexman.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flaircore.animation.LinearAnimator
+import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flaircore.patterns.mediator.Mediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
@@ -22,7 +22,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
  */
 
 class ForgotPassMediator : Mediator() {
-    override fun createLayout(context: Context): View = ForgotUI().createView(AnkoContext.Companion.create(context, this))
+    override fun createLayout(context: Context): View = ForgotUI().createView(AnkoContext.create(context, this))
 
     internal var emailET: EditText? = null
 

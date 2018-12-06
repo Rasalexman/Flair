@@ -1,14 +1,14 @@
 package com.mincor.flair.activity
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.mincor.flair.views.MVVMMediator
-import com.rasalexman.flairframework.core.FlairActivity
-import com.rasalexman.flairframework.ext.flair
-import com.rasalexman.flairframework.interfaces.attach
-import com.rasalexman.flairframework.interfaces.handleBackButton
-import com.rasalexman.flairframework.interfaces.showLastOrExistMediator
+import com.rasalexman.flaircore.ext.flair
+import com.rasalexman.flaircore.interfaces.attach
+import com.rasalexman.flaircore.interfaces.handleBackButton
+import com.rasalexman.flairreflect.showLastOrExistMediator
 
-class MainActivity : FlairActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         flair {

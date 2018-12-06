@@ -12,15 +12,16 @@ import android.view.View
 import android.widget.ListView
 import com.mincor.flair.R
 import com.mincor.flair.adapters.SelectedListAdapter
-import com.mincor.flair.proxies.vo.Tag
-import com.rasalexman.flairframework.core.animation.BackLinearAnimator
-import com.rasalexman.flairframework.core.animation.LinearAnimator
-import com.rasalexman.flairframework.core.animation.NextLinearAnimator
-import com.rasalexman.flairframework.ext.log
-import com.rasalexman.flairframework.interfaces.*
+import com.rasalexman.flaircore.animation.BackLinearAnimator
+import com.rasalexman.flaircore.animation.LinearAnimator
+import com.rasalexman.flaircore.animation.NextLinearAnimator
+import com.rasalexman.flaircore.ext.log
+import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flairreflect.showMediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import java.util.*
 
 
 class MVPMediator : ToolbarMediator() {
@@ -46,10 +47,6 @@ class MVPMediator : ToolbarMediator() {
 
     fun showFuncyMVPHandler() {
         activity.toast("FANCY HELLO FROM MVP").show()
-    }
-
-    fun coroutinesResponceHander(resp: List<Tag>?) {
-        activity.toast("HELLO coroutinesResponceHander $resp").show()
     }
 
     private fun pickContact() {
@@ -122,7 +119,7 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun onShowAnotherMediator() {
-        showMediator<MVPMediator>(NextLinearAnimator(), "str${Math.random() * 10000 * 10000}")
+        showMediator<MVPMediator>(NextLinearAnimator(), UUID.randomUUID().toString())
     }
 
     fun showMVVMAGAIN() {

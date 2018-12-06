@@ -10,9 +10,10 @@ import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.events.Events.AUTH
 import com.mincor.flair.events.Events.LOGIC_START
 import com.mincor.flair.events.Events.STARTUP
-import com.rasalexman.flairframework.ext.flair
-import com.rasalexman.flairframework.interfaces.registerCommand
-import com.rasalexman.flairframework.interfaces.sendNotification
+import com.rasalexman.flaircore.ext.flair
+import com.rasalexman.flaircore.interfaces.registerCommand
+import com.rasalexman.flaircore.interfaces.sendNotification
+import com.rasalexman.flairreflect.registerCommand
 
 /**
  * Created by a.minkin on 19.11.2017.
@@ -31,7 +32,7 @@ class FlairApplication : Application() {
         registerCommand<UserAuthCommand>(AUTH)
         registerCommand<AccountCommand>(ACCOUNT_CHANGE)
         registerCommand<AccountCommand>(ACCOUNT_CLEAR)
-        registerCommand<LogicMacroCommand>(LOGIC_START)
+        registerCommand(LOGIC_START) { LogicMacroCommand() }
     }
 
     override fun onCreate() {

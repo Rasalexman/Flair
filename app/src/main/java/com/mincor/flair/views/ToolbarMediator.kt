@@ -1,13 +1,13 @@
 package com.mincor.flair.views
 
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
-import com.rasalexman.flairframework.core.animation.LinearAnimator
-import com.rasalexman.flairframework.interfaces.activity
-import com.rasalexman.flairframework.interfaces.common.IActionBarProvider
-import com.rasalexman.flairframework.interfaces.popToBack
-import com.rasalexman.flairframework.patterns.mediator.Mediator
+import com.rasalexman.flaircore.animation.LinearAnimator
+import com.rasalexman.flaircore.interfaces.activity
+import com.rasalexman.flaircore.interfaces.popToBack
+import com.rasalexman.flaircore.patterns.mediator.Mediator
 
 /**
  * Created by a.minkin.
@@ -41,14 +41,11 @@ abstract class ToolbarMediator : Mediator(), View.OnClickListener {
     }
 
     private val actionBar: ActionBar?
-        get() {
-            val actionBarProvider = (activity as? IActionBarProvider<ActionBar, Toolbar>)
-            return actionBarProvider?.getSupportActionBar()
-        }
+        get() = (activity as? AppCompatActivity)?.supportActionBar
 
     private fun setActionBar(toolbar: Toolbar?) {
         toolbar?.let {
-            activity.setSupportActionBar(it)
+            (activity as? AppCompatActivity)?.setSupportActionBar(it)
             it.setNavigationOnClickListener(this)
         }
     }

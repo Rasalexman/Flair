@@ -1,4 +1,4 @@
-package com.rasalexman.flairframework.interfaces
+package com.rasalexman.flaircore.interfaces
 
 import android.animation.Animator
 import com.rasalexman.flaircore.interfaces.IMediator

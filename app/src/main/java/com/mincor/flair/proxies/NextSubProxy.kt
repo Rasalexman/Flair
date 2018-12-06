@@ -1,7 +1,7 @@
 package com.mincor.flair.proxies
 
 import com.mincor.flair.views.subcomponents.NextSubChildMediator
-import com.rasalexman.flairframework.patterns.proxy.Proxy
+import com.rasalexman.flaircore.patterns.proxy.Proxy
 
 class NextSubProxy(view:NextSubChildMediator) : Proxy<NextSubChildMediator>(view){
 

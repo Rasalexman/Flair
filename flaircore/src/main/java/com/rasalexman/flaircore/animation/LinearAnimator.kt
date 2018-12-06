@@ -26,8 +26,6 @@ import com.rasalexman.flaircore.interfaces.IMediator
  */
 open class LinearAnimator : BaseAnimator() {
 
-    override var from: IMediator? = null
-    override var to: IMediator? = null
     override var isShow: Boolean = true
     override var duration: Long = 500
     override var popLast: Boolean = false
@@ -58,16 +56,5 @@ open class LinearAnimator : BaseAnimator() {
         }
 
         return animatorSet
-    }
-
-    /**
-     * Play animation
-     */
-    override fun playAnimation() {
-        to?.let {
-            it.viewComponent?.viewTreeObserver?.addOnPreDrawListener(AnimationPreDrawListener(to!!.viewComponent, ::startAnimation))
-        } ?: from?.let {
-            startAnimation()
-        }
     }
 }

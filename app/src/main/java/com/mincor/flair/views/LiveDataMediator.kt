@@ -12,8 +12,8 @@ import com.mincor.flair.R
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.LiveDataProxy
 import com.mincor.flair.proxies.vo.AccountModel
-import com.rasalexman.flairframework.interfaces.proxyLazyModel
-import com.rasalexman.flairframework.interfaces.sendNotification
+import com.rasalexman.flaircore.interfaces.sendNotification
+import com.rasalexman.flairreflect.proxyLazyModel
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk27.coroutines.onClick

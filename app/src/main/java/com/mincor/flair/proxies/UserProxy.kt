@@ -2,8 +2,8 @@ package com.mincor.flair.proxies
 
 import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.proxies.vo.UserModel
-import com.rasalexman.flairframework.interfaces.sendNotification
-import com.rasalexman.flairframework.patterns.proxy.Proxy
+import com.rasalexman.flaircore.interfaces.sendNotification
+import com.rasalexman.flaircore.patterns.proxy.Proxy
 
 /**
  * Created by a.minkin on 21.11.2017.
