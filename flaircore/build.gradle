@@ -28,6 +28,11 @@ android {
     }
 }
 
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
 dependencies {
     implementation ("com.android.support:appcompat-v7:$supportVersion") {
         exclude group: 'support', module: 'support-media-compat'
@@ -43,3 +48,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+
+repositories {
+    mavenCentral()
+}
+apply from: 'deploy.gradle'

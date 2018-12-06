@@ -31,9 +31,9 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     override var multitonKey: String = ""
 
     // Mapping of Notification names to Observer lists
-    override val observerMap = HashMap<String, MutableList<IObserver>>()
+    override val observerMap = hashMapOf<String, MutableList<IObserver>>()
     // Mapping of Mediator names to Mediator instances
-    override val mediatorMap = HashMap<String, IMediator>()
+    override val mediatorMap = hashMapOf<String, IMediator>()
 
     // List of current added mediators on the screen
     override val mediatorBackStack: MutableList<IMediator> = mutableListOf()
@@ -122,7 +122,6 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         // only if there is no attach
         if (!isAlreadyRegistered) {
             currentActivity = WeakReference(activity)
-            //val fragmentManager = c.supportFragmentManager
             fragmentManager?.beginTransaction()?.add(this, multitonKey)?.commitAllowingStateLoss()
             activity.application.registerActivityLifecycleCallbacks(this)
             isAlreadyRegistered = true

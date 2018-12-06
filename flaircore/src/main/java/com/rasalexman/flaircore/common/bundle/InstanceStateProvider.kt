@@ -1,4 +1,4 @@
-package com.rasalexman.flairframework.common.bundle
+package com.rasalexman.flaircore.common.bundle
 
 import android.os.Bundle
 import android.os.Parcelable

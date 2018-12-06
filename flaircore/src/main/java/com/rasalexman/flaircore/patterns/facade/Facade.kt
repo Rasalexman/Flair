@@ -2,9 +2,9 @@ package com.rasalexman.flaircore.patterns.facade
 
 import android.content.Context
 import com.rasalexman.flaircore.controller.Controller
+import com.rasalexman.flaircore.interfaces.IFacade
 import com.rasalexman.flaircore.model.Model
 import com.rasalexman.flaircore.view.View
-import com.rasalexman.flaircore.interfaces.IFacade
 
 
 /**

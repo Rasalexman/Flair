@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
-import com.rasalexman.flaircore.interfaces.IMediator
 
 /**
  * Created by a.minkin on 24.11.2017.

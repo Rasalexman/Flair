@@ -1,8 +1,8 @@
 package com.rasalexman.flaircore.patterns.command
 
-import com.rasalexman.flaircore.patterns.observer.Notifier
 import com.rasalexman.flaircore.interfaces.ICommand
 import com.rasalexman.flaircore.interfaces.INotification
+import com.rasalexman.flaircore.patterns.observer.Notifier
 
 /**
  * Created by a.minkin on 21.11.2017.
