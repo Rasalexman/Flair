@@ -2,23 +2,23 @@
 
 ![alt text](https://github.com/Rasalexman/Flair/blob/master/FlairFrameworkLogo.png)
 
-[ ![Kotlin 1.3.11](https://img.shields.io/badge/Kotlin-1.3.11-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flair-framework/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flair-framework/_latestVersion)
+[ ![Kotlin 1.3.11](https://img.shields.io/badge/Kotlin-1.3.11-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flaircore/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flaircore/_latestVersion)
 
-This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, constructor injection and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
+This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, constructor injection module and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecyrcle than Fragments and Activities
 
-The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `FlairActivity` or any `Context` implementations
+The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `MainActivity` or any `Context` implementations
 ```kotlin
 val flairCoreInstance = flair {
-        registerCommand<MyCommand>(eventName) {}
-        registerProxy<MyProxy>()
-        registerMediator<MyMediator>()
+        registerCommand<MyCommand>(eventName) { MyCommand() }
+        registerProxy<MyProxy> { MyProxy() }
+        registerMediator<MyMediator> { MyMediator() }
     }
 ```
 
 You can register all part of Flair framework in any part of your application by calling lazy functions or inline functions like `proxy()`, `proxyLazy()`, `mediator()`, `mediatorLazy()`
 
-The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity (that should be an instance of FlairActivity) can be stored in one core of FlairFramework
+The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
 ```kotlin
 class MainActivity : FlairActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +38,7 @@ Components:
 3) MacroCommands can combine more than one SimpleCommand and execute it one by one
 4) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
 5) Mediator is a simple view-hierarchy handler class, it's store and manage life cycle of your view components such as AnkoComponents or xml-layout files. Also it support view backstack storage.
-6) Also you has `LinearAnimator.kt` for create simple view animation changes such as HorizontalAnimation, or u can extends LinearAnimator and create ur own realisation. 
+6) Also you has `LinearAnimator.kt` for create simple view animation changes such as HorizontalAnimation, or u can extends LinearAnimator and create your own realisation. 
 7) All components of a FlairFramework are linked together by a powerful messaging system. You can notify every part of your system by calling `sendNotification(event, data)` and subscribe on event by calling `registerObserver(event) { INotification -> }` in IMediator or execute another SimpleCommand (see example above). Mediator can notify commands, commands can notify mediators and another commands, proxy can notify mediators and another commands. 
 
 Mediators can handle notification by
@@ -87,7 +87,7 @@ class MyCommand : SimpleCommand() {
 }
 ```
 
-You can use powerful feature from kotlin lang like lazy `val` instantiating, this is an example with custom constructor parameters. 
+You can use powerful feature from kotlin lang like lazy `val` instantiating, this is an example with custom constructor parameters. Important note: that since version 1.5.+ you need to add  
 ```kotlin
 class MyProxyWithParams(mediator:MyMediator) : Proxy<MyMediator>(mediator) {
     override fun onRegister() {
@@ -107,6 +107,12 @@ class MyMediator : Mediator() {
   }
 }
 ```
+
+Since version 1.5.0 - there are many new features and changes in framework:
+* The core version is under ```com.rasalexman.flaircore``` package and you need to add new package```implementation 'com.rasalexman.flaircore:flaircore:1.5.+' ``` into your build.gradle file
+* The reflection module included by ```implementation 'com.rasalexman.flairreflect:flairreflect:1.5.0'``` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
+* Added new animations FadeAnimator, NextAnimator, BackAnimator.
+* Turned back minSdkVersion = 17 ) 
 
 Since verson 1.1.3 added new extension functions
 * fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
