@@ -108,12 +108,6 @@ class MyMediator : Mediator() {
 }
 ```
 
-Since version 1.5.0 - there are many new features and changes in framework:
-* The core version is under ```com.rasalexman.flaircore``` package and you need to add new package```implementation 'com.rasalexman.flaircore:flaircore:1.5.+' ``` into your build.gradle file
-* The reflection module included by ```implementation 'com.rasalexman.flairreflect:flairreflect:1.5.0'``` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
-* Added new animations FadeAnimator, NextAnimator, BackAnimator.
-* Turned back minSdkVersion = 17 ) 
-
 Since verson 1.1.3 added new extension functions
 * fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
 * fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int)
@@ -158,25 +152,52 @@ class PageOneMediator : Mediator() {
 }
 ```
 
+Since version 1.5.0 - there are many new features and changes in framework:
+* The core version is under ```com.rasalexman.flaircore``` package and you need to add new package```implementation 'com.rasalexman.flaircore:flaircore:1.5.+' ``` into your build.gradle file
+* The reflection module included by ```implementation 'com.rasalexman.flairreflect:flairreflect:1.5.0'``` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
+* Added new animations FadeAnimator, NextAnimator, BackAnimator.
+* Turned back minSdkVersion = 17 ) 
+
 See the sample project `app` for more complex information. Also code base has good comments and docs on every functions
 
 Maven:
 ```
+// Core
 <dependency>
-  <groupId>com.rasalexman.flairframework</groupId>
-  <artifactId>flairframework</artifactId>
-  <version>x.y.z</version>
+  <groupId>com.rasalexman.flaircore</groupId>
+  <artifactId>flaircore</artifactId>
+  <version>1.5.x</version>
+  <type>pom</type>
+</dependency>
+
+// reflection module
+<dependency>
+  <groupId>com.rasalexman.flairreflect</groupId>
+  <artifactId>flairreflect</artifactId>
+  <version>1.5.x</version>
   <type>pom</type>
 </dependency>
 ```
 
 Gradle:
 ```
-implementation 'com.rasalexman.flairframework:flairframework:x.y.z'
+// standart multicore version (without reflection)
+implementation 'com.rasalexman.flaircore:flaircore:1.5.x'
+
+// reflection module (for use constructor injections and property injection)
+implementation 'com.rasalexman.flairreflect:flairreflect:1.5.x'
 ```
 
 Changelog:
 ----
+* 1.5.0
+1) Separate FlairFramework packages to core and reflection modules. Now core module weight is less then 125 Kb and you don't need to worry about reflection library in your proguard file!!!
+2) Add example with GOOGLE LiveData (https://developer.android.com/topic/libraries/architecture/livedata)
+3) minSdkVersion come back to 17
+4) IMediator.isAddToBackStack - new property that means: `does this mediator need to be added in backstack` if you want to organize your own backstack)
+5) Added new animations - FadeAnimator, NextLinearAnimator, BackLinearAnimator.
+6) Many bug fixes and code improvements
+
 * 1.2.5
 1) fix bug with IView.checkSelfPermission(permissionToCheck: String)
 2) update kotlin version to 1.2.70
