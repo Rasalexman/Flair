@@ -16,9 +16,7 @@ val flairCoreInstance = flair {
     }
 ```
 
-You can register all part of Flair framework in any part of your application by calling lazy functions or inline functions like `proxy()`, `proxyLazy()`, `mediator()`, `mediatorLazy()`
-
-The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and flair take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
+The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and 'Flair' take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
 ```kotlin
 class MainActivity : FlairActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +84,8 @@ class MyCommand : SimpleCommand() {
     }
 }
 ```
+
+Register all components of Flair framework (Mediators, Proxies, Command) in any part of your application by calling lazy functions or inline functions like `proxy()`, `proxyLazy()`, `mediator()`, `mediatorLazy()` from reflection module since 1.5.+ 
 
 You can use powerful feature from kotlin lang like lazy `val` instantiating, this is an example with custom constructor parameters. Important note: that since version 1.5.+ you need to add  
 ```kotlin
