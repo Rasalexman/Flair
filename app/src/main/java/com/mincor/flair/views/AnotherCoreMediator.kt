@@ -55,7 +55,7 @@ class AnotherCoreMediator : ToolbarMediator() {
 
                 button("POP TO PARENT MEDIATOR") {
                     onClick {
-                        popTo<MVVMMediator>()
+                        popTo<MainMediator>()
                     }
                 }.lparams(matchParent) {
                     weight = 1f

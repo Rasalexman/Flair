@@ -2,7 +2,7 @@ package com.mincor.flair.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.mincor.flair.views.MVVMMediator
+import com.mincor.flair.views.MainMediator
 import com.rasalexman.flaircore.ext.flair
 import com.rasalexman.flaircore.interfaces.attach
 import com.rasalexman.flaircore.interfaces.handleBackButton
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         flair {
             attach(this@MainActivity)
-            showLastOrExistMediator<MVVMMediator>()
+            showLastOrExistMediator<MainMediator>()
         }
     }
 

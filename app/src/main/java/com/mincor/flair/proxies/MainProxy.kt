@@ -5,7 +5,7 @@ import com.rasalexman.flaircore.interfaces.sendNotification
 import com.rasalexman.flaircore.patterns.proxy.Proxy
 import kotlin.properties.Delegates
 
-class MVVMProxy : Proxy<AccountModel>(AccountModel("", "")) {
+class MainProxy : Proxy<AccountModel>(AccountModel("", "")) {
 
     var socialName: String by Delegates.observable("") { cur, old, new ->
         println("-------> socialName: current value $cur OLD value $old NEW VALUE $new")

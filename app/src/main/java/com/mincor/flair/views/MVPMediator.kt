@@ -123,7 +123,7 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun showMVVMAGAIN() {
-        showMediator<MVVMMediator>()
+        showMediator<MainMediator>()
     }
 
     private fun showUserListAgain() {

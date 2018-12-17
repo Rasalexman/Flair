@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import com.mincor.flair.proxies.NextSubProxy
-import com.mincor.flair.views.MVVMMediator
+import com.mincor.flair.views.MainMediator
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flaircore.patterns.mediator.Mediator
@@ -74,6 +74,6 @@ class NextSubChildMediator : Mediator(), NextSubProxy.IView {
     }
 
     private fun onShowParentMediatorHandler() {
-        flair(IFacade.DEFAULT_KEY).retrieveMediator<MVVMMediator>().show(LinearAnimator(), true)
+        flair(IFacade.DEFAULT_KEY).retrieveMediator<MainMediator>().show(LinearAnimator(), true)
     }
 }

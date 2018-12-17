@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.mincor.flair.R
 import com.mincor.flair.events.Events
-import com.mincor.flair.proxies.MVVMProxy
+import com.mincor.flair.proxies.MainProxy
 import com.mincor.flair.proxies.UserProxy
 import com.mincor.flair.proxies.rand
 import com.mincor.flair.proxies.vo.AccountModel
@@ -34,7 +34,7 @@ import java.util.*
 /**
  * Created by a.minkin.
  */
-class MVVMMediator : ToolbarMediator() {
+class MainMediator : ToolbarMediator() {
 
     companion object {
         const val BUNDLE_NAME = "user_name"
@@ -44,7 +44,7 @@ class MVVMMediator : ToolbarMediator() {
     override var hasOptionalMenu: Boolean = true
 
     // model as AccountModel
-    private val accountModel by proxyLazyModel<MVVMProxy, AccountModel>()
+    private val accountModel by proxyLazyModel<MainProxy, AccountModel>()
     // models as List
     private val usersList by proxyLazyModel<UserProxy, MutableList<UserModel>>()
     // you can use it like a lazy reference
@@ -59,7 +59,7 @@ class MVVMMediator : ToolbarMediator() {
         registerObserver(UserProxy.NOTIFICATION_AUTH_COMPLETE) {
             println("------> NOTIFICATION AUTH COMPLETE, SIZE = ${usersList.size}")
             accountListMediator.show(LinearAnimator())
-        }.registerObserver(MVVMProxy.ACCOUNT_CHANGE_HANDLER) {
+        }.registerObserver(MainProxy.ACCOUNT_CHANGE_HANDLER) {
             println("------> ACCOUNT PROXY social name = ${accountModel.socialName} pageId = ${accountModel.pageId}")
             accountNameTV?.text = accountModel.socialName
             passwordNameTV?.text = accountModel.pageId
@@ -125,8 +125,8 @@ class MVVMMediator : ToolbarMediator() {
         passwordNameTV = null
     }
 
-    inner class UserAuthUI : AnkoComponent<MVVMMediator> {
-        override fun createView(ui: AnkoContext<MVVMMediator>) = with(ui) {
+    inner class UserAuthUI : AnkoComponent<MainMediator> {
+        override fun createView(ui: AnkoContext<MainMediator>) = with(ui) {
             scrollView {
 
                 verticalLayout {

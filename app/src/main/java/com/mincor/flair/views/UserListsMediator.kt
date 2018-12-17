@@ -87,7 +87,7 @@ class UserListsMediator : ToolbarMediator() {
 
                 button("POP TO NOT REGISTERED MEDIATOR") {
                     onClick {
-                        popTo<MVVMMediator>()
+                        popTo<MainMediator>()
                     }
                 }
             }
