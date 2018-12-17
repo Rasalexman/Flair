@@ -106,7 +106,7 @@ class MainMediator : ToolbarMediator() {
     fun onShowAlertPopUp() {
         activity.alert {
             title = "This is a test popup"
-            message = "We test alert only for activity view lifecyrcle"
+            message = "We test alert only for activity view lifecycle"
 
             okButton {
                 it.dismiss()
