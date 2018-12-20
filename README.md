@@ -7,13 +7,15 @@
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, constructor injection module and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecyrcle than Fragments and Activities
 
-The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of ur project such as `MainActivity` or any `Context` implementations
+The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of your project such as `MainActivity` or any `Context` implementations
 ```kotlin
 val flairCoreInstance = flair {
         registerCommand<MyCommand>(eventName) { MyCommand() }
         registerProxy<MyProxy> { MyProxy() }
         registerMediator<MyMediator> { MyMediator() }
     }
+    // you can define more than one core instance of flair by given the name
+val flairSecondCore = flair(SECOND_CORE_NAME) {}
 ```
 
 The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and 'Flair' take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
@@ -32,7 +34,7 @@ class MainActivity : FlairActivity() {
 
 Components:
 1) 'flair' instance is a simple IFacade singleton instance as core functionality point
-2) SimpleCommand instances is a command pattern realisation. You can manipulate proxy objects from it's instance as like usecases
+2) SimpleCommand instances is a command pattern realisation. You can manipulate proxy objects from it's instance as like usecases by siquence one command to notification like `registerCommand<MyCommand>(YOUR_EVENT_NAME) { MyCommand() }`
 3) MacroCommands can combine more than one SimpleCommand and execute it one by one
 4) Proxy objects is a complex object that store data to manipulate with, it's like repository for ur network calls or database
 5) Mediator is a simple view-hierarchy handler class, it's store and manage life cycle of your view components such as AnkoComponents or xml-layout files. Also it support view backstack storage.
