@@ -1,7 +1,7 @@
 package com.rasalexman.flaircore.interfaces
 
-import android.app.Activity
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import com.rasalexman.flaircore.ext.flair
 
 /**
@@ -105,7 +105,7 @@ val INotifier.appContext: Context
 /**
  * Attached to facade single activity
  */
-val INotifier.activity: Activity
+val INotifier.activity: AppCompatActivity
     get() = facade.view.currentActivity?.get()
             ?: throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
 

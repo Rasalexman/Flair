@@ -73,8 +73,6 @@ class RegistrationMediator : Mediator() {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView?.requestFocus()
-        } else {
-
         }
     }
 

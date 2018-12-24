@@ -29,10 +29,7 @@ class ForgotPassMediator : Mediator() {
     internal fun onSubmitHandler() {
         val emailStr = emailET!!.text.toString()
         if (emailStr.isEmpty()) {
-            //emailET!!.error string R.string.notSetEmailTF
-            emailET!!.requestFocus()
-        } else {
-
+            emailET?.requestFocus()
         }
     }
 

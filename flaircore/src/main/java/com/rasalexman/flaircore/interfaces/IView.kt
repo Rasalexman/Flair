@@ -1,8 +1,8 @@
 package com.rasalexman.flaircore.interfaces
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.rasalexman.flaircore.ext.removeFromParent
 import java.lang.ref.WeakReference
@@ -37,7 +37,7 @@ interface IView : IMultitonKey {
     /**
      * Reference to the Activity attached on core
      */
-    var currentActivity: WeakReference<Activity>?
+    var currentActivity: WeakReference<AppCompatActivity>?
 
     /**
      * Instance of ui container
@@ -55,7 +55,7 @@ interface IView : IMultitonKey {
      * @param container
      * The container when ui will be added
      */
-    fun attachActivity(activity: Activity, container: ViewGroup? = null)
+    fun attachActivity(activity: AppCompatActivity, container: ViewGroup? = null)
 
     /**
      * When requested activity has come

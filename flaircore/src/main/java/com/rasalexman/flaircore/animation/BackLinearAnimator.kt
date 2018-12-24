@@ -16,6 +16,4 @@ class BackLinearAnimator(override var duration: Long = 500,
 
     override var popLast: Boolean = true
             get() = localPopLast
-
-
 }

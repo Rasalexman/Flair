@@ -2,6 +2,7 @@ package com.rasalexman.flaircore.interfaces
 
 import android.app.Activity
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.controller.Controller
@@ -219,7 +220,7 @@ inline fun <reified T : IProxy<*>> IFacade.hasProxy(): Boolean = this.model.hasP
  * @param container
  * Current container (ViewGroup) to add childs viewComponents from Mediators
  */
-fun IFacade.attach(activity: Activity, container: ViewGroup? = null): IFacade {
+fun IFacade.attach(activity: AppCompatActivity, container: ViewGroup? = null): IFacade {
     view.attachActivity(activity, container)
     return this
 }

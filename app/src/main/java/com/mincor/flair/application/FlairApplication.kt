@@ -32,6 +32,7 @@ class FlairApplication : Application() {
         registerCommand<UserAuthCommand>(AUTH)
         registerCommand<AccountCommand>(ACCOUNT_CHANGE)
         registerCommand<AccountCommand>(ACCOUNT_CLEAR)
+        // This is a way to register components without reflections
         registerCommand(LOGIC_START) { LogicMacroCommand() }
     }
 
