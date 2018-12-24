@@ -197,7 +197,7 @@ Added AppCompatActivity to View.attachActivity(...) with activity fragmentManage
 
 * 1.5.0
 1) Separate FlairFramework packages to core and reflection modules. Now core module weight is less then 125 Kb and you don't need to worry about reflection library in your proguard file!!!
-2) Add example with GOOGLE LiveData (https://developer.android.com/topic/libraries/architecture/livedata)
+2) Add example with GOOGLE LiveData
 3) minSdkVersion come back to 17
 4) IMediator.isAddToBackStack - new property that means: `does this mediator need to be added in backstack` if you want to organize your own backstack)
 5) Added new animations - FadeAnimator, NextLinearAnimator, BackLinearAnimator.
