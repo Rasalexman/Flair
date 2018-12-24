@@ -111,7 +111,7 @@ class MyMediator : Mediator() {
 ```
 
 Since verson 1.1.3 added new extension functions
-```
+```kotlin
 fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
 fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int)
 fun IMediator.checkSelfPermission(permissionToCheck:String):Int
@@ -155,15 +155,15 @@ class PageOneMediator : Mediator() {
 }
 ```
 Since version 1.5.0 - there are many new features and changes in framework:
-* The core version is under ```com.rasalexman.flaircore``` package and you need to add new package```implementation 'com.rasalexman.flaircore:flaircore:1.5.+' ``` into your build.gradle file
-* The reflection module included by implementing ```com.rasalexman.flairreflect:flairreflect:1.5.x``` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
-* Added new animations FadeAnimator, NextAnimator, BackAnimator.
+* The core version is under `com.rasalexman.flaircore` package and you need to add new package`implementation 'com.rasalexman.flaircore:flaircore:1.5.+'` into your build.gradle file
+* The reflection module included by implementing `com.rasalexman.flairreflect:flairreflect:1.5.x` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
+* Added new animations `FadeAnimator`, `NextLinearAnimator`, `BackLinearAnimator`.
 * Turned back minSdkVersion = 17 ) 
 
 See the sample project `app` for more complex information. Also code base has good comments and docs on every functions
 
 Maven:
-```
+```kotlin
 // Core
 <dependency>
   <groupId>com.rasalexman.flaircore</groupId>
@@ -192,8 +192,7 @@ implementation 'com.rasalexman.flairreflect:flairreflect:1.5.x'
 
 Changelog
 ----
-* 1.5.1 
-Added AppCompatActivity to View.attachActivity(...) with activity fragmentManager.
+* 1.5.1 - Added AppCompatActivity to `View.attachActivity(...)` with activity fragmentManager.
 
 * 1.5.0
 1) Separate FlairFramework packages to core and reflection modules. Now core module weight is less then 125 Kb and you don't need to worry about reflection library in your proguard file!!!
@@ -215,7 +214,7 @@ Added AppCompatActivity to View.attachActivity(...) with activity fragmentManage
 1) fixed bug in IView.hideMediator when pop curent Mediator after animation changed
 2) added hashBackButton:Boolean to ToolbarMediator
 3) minSdkVersion 19
-4) split inner classes from com.rasalexman.flairframework.core.animation.* to AnimationPreDrawListener, BaseAnimationListenerAdapter and added abstract class BaseAnimator
+4) split inner classes from `com.rasalexman.flairframework.core.animation.*` to AnimationPreDrawListener, BaseAnimationListenerAdapter and added abstract class BaseAnimator
 5) changed MutableMap to ArrayMap for memory improvements
 6) View.currentActivity is WeakReference
 7) changed MacroCommand.initializeMacroCommand from constructor to IController.registerCommand
@@ -230,7 +229,7 @@ Added AppCompatActivity to View.attachActivity(...) with activity fragmentManage
 * 1.1.8 - Added bundle argument to IMediator, added one more lifecyrcle fun onPrepareView()
 * 1.1.7 - Added hardware back button support (see example in app)
 * 1.1.6 - fixed rotation bug with menu creation, many improvements
-* 1.1.5 - fix bug in View.kt clearAll()
+* 1.1.5 - fix bug in View.kt `clearAll()`
 * 1.1.4 - added com.mincor.flairframework.common.adapters.FlairPagerAdapter
 * 1.1.3 - extension functions for permissions and activity
 
