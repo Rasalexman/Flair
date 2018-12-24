@@ -2,10 +2,10 @@
 
 ![alt text](https://github.com/Rasalexman/Flair/blob/master/FlairFrameworkLogo.png)
 
-[ ![Kotlin 1.3.11](https://img.shields.io/badge/Kotlin-1.3.11-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flaircore/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flaircore/_latestVersion)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f3452befd9544f65aa5b93fdefd3cd38)](https://app.codacy.com/app/Rasalexman/Flair?utm_source=github.com&utm_medium=referral&utm_content=Rasalexman/Flair&utm_campaign=Badge_Grade_Dashboard)
+[ ![Kotlin 1.3.11](https://img.shields.io/badge/Kotlin-1.3.11-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flaircore/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flaircore/_latestVersion)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f3452befd9544f65aa5b93fdefd3cd38)](https://app.codacy.com/app/Rasalexman/Flair?utm_source=github.com&utm_medium=referral&utm_content=Rasalexman/Flair&utm_campaign=Badge_Grade_Dashboard)[![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, constructor injection module and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
-The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecyrcle than Fragments and Activities
+The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecycle than Fragments and Activities
 
 The start point for initialize framework is declare 'flair' instance in onCreate method in MainApplication file. But u can initialize framework in any part of your project such as `MainActivity` or any `Context` implementations
 ```kotlin
@@ -20,7 +20,7 @@ val flairSecondCore = flair(SECOND_CORE_NAME) {}
 
 The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and 'Flair' take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
 ```kotlin
-class MainActivity : FlairActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val showingAnimation = LinearAnimator()
