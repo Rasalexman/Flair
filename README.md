@@ -20,7 +20,7 @@ val flairSecondCore = flair(SECOND_CORE_NAME) {}
 
 The second point or using 'Flair' is attach created core to single Activity class and root layout container (but u can no specify any root container and 'Flair' take it for you automatically as `activity.window.decorView.findViewById(android.R.id.content)`). Important thing: only one activity can be stored in one core of FlairFramework
 ```kotlin
-class MainActivity : FlairActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val showingAnimation = LinearAnimator()
