@@ -111,11 +111,12 @@ class MyMediator : Mediator() {
 ```
 
 Since verson 1.1.3 added new extension functions
-* fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
-* fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int)
-* fun IMediator.checkSelfPermission(permissionToCheck:String):Int
-* fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean
-
+```
+fun IMediator.startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?= null)
+fun IMediator.requestPermissions(permissions: Array<String>, requestCode: Int)
+fun IMediator.checkSelfPermission(permissionToCheck:String):Int
+fun IMediator.shouldShowRequestPermissionRationale(permission: String): Boolean
+```
 and they callbacks:
 ```kotlin
 class MyMediator : Mediator() {
@@ -153,10 +154,9 @@ class PageOneMediator : Mediator() {
     }
 }
 ```
-
 Since version 1.5.0 - there are many new features and changes in framework:
 * The core version is under ```com.rasalexman.flaircore``` package and you need to add new package```implementation 'com.rasalexman.flaircore:flaircore:1.5.+' ``` into your build.gradle file
-* The reflection module included by ```implementation 'com.rasalexman.flairreflect:flairreflect:1.5.0'``` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
+* The reflection module included by implementing ```com.rasalexman.flairreflect:flairreflect:1.5.x``` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
 * Added new animations FadeAnimator, NextAnimator, BackAnimator.
 * Turned back minSdkVersion = 17 ) 
 
@@ -182,7 +182,7 @@ Maven:
 ```
 
 Gradle:
-```
+```kotlin
 // standart multicore version (without reflection)
 implementation 'com.rasalexman.flaircore:flaircore:1.5.x'
 
@@ -190,8 +190,11 @@ implementation 'com.rasalexman.flaircore:flaircore:1.5.x'
 implementation 'com.rasalexman.flairreflect:flairreflect:1.5.x'
 ```
 
-Changelog:
+Changelog
 ----
+* 1.5.1 
+Added AppCompatActivity to View.attachActivity(...) with activity fragmentManager.
+
 * 1.5.0
 1) Separate FlairFramework packages to core and reflection modules. Now core module weight is less then 125 Kb and you don't need to worry about reflection library in your proguard file!!!
 2) Add example with GOOGLE LiveData (https://developer.android.com/topic/libraries/architecture/livedata)
