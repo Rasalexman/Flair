@@ -1,5 +1,7 @@
 # FlairFramework
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f3452befd9544f65aa5b93fdefd3cd38)](https://app.codacy.com/app/Rasalexman/Flair?utm_source=github.com&utm_medium=referral&utm_content=Rasalexman/Flair&utm_campaign=Badge_Grade_Dashboard)
+
 ![alt text](https://github.com/Rasalexman/Flair/blob/master/FlairFrameworkLogo.png)
 
 [ ![Kotlin 1.3.11](https://img.shields.io/badge/Kotlin-1.3.11-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flaircore/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flaircore/_latestVersion)
