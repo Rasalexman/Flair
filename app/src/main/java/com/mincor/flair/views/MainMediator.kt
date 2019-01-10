@@ -8,8 +8,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
+import android.widget.EditText
 import com.mincor.flair.R
+import com.mincor.flair.commands.WorkerCommand
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.MainProxy
 import com.mincor.flair.proxies.UserProxy
@@ -51,22 +52,25 @@ class MainMediator : ToolbarMediator() {
     private val accountListMediator: UserListsMediator by mediatorLazy()
 
     //----- VIEWS
-    var accountNameTV: TextView? = null
-    var passwordNameTV: TextView? = null
+    var accountNameTV: EditText? = null
+    var passwordNameTV: EditText? = null
 
     override fun onRegister() {
         // this is a perfect place to register your notification
         registerObserver(UserProxy.NOTIFICATION_AUTH_COMPLETE) {
             println("------> NOTIFICATION AUTH COMPLETE, SIZE = ${usersList.size}")
+            addSomeDataInBundle()
             accountListMediator.show(LinearAnimator())
+        }.registerObserver(WorkerCommand.WORK_COMPLETE_EVENT) {
+            activity.toast("WORK COMPLETE WITH ${it.body}")
         }.registerObserver(MainProxy.ACCOUNT_CHANGE_HANDLER) {
             println("------> ACCOUNT PROXY social name = ${accountModel.socialName} pageId = ${accountModel.pageId}")
-            accountNameTV?.text = accountModel.socialName
-            passwordNameTV?.text = accountModel.pageId
+            accountNameTV?.setText(accountModel.socialName)
+            passwordNameTV?.setText(accountModel.pageId)
         }.registerListObservers(listOf(UserProxy.NOTIFICATION_AUTH_FAILED, UserProxy.NOTIFICATION_AUTH_COMPLETE)) {
             when (it.name) {
-                UserProxy.NOTIFICATION_AUTH_FAILED -> activity.toast("Login Failed").show()
-                UserProxy.NOTIFICATION_AUTH_COMPLETE -> activity.toast("Login Complete").show()
+                UserProxy.NOTIFICATION_AUTH_FAILED -> activity.toast("Login Failed")
+                UserProxy.NOTIFICATION_AUTH_COMPLETE -> activity.toast("Login Complete")
             }
         }
     }
@@ -80,10 +84,23 @@ class MainMediator : ToolbarMediator() {
 
     override fun createLayout(context: Context): View = UserAuthUI().createView(AnkoContext.create(context, this))
 
+    override fun onAddedView(view: View) {
+        super.onAddedView(view)
+        accountNameTV?.setText(this.arguments.getString(BUNDLE_NAME, ""))
+        passwordNameTV?.setText(this.arguments.getString(BUNDLE_PASSWORD, ""))
+    }
+
     private fun onLoginClicked() {
-        Keyboards.hideKeyboard(viewComponent!!.context, viewComponent!!)
+        viewComponent?.let {
+            Keyboards.hideKeyboard(it.context, it)
+        }
         println("-----> account first data $accountModel")
         sendNotification(Events.AUTH, arrayOf(accountNameTV?.text.toString(), passwordNameTV?.text.toString()))
+    }
+
+    private fun onAsyncWorkClicked() {
+        activity.toast("START ASYNC WORK")
+        sendNotification(Events.WORKER_EXAMPLE_EVENT)
     }
 
     private fun onChangeDataClicked() {
@@ -114,36 +131,44 @@ class MainMediator : ToolbarMediator() {
         }.show()
     }
 
+    override fun onAnimationStart(isShow: Boolean) {
+        super.onAnimationStart(isShow)
+        addSomeDataInBundle()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        // We can save some information to Bundle here
-        this.arguments.putString(BUNDLE_NAME, accountModel.socialName)
-        this.arguments.putString(BUNDLE_PASSWORD, accountModel.pageId)
-
+        addSomeDataInBundle()
         // don't forget to clear the references
         accountNameTV = null
         passwordNameTV = null
     }
 
-    inner class UserAuthUI : AnkoComponent<MainMediator> {
+    private fun addSomeDataInBundle() {
+        // We can save some information to Bundle here
+        this.arguments.putString(BUNDLE_NAME, accountModel.socialName)
+        this.arguments.putString(BUNDLE_PASSWORD, accountModel.pageId)
+    }
+
+    class UserAuthUI : AnkoComponent<MainMediator> {
         override fun createView(ui: AnkoContext<MainMediator>) = with(ui) {
             scrollView {
 
                 verticalLayout {
                     lparams(matchParent, matchParent)
-                    toolBar = toolbar {
+                    ui.owner.toolBar = toolbar {
                         setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
                         title = "Login"
                         backgroundResource = R.color.colorPrimary
                     }
 
-                    accountNameTV = editText(accountModel.socialName) {
+                    ui.owner.accountNameTV = editText(ui.owner.accountModel.socialName) {
                         hint = "Username"
                         imeOptions = EditorInfo.IME_ACTION_NEXT
                         singleLine = true
                     }
 
-                    passwordNameTV = editText(accountModel.pageId) {
+                    ui.owner.passwordNameTV = editText(ui.owner.accountModel.pageId) {
                         hint = "Password"
                         singleLine = true
                         imeOptions = EditorInfo.IME_ACTION_SEND
@@ -151,24 +176,28 @@ class MainMediator : ToolbarMediator() {
                     }
 
                     button("Login") {
-                        onClick { onLoginClicked() }
+                        onClick { ui.owner.onLoginClicked() }
+                    }
+
+                    button("Async Work") {
+                        onClick { ui.owner.onAsyncWorkClicked() }
                     }
 
                     button("GENERATE LIVE DATA") {
-                        onClick { onChangeDataClicked() }
+                        onClick { ui.owner.onChangeDataClicked() }
                     }.lparams(matchParent) {
                         bottomMargin = dip16()
                     }
 
                     button("show view pager") {
                         onClick {
-                            showMediator<ViewPagerMediator>(FadeAnimator())
+                            ui.owner.showMediator<ViewPagerMediator>(FadeAnimator())
                         }
                     }
 
                     button("show login mediator") {
                         onClick {
-                            showMediator<LoginMediator>(LinearAnimator())
+                            ui.owner.showMediator<LoginMediator>(LinearAnimator())
                         }
                     }.lparams(matchParent) {
                         bottomMargin = dip16()
@@ -176,25 +205,27 @@ class MainMediator : ToolbarMediator() {
 
                     button("show alert pop up") {
                         onClick {
-                            onShowAlertPopUp()
+                            ui.owner.onShowAlertPopUp()
                         }
                     }
 
                     button("show live data mediator") {
                         onClick {
-                            showMediator<LiveDataMediator>()
+                            ui.owner.showMediator<LiveDataMediator>()
                         }
                     }
 
                     button("SHOW SUB CHILD MEDIATOR") {
                         onClick {
-                            showMediator<AnotherCoreMediator>()
+                            ui.owner.showMediator<AnotherCoreMediator>()
                         }
                     }
                 }
             }
         }
     }
+
+
 }
 
 

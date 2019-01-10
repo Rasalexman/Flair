@@ -10,6 +10,7 @@ object Events {
     const val AUTH = "auth"
     const val ACCOUNT_CHANGE = "change_account"
     const val ACCOUNT_CLEAR = "clear_account"
+    const val WORKER_EXAMPLE_EVENT = "worker_example"
 
     const val LOGIC_START = "start_logic"
 }

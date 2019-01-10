@@ -10,9 +10,7 @@ import android.widget.Button
 import com.mincor.flair.R
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.ext.log
-import com.rasalexman.flaircore.interfaces.inflateView
-import com.rasalexman.flaircore.interfaces.popTo
-import com.rasalexman.flaircore.interfaces.show
+import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flairreflect.mediatorLazy
 import kotlinx.android.synthetic.main.simple_layout.view.*
 import org.jetbrains.anko.*
@@ -29,6 +27,7 @@ class UserListsMediator : ToolbarMediator() {
 
     val mvpMediator: MVPMediator by mediatorLazy()
 
+    // You can use any time of layout (XML, Code or Anko DSL)
     override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) //UserListUI().createView(AnkoContext.create(context, this))
 
     private var button: Button? = null
@@ -39,12 +38,24 @@ class UserListsMediator : ToolbarMediator() {
         super.onCreatedView(view)
 
         button = view.button
-        button!!.onClick {
-            mvpMediator.show(animation = LinearAnimator())
+        button?.apply {
+            // You can manage your xml synthetic layout by included drawables with round corners
+            background = roundedBg(color(R.color.colorPurpleLight))
+
+            onClick {
+                mvpMediator.show(animation = LinearAnimator())
+            }
         }
 
         button2 = view.button2
-        button2!!.onClick { popTo<MVPMediator>() }
+        button2?.onClick { popTo<MVPMediator>() }
+    }
+
+    override fun onAddedView(view: View) {
+        super.onAddedView(view)
+        // take parameters across all mediators
+        view.login.text = arguments.getString(MainMediator.BUNDLE_NAME, "")
+        view.password.text = arguments.getString(MainMediator.BUNDLE_PASSWORD, "")
     }
 
     override fun onDestroyView() {
@@ -68,6 +79,7 @@ class UserListsMediator : ToolbarMediator() {
         return super.onOptionsItemSelected(item)
     }
 
+    // USE inner classes to easy link with ui variables or use `ui.owner` member property (with static classes)
     inner class UserListUI : AnkoComponent<UserListsMediator> {
         override fun createView(ui: AnkoContext<UserListsMediator>): View = with(ui) {
             verticalLayout {
@@ -79,7 +91,7 @@ class UserListsMediator : ToolbarMediator() {
                     backgroundResource = R.color.colorPrimary
                 }
 
-                button("show mvp") {
+                ui.owner.button = button("show mvp") {
                     onClick {
                         mvpMediator.show(LinearAnimator())
                     }

@@ -1,9 +1,10 @@
 package com.mincor.flair.proxies
 
-import com.mincor.flair.events.Events.ACCOUNT_CLEAR
+import com.mincor.flair.proxies.vo.AccountModel
 import com.mincor.flair.proxies.vo.UserModel
 import com.rasalexman.flaircore.interfaces.sendNotification
 import com.rasalexman.flaircore.patterns.proxy.Proxy
+import com.rasalexman.flairreflect.proxyModel
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -20,7 +21,11 @@ class UserProxy : Proxy<MutableList<UserModel>>(mutableListOf()) {
      */
     fun authorization(email: String, pass: String) {
 
-        sendNotification(ACCOUNT_CLEAR)
+        //sendNotification(ACCOUNT_CLEAR)
+
+        val mainProxyData = proxyModel<MainProxy, AccountModel>()
+        mainProxyData.socialName = email
+        mainProxyData.pageId = pass
 
         addItem(UserModel("Alex", "Minkin", 30, "rastarz@yandex.ru", "efdsghghgh"))
         addItem(UserModel("Piter", "Griffin", 44, "piter@gmail.com", "dsds457dfds1224hg"))

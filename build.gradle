@@ -7,7 +7,19 @@ buildscript {
     ext.retrofitVersion = "2.3.0"
     ext.retrofitCoroutinesVersion = "0.12.0"
     ext.supportVersion = "28.0.0"
+    ext.buildToolVersion = "28.0.3"
     ext.lifecycleVersion = "1.1.1"
+    ext.kotlinCoroutinesVersion = "1.1.0"
+
+    ext.flairExampleVersion = "1.5.2"
+    ext.flairExampleVersionInt = 10502
+    ext.flairCoreVersion = "1.5.2"
+    ext.flairCoreVersionInt = 10502
+    ext.flairCorotinesVersion = "1.5.2"
+    ext.flairCorotinesVersionInt = 10502
+    ext.flairReflectVersion = "1.5.1"
+    ext.flairReflectVersionInt = 10501
+
 
     repositories {
         google()

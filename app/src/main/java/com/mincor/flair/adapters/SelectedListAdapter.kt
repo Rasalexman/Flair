@@ -13,7 +13,11 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
  */
 typealias ListSelectCallback = (String) -> Unit
 
-class SelectedListAdapter(private val tags: MutableList<String>, private val callback: ListSelectCallback? = null) : BaseAdapter() {
+class SelectedListAdapter(
+        private val tags: MutableList<String>,
+        private val callback: ListSelectCallback? = null
+) : BaseAdapter() {
+
     override fun getView(i: Int, convertView: View?, parent: ViewGroup?): View {
         val viewholder: TagsViewHolder
         val selectedTag: String = getItem(i)
@@ -23,9 +27,6 @@ class SelectedListAdapter(private val tags: MutableList<String>, private val cal
                     if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
                         viewholder.view.layoutParams = AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, viewholder.itemHdth)
                     }
-                    viewholder.tagButton!!.onClick {
-                        callback?.let { it(selectedTag) }
-                    }
                     viewholder.view.tag = viewholder
                     viewholder.view
                 } else {
@@ -33,6 +34,9 @@ class SelectedListAdapter(private val tags: MutableList<String>, private val cal
                     convertView
                 }
 
+        viewholder.tagButton?.onClick {
+            callback?.let { it(selectedTag) }
+        }
         viewholder.selectedTag = selectedTag
         return view
     }

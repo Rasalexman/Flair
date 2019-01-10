@@ -8,8 +8,8 @@ android {
         applicationId "com.mincor.flair"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 10500
-        versionName "1.5.0"
+        versionCode flairExampleVersionInt
+        versionName flairExampleVersion
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -18,8 +18,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    kotlin { experimental { coroutines 'enable' } }
-    buildToolsVersion '28.0.3'
+
+    buildToolsVersion buildToolVersion
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -33,9 +33,24 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-    implementation "com.android.support:design:$supportVersion"
+    implementation ("com.android.support:appcompat-v7:$supportVersion") {
+        exclude group: 'support', module: 'support-media-compat'
+        exclude group: 'support', module: 'cardview-v7'
+        exclude group: 'support', module: 'versionedparcelable'
+        exclude group: 'support', module: 'cursoradapter'
+        exclude group: 'support', module: 'documentfile'
+        exclude group: 'support', module: 'support-vector-drawable'
+    }
+    implementation ("com.android.support:design:$supportVersion") {
+        exclude group: 'support', module: 'support-media-compat'
+        exclude group: 'support', module: 'cardview-v7'
+        exclude group: 'support', module: 'versionedparcelable'
+        exclude group: 'support', module: 'cursoradapter'
+        exclude group: 'support', module: 'documentfile'
+        exclude group: 'support', module: 'support-vector-drawable'
+    }
     implementation project(':flairreflect')
+    implementation project(':flaircoroutines')
 
     //implementation "com.rasalexman.flairframework:flairframework:1.1.4"
 

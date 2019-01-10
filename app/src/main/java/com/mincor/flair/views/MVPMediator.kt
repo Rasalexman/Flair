@@ -36,7 +36,9 @@ class MVPMediator : ToolbarMediator() {
     override fun onAddedView(view: View) {
         super.onAddedView(view)
         listViw?.adapter = SelectedListAdapter(
-                facade.view.mediatorBackStack.asSequence().mapTo(arrayListOf()) { it.mediatorName!! }.toMutableList(),
+                facade.view.mediatorBackStack.asSequence().mapTo(mutableListOf()) {
+                    it.mediatorName!!
+                },
                 ::onItemSelectedHandler
         )
     }
@@ -119,15 +121,17 @@ class MVPMediator : ToolbarMediator() {
     }
 
     fun onShowAnotherMediator() {
-        showMediator<MVPMediator>(NextLinearAnimator(), UUID.randomUUID().toString())
+        val nextMediatorTag = UUID.randomUUID().toString()
+        //showMediator<MVPMediator>(NextLinearAnimator(), nextMediatorTag)
+        this.showMediator(NextLinearAnimator(), nextMediatorTag) { MVPMediator() }
     }
 
     fun showMVVMAGAIN() {
-        showMediator<MainMediator>()
+        showMediator<MainMediator>(BackLinearAnimator())
     }
 
     private fun showUserListAgain() {
-        showMediator<UserListsMediator>()
+        showMediator<UserListsMediator>(BackLinearAnimator())
     }
 
     /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -181,7 +185,7 @@ class MVPMediator : ToolbarMediator() {
                 listViw = listView {
                     divider = ColorDrawable(Color.GRAY)
                     dividerHeight = dip(1)
-                }.lparams(matchParent, matchParent) {
+                }.lparams(matchParent, matchParent, 1f) {
                     margin = dip(16)
                 }
             }
