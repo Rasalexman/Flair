@@ -179,6 +179,14 @@ Maven:
   <version>1.5.x</version>
   <type>pom</type>
 </dependency>
+
+// coroutines module
+<dependency>
+	<groupId>com.rasalexman.flaircoutines</groupId>
+	<artifactId>flaircoroutines</artifactId>
+	<version>1.5.2</version>
+	<type>pom</type>
+</dependency>
 ```
 
 Gradle:
@@ -188,10 +196,14 @@ implementation 'com.rasalexman.flaircore:flaircore:1.5.x'
 
 // reflection module (for use constructor injections and property injection)
 implementation 'com.rasalexman.flairreflect:flairreflect:1.5.x'
+
+// coroutines module 
+implementation 'com.rasalexman.flaircoutines:flaircoroutines:1.5.x'
 ```
 
 Changelog
 ----
+* 1.5.2 - Added new module flaircoroutines with Async task manager and coroutines manager
 * 1.5.1 - Added AppCompatActivity to `View.attachActivity(...)` with activity fragmentManager.
 
 * 1.5.0
