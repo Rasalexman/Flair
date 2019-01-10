@@ -7,7 +7,7 @@ ext {
     // compile '<groupId>:<artifactId>:<libVersion>'
     groupId = 'com.rasalexman.flairreflect' // package name of the project
     artifactId = "flairreflect" // module name of the library
-    libVersion = "1.5.0"
+    libVersion = flairReflectVersion
 }
 version = libVersion
 group = groupId

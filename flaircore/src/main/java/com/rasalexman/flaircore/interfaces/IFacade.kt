@@ -63,6 +63,7 @@ interface IFacade : INotifier {
          *
          * @return the Multiton core of the Facade
          */
+        @Throws
         fun core(key: String = DEFAULT_KEY, context: Context? = null, init: FacadeInitializer? = null): IFacade {
             val facade = instance(key) {
                 if (context == null) throw RuntimeException("You need to specified `context` for this core")
@@ -121,8 +122,8 @@ inline fun <reified T : IMediator> IFacade.retrieveMediator(mediatorName: String
  * @param mediatorBuilder
  * Mediator instance builder function
  */
-inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null, mediatorBuilder:()->T) {
-    this.view.registerMediator(mediatorName, mediatorBuilder)
+inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null, mediatorBuilder:()->T): T {
+    return this.view.registerMediator(mediatorName, mediatorBuilder)
 }
 
 /**

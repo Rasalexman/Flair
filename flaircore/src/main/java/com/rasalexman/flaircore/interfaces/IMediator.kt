@@ -324,9 +324,16 @@ inline fun <reified T : IMediator> IMediator.popTo(mediatorName: String? = null,
  *
  * @param mediatorName
  * Mediator name to be showed
+ *
+ * @param builder
+ * Mediator builder lambda use to instantiate
  */
-inline fun <reified T : IMediator> IMediator.showMediator(animation: IAnimator? = null, mediatorName: String? = null) {
-    return facade.retrieveMediator<T>(mediatorName).show(animation)
+inline fun <reified T : IMediator> IMediator.showMediator(animation: IAnimator? = null, mediatorName: String? = null, noinline builder:(()->T)? = null) {
+    return when {
+        facade.hasMediator<T>(mediatorName) -> facade.retrieveMediator<T>(mediatorName).show(animation)
+        builder != null -> facade.registerMediator(mediatorName, builder).show(animation)
+        else -> throw RuntimeException("You need to register your mediator first with `builder` function or use reflection package instead")
+    }
 }
 
 
