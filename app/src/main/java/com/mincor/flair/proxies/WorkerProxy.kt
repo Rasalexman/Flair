@@ -18,5 +18,4 @@ class WorkerProxy : CoroutineAsyncProxy<Any>() {
         if(Random.nextBoolean()) throw Exception("Hello i'm a random exception who can be created in your code")
         count
     }
-
 }
