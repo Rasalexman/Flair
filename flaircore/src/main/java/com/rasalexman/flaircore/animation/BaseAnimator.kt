@@ -5,9 +5,19 @@ import com.rasalexman.flaircore.interfaces.IAnimator
 import com.rasalexman.flaircore.interfaces.IMediator
 import com.rasalexman.flaircore.interfaces.hide
 
+/**
+ * Base Animation class to extend
+ */
 abstract class BaseAnimator : IAnimator {
 
+    /**
+     * Mediator to from animation
+     */
     override var from: IMediator? = null
+
+    /**
+     * Mediator to push to
+     */
     override var to: IMediator? = null
 
     /**

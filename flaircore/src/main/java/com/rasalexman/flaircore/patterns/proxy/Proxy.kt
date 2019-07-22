@@ -5,7 +5,7 @@ import com.rasalexman.flaircore.patterns.observer.Notifier
 
 /**
  * Created by a.minkin on 21.11.2017.
- * @param data - stored data
+ * @param data - data for store into proxy object
  */
 abstract class Proxy<T>(override var data: T? = null) : Notifier(), IProxy<T?> {
 

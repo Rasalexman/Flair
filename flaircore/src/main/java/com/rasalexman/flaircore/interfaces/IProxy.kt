@@ -5,7 +5,11 @@ package com.rasalexman.flaircore.interfaces
  */
 interface IProxy<T> : INotifier {
 
+    /**
+     * Storing data or service
+     */
     var data:T?
+
     /**
      * Called by the Model when the Proxy is registered.
      */

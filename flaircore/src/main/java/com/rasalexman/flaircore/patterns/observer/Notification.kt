@@ -16,5 +16,8 @@ import com.rasalexman.flaircore.interfaces.INotification
  * @param type
  * the type of the `Notification` (optional)
  */
-
-data class Notification(override var name: String, override var body: Any? = null, override var type: String? = null) : INotification
+data class Notification(
+        override var name: String,
+        override var body: Any? = null,
+        override var type: String? = null
+) : INotification

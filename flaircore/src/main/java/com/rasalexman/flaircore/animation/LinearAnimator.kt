@@ -24,9 +24,19 @@ import android.view.View
  *
  */
 open class LinearAnimator : BaseAnimator() {
-
+    /**
+     * Does we need to use it for show mediator animation
+     */
     override var isShow: Boolean = true
+
+    /**
+     * Default duration of current animation
+     */
     override var duration: Long = 500
+
+    /**
+     * Does we need to pop last mediator from backstack
+     */
     override var popLast: Boolean = false
 
     /**

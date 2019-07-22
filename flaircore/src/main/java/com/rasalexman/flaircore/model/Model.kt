@@ -7,15 +7,26 @@ import com.rasalexman.flaircore.interfaces.instance
 
 /**
  * Created by a.minkin on 21.11.2017.
+ *
+ * Main IModel core class that used for [IProxy] objects manipulating
+ *
+ * @param multitonKey - main core key that this model sequenced
  */
 class Model private constructor(override var multitonKey: String) : IModel {
     /**
      * Mapping of proxyNames to IProxy instances.
      */
-    override val proxyMap = HashMap<String, IProxy<*>>()
+    override val proxyMap = hashMapOf<String, IProxy<*>>()
 
+    /**
+     * CO for instances creation
+     */
     companion object : IMapper<Model> {
-        override val instanceMap = HashMap<String, Model>()
+
+        /**
+         * Model Instances storage
+         */
+        override val instanceMap = hashMapOf<String, Model>()
         /**
          * `Model` Multiton Factory method.
          *
@@ -35,6 +46,9 @@ class Model private constructor(override var multitonKey: String) : IModel {
         }
     }
 
+    /**
+     * Clear storage
+     */
     private fun clearAll() {
         proxyMap.clear()
     }

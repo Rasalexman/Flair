@@ -17,7 +17,14 @@ import com.rasalexman.flaircore.patterns.observer.Notifier
  */
 abstract class Mediator : Notifier, IMediator {
 
+    /**
+     * Main construction function
+     */
     constructor()
+
+    /**
+     * Secondary construction function with [multitonKey]
+     */
     constructor(multitonKey:String) : super(multitonKey)
 
     override var viewComponent: View? = null            // current view of mediator
@@ -28,6 +35,9 @@ abstract class Mediator : Notifier, IMediator {
     override var isAddToBackStack: Boolean = true       // does it's need to be added in backstack
     override var mediatorName: String? = null           // Current mediator name for put in backStack
 
+    /**
+     * Bundle arguments
+     */
     override val arguments: Bundle
         get() = facade.view.stateBundle
 
@@ -39,47 +49,56 @@ abstract class Mediator : Notifier, IMediator {
      */
     override val listNotificationInterests = mutableListOf<String>()
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {}
-    override fun onPrepareOptionsMenu(menu: Menu) {}
+    /**
+     * When current View has attached your menu
+     */
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = Unit
+    /**
+     * Fragment legacy menu creation
+     */
+    override fun onPrepareOptionsMenu(menu: Menu) = Unit
+    /**
+     * Menu Item Selection section
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean = true
 
     ///---------- VIEW LIFECYRCLE --------///
     /**
      * Called before create view instance
      */
-    override fun onPrepareCreateView() {}
+    override fun onPrepareCreateView() = Unit
 
     /**
      * When view was created but not added to the stage
      */
-    override fun onCreatedView(view: View) {}
+    override fun onCreatedView(view: View) = Unit
 
     /**
      * Called by the View when the Mediator is registered.
      */
-    override fun onAddedView(view: View) {}
+    override fun onAddedView(view: View) = Unit
 
     /**
      * Called when `viewComponent` removed from parent
      */
-    override fun onRemovedView(view: View) {}
+    override fun onRemovedView(view: View) = Unit
 
     /**
      * Called by the View when viewComponent is null
      */
-    override fun onDestroyView() {}
+    override fun onDestroyView() = Unit
     /////------------------------/////
 
     ///--------- MEDIATOR LIFECYRCLE --------///
     /**
      * Called by the View when the Mediator is registered.
      */
-    override fun onRegister() {}
+    override fun onRegister() = Unit
 
     /**
      * Called by the View when the Mediator is removed.
      */
-    override fun onRemove() {}
+    override fun onRemove() = Unit
     /////------------------------/////
 
     ////---------- Animation change handlers -------////
@@ -89,7 +108,7 @@ abstract class Mediator : Notifier, IMediator {
      * @param isShow
      * Flag that indicates is this starting a showing animation for current mediator
      */
-    override fun onAnimationStart(isShow: Boolean) {}
+    override fun onAnimationStart(isShow: Boolean) = Unit
 
     /**
      * Called when animation is finished
@@ -97,22 +116,36 @@ abstract class Mediator : Notifier, IMediator {
      * @param isShow
      * Flag that indicates is this starting a showing animation for current mediator
      */
-    override fun onAnimationFinish(isShow: Boolean) {}
+    override fun onAnimationFinish(isShow: Boolean) = Unit
     ////--------------------------////
 
     /**
      * Called when meditor request onStartActivityForResult method
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {}
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = Unit
 
     /**
      * Request permission to access your app additional properties of os ex. camera, contacts, locations
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
      */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {}
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+    ) = Unit
 
 
     /**
      * Hardware button back handler
+     *
+     * @param animation - back animation
      */
     override fun handleBackButton(animation: IAnimator?): Boolean {
         return if (isAdded && !isDestroyed) {

@@ -83,11 +83,17 @@ interface IMediator : INotifier {
 
     /**
      * WHEN REQUESTED PERMISSIONS IS GRANTED
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
      */
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
 
     /**
      * Main initialize ViewComponent Function
+     *
+     * @param context - context for create layout with
      */
     fun createLayout(context: Context): View
 
@@ -99,16 +105,22 @@ interface IMediator : INotifier {
 
     /**
      * Called by the create mediator view once
+     *
+     * @param view - created view
      */
     fun onCreatedView(view: View)
 
     /**
      * Called when mediator added to view container
+     *
+     * @param view - the view instance that added to container
      */
     fun onAddedView(view: View)
 
     /**
      * Called when mediator view removed from parent
+     *
+     * @param view - removed view instance
      */
     fun onRemovedView(view: View)
 
@@ -362,7 +374,24 @@ fun IMediator.roundedBg(col: Int, corners: Float = 100f, withStroke: Boolean = f
     if (withStroke) setStroke(strokeWeight, strokeColor)
 }
 
-fun gradientBg(colors: Array<Int>, orient: GradientDrawable.Orientation = GradientDrawable.Orientation.BOTTOM_TOP, corners: Float = 0f, withStroke: Boolean = false, strokeColor: Int = Color.LTGRAY, strokeWeight: Int = 2): GradientDrawable = GradientDrawable(orient, colors.toIntArray()).apply {
+/**
+ * Get gradient for Background
+ *
+ * @param colors - color array for start and end
+ * @param orient - orientation
+ * @param corners - corners radius
+ * @param withStroke - stroke if needed
+ * @param strokeColor - stroke color
+ * @param strokeWeight - weight of strokes
+ */
+fun gradientBg(
+        colors: Array<Int>,
+        orient: GradientDrawable.Orientation = GradientDrawable.Orientation.BOTTOM_TOP,
+        corners: Float = 0f,
+        withStroke: Boolean = false,
+        strokeColor: Int = Color.LTGRAY,
+        strokeWeight: Int = 2
+): GradientDrawable = GradientDrawable(orient, colors.toIntArray()).apply {
     shape = GradientDrawable.RECTANGLE
     cornerRadius = corners
     if (withStroke) setStroke(strokeWeight, strokeColor)

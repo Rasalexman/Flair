@@ -10,6 +10,9 @@ import com.rasalexman.flaircore.patterns.observer.Notifier
  */
 abstract class MacroCommand : Notifier(), ICommand {
 
+    /**
+     * Storing all ICommands instance to execute one by one
+     */
     private val subCommands: MutableList<ICommand> = mutableListOf()
 
     /**
@@ -68,6 +71,9 @@ abstract class MacroCommand : Notifier(), ICommand {
         }
     }
 
+    /**
+     * Clear the subCommands
+     */
     fun clear() {
         subCommands.clear()
     }

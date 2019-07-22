@@ -4,6 +4,9 @@ package com.rasalexman.flaircore.interfaces
  * Created by a.minkin on 21.11.2017.
  */
 interface IModel : IMultitonKey {
+    /**
+     * Main [IProxy] storage for [IFacade] core
+     */
     val proxyMap: HashMap<String, IProxy<*>>
 }
 
@@ -25,8 +28,11 @@ inline fun <reified T : IProxy<*>> IModel.retrieveProxy(): T = this.proxyMap[T::
 
 /**
  * Register an `IProxy` core with the `Model`.
+ *
+ * @param proxyBuilder builder function
+ * @return instance of registered [IProxy]
  */
-inline fun <reified T : IProxy<*>> IModel.registerProxy(proxyBuilder:()->T):T {
+inline fun <reified T : IProxy<*>> IModel.registerProxy(proxyBuilder: () -> T): T {
     val clazz = T::class
     val proxy = proxyBuilder()
     proxy.multitonKey = this.multitonKey

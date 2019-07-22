@@ -23,6 +23,9 @@ import java.lang.ref.WeakReference
  */
 class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
+    /**
+     * Bundle for store some data
+     */
     override val stateBundle: Bundle
         get() = arguments ?: Bundle()
     /**
@@ -30,14 +33,22 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      */
     override var multitonKey: String = ""
 
-    // Mapping of Notification names to Observer lists
+    /**
+     * Mapping of Notification names to Observer lists
+     */
     override val observerMap = hashMapOf<String, MutableList<IObserver>>()
-    // Mapping of Mediator names to Mediator instances
+    /**
+     *  Mapping of Mediator names to Mediator instances
+     */
     override val mediatorMap = hashMapOf<String, IMediator>()
 
-    // List of current added mediators on the screen
+    /**
+     * List of current added mediators on the screen
+     */
     override val mediatorBackStack: MutableList<IMediator> = mutableListOf()
-    // Current showing mediator
+    /**
+     * Current showing mediator
+     */
     override var currentShowingMediator: IMediator? = null
 
     /**
@@ -54,18 +65,49 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     private var isAlreadyRegistered: Boolean = false
 
 
+    /**
+     * Object creation CO
+     */
     companion object ViewMapper : IMapper<View> {
+        /**
+         * State Bundle key
+         */
         const val STATE_BUNDLE_KEY = "state_bundle_key"
 
+        /**
+         * ACTIVITY_CREATED lifecycle event
+         */
         const val ACTIVITY_CREATED = "created"
+        /**
+         * ACTIVITY_STARTED lifecycle event
+         */
         const val ACTIVITY_STARTED = "started"
+        /**
+         * ACTIVITY_RESUMED lifecycle event
+         */
         const val ACTIVITY_RESUMED = "resumed"
+        /**
+         * ACTIVITY_PAUSED lifecycle event
+         */
         const val ACTIVITY_PAUSED = "paused"
+        /**
+         * ACTIVITY_STOPPED lifecycle event
+         */
         const val ACTIVITY_STOPPED = "stopped"
+        /**
+         * ACTIVITY_DESTROYED lifecycle event
+         */
         const val ACTIVITY_DESTROYED = "destroyed"
+        /**
+         * ACTIVITY_STATE_SAVE lifecycle event
+         */
         const val ACTIVITY_STATE_SAVE = "state_save"
 
-        override val instanceMap = HashMap<String, View>()
+        /**
+         * Store for IView instances
+         */
+        override val instanceMap = hashMapOf<String, View>()
+
         /**
          * View Singleton Factory method.
          *
@@ -137,7 +179,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
             fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
             // unregister lifecyrcle callbacks
             it.application?.unregisterActivityLifecycleCallbacks(this)
-            
+
             // clear mediator view and follow it's lifecyrcle cause we need to recreate view, but don't need to remove from backstack
             mediatorBackStack.forEach { iMediator ->
                 iMediator.hide()
@@ -197,6 +239,8 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /**
      * Adapter method
      * When options item selected from menu
+     *
+     * @param item - menu item
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (currentShowingMediator?.onOptionsItemSelected(item) == true) {
@@ -206,42 +250,78 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     }
 
     //-------------- LIFE CYCLE CALLBACKS -------/////
+    /**
+     * onActivityCreated lifecycle method
+     *
+     * @param activity - current activity instance
+     * @param p1 - bundle for current activity
+     */
     override fun onActivityCreated(activity: Activity?, p1: Bundle?) {
         notifyObservers(Notification(ACTIVITY_CREATED, p1))
     }
 
+    /**
+     * onActivityCreated lifecycle method
+     */
     override fun onActivityStarted(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_STARTED, activity))
     }
 
+    /**
+     * onActivityResumed lifecycle method
+     *
+     * @param activity - current activity instance
+     */
     override fun onActivityResumed(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_RESUMED, activity))
     }
 
+    /**
+     * onActivityPaused lifecycle method
+     *
+     * @param activity - current activity instance
+     */
     override fun onActivityPaused(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_PAUSED, activity))
     }
 
+    /**
+     * onActivityStopped lifecycle method
+     *
+     * @param activity - current activity instance
+     */
     override fun onActivityStopped(activity: Activity) {
         notifyObservers(Notification(ACTIVITY_STOPPED, activity))
         // if activity is finish there work we must clear the view
         // and all references to recreate view state manually when activity is wake up
-        if(this.currentActivity?.get()?.isFinishing == true) detachActivity()
+        if (this.currentActivity?.get()?.isFinishing == true) detachActivity()
     }
 
+    /**
+     * onActivityDestroyed lifecycle method
+     *
+     * @param activity - current activity instance
+     */
     override fun onActivityDestroyed(activity: Activity?) {
         notifyObservers(Notification(ACTIVITY_DESTROYED, activity))
-        if(this.currentActivity?.get() == activity) detachActivity()
+        if (this.currentActivity?.get() == activity) detachActivity()
     }
 
+    /**
+     * onActivitySaveInstanceState lifecycle method
+     *
+     * @param activity - current activity instance
+     * @param bundle - storage for values when activity no longer exist
+     */
     override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
         bundle.putBundle(STATE_BUNDLE_KEY, stateBundle)
         notifyObservers(Notification(ACTIVITY_STATE_SAVE, arguments))
         // only when activity change there configuration state ex rotate
-        if(this.currentActivity?.get()?.isChangingConfigurations == true) detachActivity()
+        if (this.currentActivity?.get()?.isChangingConfigurations == true) detachActivity()
     }
 
     /**
+     * onActivityResult returning method
      *
      * @param requestCode The Activity's onActivityResult requestCode
      * @param resultCode  The Activity's onActivityResult resultCode
@@ -253,6 +333,10 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     /**
      * When permission result responded
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         currentShowingMediator?.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -274,7 +358,9 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /////////------------------------------------///////
 
     /**
-     * Private access to clear view on IMediator instance and follow mediator lifecyrcle
+     * Private access to clear view on IMediator instance and follow mediator lifecycle
+     *
+     * @param mediator - mediator for clearing
      */
     override fun clearMediatorView(mediator: IMediator?) {
         mediator?.apply {
@@ -285,6 +371,9 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         }
     }
 
+    /**
+     * Main init function
+     */
     init {
         arguments = Bundle()
     }

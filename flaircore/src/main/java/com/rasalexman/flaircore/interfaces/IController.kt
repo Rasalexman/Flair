@@ -7,7 +7,14 @@ import com.rasalexman.flaircore.patterns.observer.Observer
  * Created by a.minkin on 21.11.2017.
  */
 interface IController : IMultitonKey {
+    /**
+     * [ICommand] storage
+     */
     val commandMap: HashMap<String, ICommand?>
+
+    /**
+     * Controller view instance
+     */
     val view: IView
 }
 
@@ -16,7 +23,7 @@ interface IController : IMultitonKey {
  * the given `INotification`, then it is executed.
  *
  * @param notification
- * an `INotification`
+ * an [INotification] instance
  */
 fun IController.executeCommand(notification: INotification) {
     this.commandMap[notification.name]?.execute(notification)

@@ -5,15 +5,19 @@ package com.rasalexman.flaircore.animation
  *
  * @param duration
  * time in ms
+ *
+ * @param localShow
+ * is show local anomation
  */
-class BackLinearAnimator(override var duration: Long = 500,
-                         private val localShow:Boolean = false,
-                         private val localPopLast:Boolean = true
+class BackLinearAnimator(
+        override var duration: Long = 500,
+        private val localShow: Boolean = false,
+        private val localPopLast: Boolean = true
 ) : LinearAnimator() {
 
     override var isShow: Boolean = false
-            get() = localShow
+        get() = localShow
 
     override var popLast: Boolean = true
-            get() = localPopLast
+        get() = localPopLast
 }

@@ -12,6 +12,9 @@ import com.rasalexman.flaircore.patterns.observer.Notification
 import com.rasalexman.flaircore.patterns.observer.Observer
 import com.rasalexman.flaircore.view.View
 
+/**
+ * [IFacade] instance initializer
+ */
 typealias FacadeInitializer = IFacade.() -> Unit
 
 /**

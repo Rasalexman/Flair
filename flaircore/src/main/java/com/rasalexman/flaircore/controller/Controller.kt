@@ -17,7 +17,7 @@ class Controller private constructor(override var multitonKey: String) : IContro
     /**
      * Mapping of Notification names to Command Class references
      */
-    override val commandMap = HashMap<String, ICommand?>()
+    override val commandMap = hashMapOf<String, ICommand?>()
 
     /**
      * Local reference to View
@@ -31,7 +31,7 @@ class Controller private constructor(override var multitonKey: String) : IContro
         /**
          * Global storage for all instances of Controller
          */
-        override val instanceMap = HashMap<String, Controller>()
+        override val instanceMap = hashMapOf<String, Controller>()
         /**
          * `Controller` Multiton Factory method.
          * @return the Multiton core of `Controller` or create new if not exist

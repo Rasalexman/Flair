@@ -10,9 +10,18 @@ import com.rasalexman.flaircore.interfaces.IMediator
  * Custom flair pager adapter
  * @param mediators
  * the list of registered mediators ex listOf(mediator<T1>(),mediator<T2>(),mediator<T3>())
+ *
+ * @param tabNames
+ * Names for tabs
  */
-open class FlairPagerAdapter(private val mediators:List<IMediator>, private val tabNames:List<String>) : PagerAdapter() {
+open class FlairPagerAdapter(
+        private val mediators:List<IMediator>,
+        private val tabNames:List<String>
+) : PagerAdapter() {
 
+    /**
+     * Base Comparator function
+     */
     override fun isViewFromObject(p0: View, p1: Any): Boolean {
         return p0 == (p1 as? View)
     }
@@ -33,6 +42,9 @@ open class FlairPagerAdapter(private val mediators:List<IMediator>, private val 
         return viewLayout
     }
 
+    /**
+     * Destroy current page item
+     */
     override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
         (view as? View)?.let {
             val currentMediator = mediators[position]
@@ -44,11 +56,15 @@ open class FlairPagerAdapter(private val mediators:List<IMediator>, private val 
         }
     }
 
+    /**
+     * Get the page title if exist
+     */
     override fun getPageTitle(position: Int): CharSequence? {
         return if(tabNames.size > position) tabNames[position] else ""
     }
 
-    override fun getCount(): Int {
-        return mediators.size
-    }
+    /**
+     * Get count of all pages in adapter
+     */
+    override fun getCount(): Int = mediators.size
 }

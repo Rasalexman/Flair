@@ -59,31 +59,48 @@ interface IView : IMultitonKey {
 
     /**
      * When requested activity has come
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
 
     /**
      * Start another activity and read result from it
+     *
+     * @param intent
+     * @param requestCode
+     * @param options
      */
     fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?)
 
     /**
      * Request permission to access your app additional properties of os ex. camera, contacts, locations
+     *
+     * @param permissions - permissions list to request
+     * @param requestCode - returning code
      */
     fun requestPermissions(permissions: Array<String>, requestCode: Int)
 
     /**
      * Check self permission for current mediator
+     *
+     * @param permissionToCheck - single permission name to check for
      */
     fun checkSelfPermission(permissionToCheck: String): Int
 
     /**
      * Check should we show message about permissions
+     *
+     * @param permissionName
      */
-    fun shouldShowRequestPermissionRationale(permission: String): Boolean
+    fun shouldShowRequestPermissionRationale(permissionName: String): Boolean
 
     /**
      * Clear mediator view but do't remove it from backstack for recreating again
+     *
+     * @param mediator - mediator to clean
      */
     fun clearMediatorView(mediator: IMediator?)
 
@@ -225,7 +242,7 @@ fun IView.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnimato
                 // if we have view component to remove from parent
                 viewComponent?.let {
                     it.removeFromParent()
-                    // notify lifecyrcle of mediator
+                    // notify lifecycle of mediator
                     onRemovedView(it)
                 }
                 isAdded = false
