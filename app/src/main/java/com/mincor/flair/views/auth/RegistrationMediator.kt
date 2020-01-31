@@ -76,73 +76,73 @@ class RegistrationMediator : Mediator() {
         }
     }
 
-    private inner class RegisterUI : AnkoComponent<RegistrationMediator> {
+    private class RegisterUI : AnkoComponent<RegistrationMediator> {
         override fun createView(ui: AnkoContext<RegistrationMediator>): View = with(ui) {
             verticalLayout {
-                background = gradientBg(arrayOf(color(R.color.startColor), color(R.color.endColor)))
+                background = gradientBg(arrayOf(ui.owner.color(R.color.startColor), ui.owner.color(R.color.endColor)))
                 gravity = Gravity.CENTER
 
-                nameET = editText {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                ui.owner.nameET = editText {
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
-                    textColor = color(R.color.colorPrimaryText)
-                    hint = string(R.string.nameTF)
+                    textColor = ui.owner.color(R.color.colorPrimaryText)
+                    hint = ui.owner.string(R.string.nameTF)
                     setPadding(dip8(), dip8(), dip8(), dip8())
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-                }.lparams(wdthProc(0.6f))
+                }.lparams(ui.owner.wdthProc(0.6f))
 
-                emailET = editText {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                ui.owner.emailET = editText {
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
-                    textColor = color(R.color.colorPrimaryText)
-                    hint = string(R.string.emailTF)
+                    textColor = ui.owner.color(R.color.colorPrimaryText)
+                    hint = ui.owner.string(R.string.emailTF)
                     setPadding(dip8(), dip8(), dip8(), dip8())
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                }.lparams(wdthProc(0.6f)) {
+                }.lparams(ui.owner.wdthProc(0.6f)) {
                     topMargin = dip8()
                 }
 
-                passwordET = editText {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                ui.owner.passwordET = editText {
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
-                    textColor = color(R.color.colorPrimaryText)
-                    hint = string(R.string.passTF)
+                    textColor = ui.owner.color(R.color.colorPrimaryText)
+                    hint = ui.owner.string(R.string.passTF)
                     setPadding(dip8(), dip8(), dip8(), dip8())
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                }.lparams(wdthProc(0.6f)) {
+                }.lparams(ui.owner.wdthProc(0.6f)) {
                     topMargin = dip8()
                 }
 
-                repeatePasswordET = editText {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                ui.owner.repeatePasswordET = editText {
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
-                    textColor = color(R.color.colorPrimaryText)
-                    hint = string(R.string.passRepeatTF)
+                    textColor = ui.owner.color(R.color.colorPrimaryText)
+                    hint = ui.owner.string(R.string.passRepeatTF)
                     setPadding(dip8(), dip8(), dip8(), dip8())
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                }.lparams(wdthProc(0.6f)) {
+                }.lparams(ui.owner.wdthProc(0.6f)) {
                     topMargin = dip8()
                 }
 
                 button(R.string.submitTF) {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
                     onClick {
-                        registerUser()
+                        ui.owner.registerUser()
                     }
-                }.lparams(wdthProc(0.6f), hdthProc(0.06f)) {
+                }.lparams(ui.owner.wdthProc(0.6f), ui.owner.hdthProc(0.06f)) {
                     topMargin = dip8()
                 }
 
                 button(R.string.backTF) {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_12
-                    textColor = color(R.color.colorPrimaryText)
+                    textColor = ui.owner.color(R.color.colorPrimaryText)
 
                     onClick {
-                        popToBack(LinearAnimator())
+                        ui.owner.popToBack(LinearAnimator())
                     }
-                }.lparams(wdthProc(0.4f), hdthProc(0.06f)) {
+                }.lparams(ui.owner.wdthProc(0.4f), ui.owner.hdthProc(0.06f)) {
                     topMargin = dip8()
                 }
             }

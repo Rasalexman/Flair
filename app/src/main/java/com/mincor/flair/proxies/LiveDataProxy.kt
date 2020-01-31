@@ -1,6 +1,6 @@
 package com.mincor.flair.proxies
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.mincor.flair.proxies.vo.AccountModel
 import com.rasalexman.flaircore.patterns.proxy.Proxy
 import java.util.*

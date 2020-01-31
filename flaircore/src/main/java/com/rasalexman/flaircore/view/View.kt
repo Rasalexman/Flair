@@ -4,10 +4,10 @@ import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -36,16 +36,16 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /**
      * Mapping of Notification names to Observer lists
      */
-    override val observerMap = hashMapOf<String, MutableList<IObserver>>()
+    override val observerMap by lazy {  hashMapOf<String, MutableList<IObserver>>() }
     /**
      *  Mapping of Mediator names to Mediator instances
      */
-    override val mediatorMap = hashMapOf<String, IMediator>()
+    override val mediatorMap by lazy {  hashMapOf<String, IMediator>() }
 
     /**
      * List of current added mediators on the screen
      */
-    override val mediatorBackStack: MutableList<IMediator> = mutableListOf()
+    override val mediatorBackStack by lazy { mutableListOf<IMediator>() }
     /**
      * Current showing mediator
      */
@@ -164,7 +164,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         // only if there is no attach
         if (!isAlreadyRegistered) {
             currentActivity = WeakReference(activity)
-            activity.supportFragmentManager?.beginTransaction()?.add(this, multitonKey)?.commitAllowingStateLoss()
+            activity.supportFragmentManager.beginTransaction().add(this, multitonKey).commitAllowingStateLoss()
             activity.application.registerActivityLifecycleCallbacks(this)
             isAlreadyRegistered = true
         }
@@ -177,10 +177,10 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         currentActivity?.get()?.let {
             val fragmentManager: FragmentManager? = (it as? AppCompatActivity)?.supportFragmentManager
             fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
-            // unregister lifecyrcle callbacks
+            // unregister life-circle callbacks
             it.application?.unregisterActivityLifecycleCallbacks(this)
 
-            // clear mediator view and follow it's lifecyrcle cause we need to recreate view, but don't need to remove from backstack
+            // clear mediator view and follow it's life-circle cause we need to recreate view, but don't need to remove from backstack
             mediatorBackStack.forEach { iMediator ->
                 iMediator.hide()
                 // we also need to clear mediator view cause it referenced to current activity that should be destroyed

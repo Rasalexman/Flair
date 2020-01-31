@@ -1,7 +1,7 @@
 package com.mincor.flair.views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -80,12 +80,12 @@ class UserListsMediator : ToolbarMediator() {
     }
 
     // USE inner classes to easy link with ui variables or use `ui.owner` member property (with static classes)
-    inner class UserListUI : AnkoComponent<UserListsMediator> {
+    class UserListUI : AnkoComponent<UserListsMediator> {
         override fun createView(ui: AnkoContext<UserListsMediator>): View = with(ui) {
             verticalLayout {
                 lparams(matchParent, matchParent)
 
-                toolBar = toolbar {
+                ui.owner.toolBar = toolbar {
                     setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
                     title = "User List"
                     backgroundResource = R.color.colorPrimary
@@ -93,13 +93,13 @@ class UserListsMediator : ToolbarMediator() {
 
                 ui.owner.button = button("show mvp") {
                     onClick {
-                        mvpMediator.show(LinearAnimator())
+                        ui.owner.mvpMediator.show(LinearAnimator())
                     }
                 }
 
                 button("POP TO NOT REGISTERED MEDIATOR") {
                     onClick {
-                        popTo<MainMediator>()
+                        ui.owner.popTo<MainMediator>()
                     }
                 }
             }

@@ -1,9 +1,9 @@
 package com.mincor.flair.views
 
 import android.content.Context
-import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
+import com.google.android.material.tabs.TabLayout
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 import com.mincor.flair.R
 import com.mincor.flair.views.pager.PageOneMediator
@@ -49,21 +49,21 @@ class ViewPagerMediator : ToolbarMediator() {
         super.onDestroyView()
     }
 
-    inner class ViewPagerUI : AnkoComponent<ViewPagerMediator> {
+    class ViewPagerUI : AnkoComponent<ViewPagerMediator> {
         override fun createView(ui: AnkoContext<ViewPagerMediator>): View = with(ui) {
             verticalLayout {
                 lparams(matchParent, matchParent)
-                toolBar = toolbar {
+                ui.owner.toolBar = toolbar {
                     setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
                     title = "ViewPagerMediator"
                     backgroundResource = R.color.colorPrimary
                 }
 
-                tabLayout = tabLayout {
+                ui.owner.tabLayout = tabLayout {
                     tabMode = TabLayout.MODE_FIXED
                 }.lparams(matchParent)
 
-                viewPager = viewPager {
+                ui.owner.viewPager = viewPager {
 
                 }.lparams(matchParent, matchParent)
             }

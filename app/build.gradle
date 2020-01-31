@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.mincor.flair"
-        minSdkVersion 17
-        targetSdkVersion 28
+        minSdkVersion 19
+        targetSdkVersion 29
         versionCode flairExampleVersionInt
         versionName flairExampleVersion
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -33,7 +33,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation ("com.android.support:appcompat-v7:$supportVersion") {
+    implementation ('androidx.appcompat:appcompat:1.1.0') {
         exclude group: 'support', module: 'support-media-compat'
         exclude group: 'support', module: 'cardview-v7'
         exclude group: 'support', module: 'versionedparcelable'
@@ -41,7 +41,7 @@ dependencies {
         exclude group: 'support', module: 'documentfile'
         exclude group: 'support', module: 'support-vector-drawable'
     }
-    implementation ("com.android.support:design:$supportVersion") {
+    implementation ('com.google.android.material:material:1.0.0') {
         exclude group: 'support', module: 'support-media-compat'
         exclude group: 'support', module: 'cardview-v7'
         exclude group: 'support', module: 'versionedparcelable'
@@ -55,7 +55,7 @@ dependencies {
     //implementation "com.rasalexman.flairframework:flairframework:1.1.4"
 
     // ViewModel and LiveData
-    implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     // Anko
     implementation "org.jetbrains.anko:anko:$anko_version"
@@ -68,7 +68,7 @@ dependencies {
     implementation('com.github.ihsanbal:LoggingInterceptor:2.0.4') {
         exclude group: 'org.json', module: 'json'
     }
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13'
 }

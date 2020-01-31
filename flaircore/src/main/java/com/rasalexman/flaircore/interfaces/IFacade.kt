@@ -2,7 +2,7 @@ package com.rasalexman.flaircore.interfaces
 
 import android.app.Activity
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.controller.Controller

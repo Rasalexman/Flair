@@ -12,10 +12,10 @@ abstract class Proxy<T>(override var data: T? = null) : Notifier(), IProxy<T?> {
     /**
      * Called by the Model when the Proxy is registered.
      */
-    override fun onRegister() {}
+    override fun onRegister() = Unit
 
     /**
      * Called by the Model when the Proxy is removed.
      */
-    override fun onRemove() {}
+    override fun onRemove() = Unit
 }

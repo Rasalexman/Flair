@@ -2,7 +2,7 @@ package com.rasalexman.flaircore.interfaces
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import com.rasalexman.flaircore.ext.removeFromParent
 import java.lang.ref.WeakReference

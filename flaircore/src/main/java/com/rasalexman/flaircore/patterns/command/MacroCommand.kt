@@ -13,7 +13,7 @@ abstract class MacroCommand : Notifier(), ICommand {
     /**
      * Storing all ICommands instance to execute one by one
      */
-    private val subCommands: MutableList<ICommand> = mutableListOf()
+    private val subCommands by lazy {  mutableListOf<ICommand>() }
 
     /**
      * Initialize the `MacroCommand`.

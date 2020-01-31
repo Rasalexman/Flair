@@ -47,7 +47,7 @@ abstract class Mediator : Notifier, IMediator {
      *
      * @return String[] the list of `INotification` names
      */
-    override val listNotificationInterests = mutableListOf<String>()
+    override val listNotificationInterests by lazy { mutableListOf<String>() }
 
     /**
      * When current View has attached your menu
@@ -89,7 +89,7 @@ abstract class Mediator : Notifier, IMediator {
     override fun onDestroyView() = Unit
     /////------------------------/////
 
-    ///--------- MEDIATOR LIFECYRCLE --------///
+    ///--------- MEDIATOR LIFE-CIRCLE --------///
     /**
      * Called by the View when the Mediator is registered.
      */

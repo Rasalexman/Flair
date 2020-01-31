@@ -1,8 +1,8 @@
 package com.mincor.flair.views
 
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.interfaces.activity

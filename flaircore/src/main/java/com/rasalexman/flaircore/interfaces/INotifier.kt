@@ -1,7 +1,7 @@
 package com.rasalexman.flaircore.interfaces
 
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.rasalexman.flaircore.ext.flair
 
 /**
