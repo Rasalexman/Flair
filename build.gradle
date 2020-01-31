@@ -11,14 +11,14 @@ buildscript {
     ext.lifecycleVersion = "1.1.1"
     ext.coroutinesManagerVersion = "1.2.32"
 
-    ext.flairExampleVersion = "1.5.3"
-    ext.flairExampleVersionInt = 10503
-    ext.flairCoreVersion = "1.5.3"
-    ext.flairCoreVersionInt = 10503
-    ext.flairCorotinesVersion = "1.5.3"
-    ext.flairCorotinesVersionInt = 10503
-    ext.flairReflectVersion = "1.5.3"
-    ext.flairReflectVersionInt = 10503
+    ext.flairExampleVersion = "1.5.4"
+    ext.flairExampleVersionInt = 10504
+    ext.flairCoreVersion = "1.5.4"
+    ext.flairCoreVersionInt = 10504
+    ext.flairCorotinesVersion = "1.5.4"
+    ext.flairCorotinesVersionInt = 10504
+    ext.flairReflectVersion = "1.5.4"
+    ext.flairReflectVersionInt = 10504
 
 
     repositories {
@@ -30,7 +30,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // The Gradle Bintray Plugin allows you to publish artifacts to Bintray.
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         // Modification to the standard Maven plugin to be compatible with android-library projects (aar).
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         // Dokka is a documentation engine for Kotlin, performing the same function as javadoc for Java.
