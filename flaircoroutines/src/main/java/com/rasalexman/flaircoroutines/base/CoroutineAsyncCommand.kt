@@ -1,7 +1,7 @@
 package com.rasalexman.flaircoroutines.base
 
-import com.rasalexman.flaircoroutines.managers.AsyncTasksManager
-import com.rasalexman.flaircoroutines.managers.IAsyncTasksManager
+import com.rasalexman.coroutinesmanager.AsyncTasksManager
+import com.rasalexman.coroutinesmanager.IAsyncTasksManager
 
 /**
  * Base Command Async class

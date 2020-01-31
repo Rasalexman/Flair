@@ -1,7 +1,7 @@
 package com.rasalexman.flaircoroutines.base
 
-import com.rasalexman.flaircoroutines.managers.CoroutinesManager
-import com.rasalexman.flaircoroutines.managers.ICoroutinesManager
+import com.rasalexman.coroutinesmanager.CancelationHandler
+import com.rasalexman.coroutinesmanager.ICoroutinesManager
 
 /**
  * Base Proxy Coroutines class
@@ -13,4 +13,6 @@ import com.rasalexman.flaircoroutines.managers.ICoroutinesManager
  * @param coroutinesManager
  * Any CoroutinesManager instance. You can use di for this
  */
-open class CoroutineAsyncProxy<T>(override var data: T? = null, private val coroutinesManager: CoroutinesManager = CoroutinesManager()) : AsyncProxy<T>(data), ICoroutinesManager by coroutinesManager
+open class CoroutineAsyncProxy<T>(override var data: T? = null) : AsyncProxy<T>(data), ICoroutinesManager {
+    override val cancelationHandlers: MutableSet<CancelationHandler> = mutableSetOf()
+}

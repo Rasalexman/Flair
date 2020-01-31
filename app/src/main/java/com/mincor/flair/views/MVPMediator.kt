@@ -7,7 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.provider.ContactsContract
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.ListView
 import com.mincor.flair.R
@@ -29,13 +29,13 @@ class MVPMediator : ToolbarMediator() {
     override var hasOptionalMenu: Boolean = true
     override var hashBackButton: Boolean = true
 
-    private var listViw: ListView? = null
+    private var listView: ListView? = null
 
-    override fun createLayout(context: Context): android.view.View = MvpUi().createView(AnkoContext.create(context, this))
+    override fun createLayout(context: Context): View = MvpUi().createView(AnkoContext.create(context, this))
 
     override fun onAddedView(view: View) {
         super.onAddedView(view)
-        listViw?.adapter = SelectedListAdapter(
+        listView?.adapter = SelectedListAdapter(
                 facade.view.mediatorBackStack.asSequence().mapTo(mutableListOf()) {
                     it.mediatorName!!
                 },
@@ -139,50 +139,50 @@ class MVPMediator : ToolbarMediator() {
         inflater.inflate(R.menu.menu_list, menu)
     }*/
 
-    inner class MvpUi : AnkoComponent<MVPMediator> {
+    class MvpUi : AnkoComponent<MVPMediator> {
         override fun createView(ui: AnkoContext<MVPMediator>) = with(ui) {
             verticalLayout {
                 lparams(matchParent, matchParent)
 
-                toolBar = toolbar {
+                ui.owner.toolBar = toolbar {
                     setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
                     title = "MVP MEDIATOR"
                     backgroundResource = R.color.colorPrimary
                 }
 
-                textView("HELLO WoRlD from $mediatorName")
+                textView("HELLO WoRlD from ${ui.owner.mediatorName}")
 
                 button("back") {
                     onClick {
-                        popToBack(BackLinearAnimator())
+                        ui.owner.popToBack(BackLinearAnimator())
                     }
                 }
 
                 button("nextMVP mediator") {
                     onClick {
-                        onShowAnotherMediator()
+                        ui.owner.onShowAnotherMediator()
                     }
                 }
 
                 button("MVVM AGAIN") {
                     onClick {
-                        showMVVMAGAIN()
+                        ui.owner.showMVVMAGAIN()
                     }
                 }
 
                 button("USER LIST AGAIN") {
                     onClick {
-                        showUserListAgain()
+                        ui.owner.showUserListAgain()
                     }
                 }
 
                 button("OPEN CONTACTS") {
                     onClick {
-                        pickContact()
+                        ui.owner.pickContact()
                     }
                 }
 
-                listViw = listView {
+                ui.owner.listView = listView {
                     divider = ColorDrawable(Color.GRAY)
                     dividerHeight = dip(1)
                 }.lparams(matchParent, matchParent, 1f) {

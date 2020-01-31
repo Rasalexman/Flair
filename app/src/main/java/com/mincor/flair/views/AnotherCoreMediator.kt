@@ -1,7 +1,7 @@
 package com.mincor.flair.views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import com.mincor.flair.R
@@ -36,18 +36,18 @@ class AnotherCoreMediator : ToolbarMediator() {
         return if(!flair(FlairApplication.CORE_SECOND).handleBackButton(animation)) super.handleBackButton(animation) else true
     }
 
-    inner class AnotherCoreUI : AnkoComponent<AnotherCoreMediator> {
+    class AnotherCoreUI : AnkoComponent<AnotherCoreMediator> {
         override fun createView(ui: AnkoContext<AnotherCoreMediator>): View = with(ui) {
             verticalLayout {
                 lparams(matchParent, matchParent)
 
-                toolBar = toolbar {
+                ui.owner.toolBar = toolbar {
                     setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
                     title = "Another core mediator"
                     backgroundResource = R.color.colorPrimary
                 }
 
-                anotherLayout = relativeLayout {
+                ui.owner.anotherLayout = relativeLayout {
 
                 }.lparams(matchParent, matchParent) {
                     weight = 100f
@@ -55,7 +55,7 @@ class AnotherCoreMediator : ToolbarMediator() {
 
                 button("POP TO PARENT MEDIATOR") {
                     onClick {
-                        popTo<MainMediator>()
+                        ui.owner.popTo<MainMediator>()
                     }
                 }.lparams(matchParent) {
                     weight = 1f

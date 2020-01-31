@@ -16,7 +16,7 @@ class Model private constructor(override var multitonKey: String) : IModel {
     /**
      * Mapping of proxyNames to IProxy instances.
      */
-    override val proxyMap = hashMapOf<String, IProxy<*>>()
+    override val proxyMap by lazy { hashMapOf<String, IProxy<*>>() }
 
     /**
      * CO for instances creation
@@ -26,7 +26,7 @@ class Model private constructor(override var multitonKey: String) : IModel {
         /**
          * Model Instances storage
          */
-        override val instanceMap = hashMapOf<String, Model>()
+        override val instanceMap by lazy { hashMapOf<String, Model>() }
         /**
          * `Model` Multiton Factory method.
          *

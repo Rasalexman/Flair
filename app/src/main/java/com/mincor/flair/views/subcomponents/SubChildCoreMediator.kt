@@ -17,20 +17,20 @@ class SubChildCoreMediator : Mediator() {
         showMediator<NextSubChildMediator>(LinearAnimator())
     }
 
-    inner class SubChildUI : AnkoComponent<SubChildCoreMediator> {
+    class SubChildUI : AnkoComponent<SubChildCoreMediator> {
         override fun createView(ui: AnkoContext<SubChildCoreMediator>): View = with(ui) {
             verticalLayout {
                 lparams(matchParent, matchParent)
 
                 button("another child") {
                     onClick {
-                        onAnotherClickHandler()
+                        ui.owner.onAnotherClickHandler()
                     }
                 }
 
                 button("POP TO ROOT CHILD") {
                     onClick {
-                        popTo<SubChildCoreMediator>()
+                        ui.owner.popTo<SubChildCoreMediator>()
                     }
                 }
             }

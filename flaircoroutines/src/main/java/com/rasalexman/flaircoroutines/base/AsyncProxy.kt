@@ -1,8 +1,8 @@
 package com.rasalexman.flaircoroutines.base
 
+import com.rasalexman.coroutinesmanager.AsyncTasksManager
+import com.rasalexman.coroutinesmanager.IAsyncTasksManager
 import com.rasalexman.flaircore.patterns.proxy.Proxy
-import com.rasalexman.flaircoroutines.managers.AsyncTasksManager
-import com.rasalexman.flaircoroutines.managers.IAsyncTasksManager
 
 /**
  * Base Proxy Coroutines Async class

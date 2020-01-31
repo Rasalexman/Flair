@@ -1,11 +1,12 @@
 package com.mincor.flair.proxies
 
+import com.rasalexman.coroutinesmanager.doAsyncAwait
 import com.rasalexman.flaircoroutines.base.CoroutineAsyncProxy
 import kotlin.random.Random
 
 class WorkerProxy : CoroutineAsyncProxy<Any>() {
 
-    suspend fun doSomeAsyncWork() = asyncAwait {
+    suspend fun doSomeAsyncWork() = doAsyncAwait {
         println("-----> THIS IS SOME HARD WORK WITH ARRAY")
         val arr = arrayListOf<Int>()
         arr.addAll(0..100000)

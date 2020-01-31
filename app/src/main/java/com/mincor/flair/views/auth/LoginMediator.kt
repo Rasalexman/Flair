@@ -78,39 +78,39 @@ class LoginMediator : Mediator() {
     }
 
 
-    private inner class LoginUI : AnkoComponent<LoginMediator> {
+    private class LoginUI : AnkoComponent<LoginMediator> {
         override fun createView(ui: AnkoContext<LoginMediator>): View = with(ui) {
             verticalLayout {
-                background = gradientBg(arrayOf(color(R.color.startColor), color(R.color.endColor)))
+                background = gradientBg(arrayOf(ui.owner.color(R.color.startColor), ui.owner.color(R.color.endColor)))
                 gravity = Gravity.CENTER
 
-                emailET = editText {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                ui.owner.emailET = editText {
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
-                    textColor = color(R.color.colorPrimaryText)
-                    hint = string(R.string.emailTF)
+                    textColor = ui.owner.color(R.color.colorPrimaryText)
+                    hint = ui.owner.string(R.string.emailTF)
                     setPadding(dip8(), dip8(), dip8(), dip8())
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                }.lparams(wdthProc(0.6f))
+                }.lparams(ui.owner.wdthProc(0.6f))
 
-                passwordET = editText {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                ui.owner.passwordET = editText {
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
-                    textColor = color(R.color.colorPrimaryText)
-                    hint = string(R.string.passTF)
+                    textColor = ui.owner.color(R.color.colorPrimaryText)
+                    hint = ui.owner.string(R.string.passTF)
                     setPadding(dip8(), dip8(), dip8(), dip8())
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                }.lparams(wdthProc(0.6f)) {
+                }.lparams(ui.owner.wdthProc(0.6f)) {
                     topMargin = dip8()
                 }
 
                 button(R.string.logInTF) {
-                    background = roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
+                    background = ui.owner.roundedBg(Color.WHITE, ROUND_CORNERS_16, true)
                     textSize = FONT_SIZE_14
                     onClick {
-                        singInUser()
+                        ui.owner.singInUser()
                     }
-                }.lparams(wdthProc(0.6f), hdthProc(0.06f)) {
+                }.lparams(ui.owner.wdthProc(0.6f), ui.owner.hdthProc(0.06f)) {
                     topMargin = dip8()
                 }
 
@@ -121,9 +121,9 @@ class LoginMediator : Mediator() {
                     paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
                     onClick {
-                        registerMediator.show(LinearAnimator())
+                        ui.owner.registerMediator.show(LinearAnimator())
                     }
-                }.lparams(wdthProc(0.6f)) {
+                }.lparams(ui.owner.wdthProc(0.6f)) {
                     topMargin = dip8()
                 }
 
@@ -134,9 +134,9 @@ class LoginMediator : Mediator() {
                     paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
                     onClick {
-                        forgotPassMediator.show(LinearAnimator())
+                        ui.owner.forgotPassMediator.show(LinearAnimator())
                     }
-                }.lparams(wdthProc(0.6f))
+                }.lparams(ui.owner.wdthProc(0.6f))
 
                 button(R.string.backTF) {
                     backgroundColor= Color.TRANSPARENT
@@ -145,9 +145,9 @@ class LoginMediator : Mediator() {
                     paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
                     onClick {
-                        popToBack(LinearAnimator())
+                        ui.owner.popToBack(LinearAnimator())
                     }
-                }.lparams(wdthProc(0.6f))
+                }.lparams(ui.owner.wdthProc(0.6f))
             }
         }
     }

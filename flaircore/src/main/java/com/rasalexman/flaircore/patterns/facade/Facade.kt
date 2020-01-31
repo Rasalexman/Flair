@@ -9,9 +9,14 @@ import com.rasalexman.flaircore.view.View
 
 /**
  * Created by a.minkin on 21.11.2017.
+ *
+ * @param multitonKey - main instance key
+ * @param appContext - application [Context]
  */
-class Facade(override var multitonKey: String,
-             override val appContext: Context) : IFacade {
+class Facade(
+        override var multitonKey: String,
+        override val appContext: Context
+) : IFacade {
 
     /**
      * Lazy IFacade instance

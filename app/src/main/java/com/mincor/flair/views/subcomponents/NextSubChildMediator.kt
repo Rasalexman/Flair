@@ -34,12 +34,16 @@ class NextSubChildMediator : Mediator(), NextSubProxy.IView {
         showMediator<NextSubChildMediator>(LinearAnimator(), UUID.randomUUID().toString())
     }
 
-    inner class NextChildUI : AnkoComponent<NextSubChildMediator> {
+    private fun onShowParentMediatorHandler() {
+        flair(IFacade.DEFAULT_KEY).retrieveMediator<MainMediator>().show(LinearAnimator(), true)
+    }
+
+    class NextChildUI : AnkoComponent<NextSubChildMediator> {
         override fun createView(ui: AnkoContext<NextSubChildMediator>): View = with(ui) {
             verticalLayout {
                 lparams(matchParent, matchParent)
 
-                childNameTV = textView {
+                ui.owner.childNameTV = textView {
                     textSize = 18f
                     textColor = Color.BLACK
                 }.lparams(matchParent) {
@@ -48,32 +52,30 @@ class NextSubChildMediator : Mediator(), NextSubProxy.IView {
 
                 button("next child") {
                     onClick {
-                        onAnotherClickHandler()
+                        ui.owner.onAnotherClickHandler()
                     }
                 }
 
                 button("previous child") {
                     onClick {
-                        popToBack(LinearAnimator())
+                        ui.owner.popToBack(LinearAnimator())
                     }
                 }
 
                 button("POP TO ROOT CHILD") {
                     onClick {
-                        popTo<SubChildCoreMediator>(null, LinearAnimator())
+                        ui.owner.popTo<SubChildCoreMediator>(null, LinearAnimator())
                     }
                 }
 
                 button("POP TO PARENT MEDAITOR"){
                     onClick {
-                        onShowParentMediatorHandler()
+                        ui.owner.onShowParentMediatorHandler()
                     }
                 }
             }
         }
     }
 
-    private fun onShowParentMediatorHandler() {
-        flair(IFacade.DEFAULT_KEY).retrieveMediator<MainMediator>().show(LinearAnimator(), true)
-    }
+
 }

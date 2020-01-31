@@ -1,10 +1,10 @@
 package com.mincor.flair.views
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -47,12 +47,12 @@ class LiveDataMediator : ToolbarMediator(), Observer<AccountModel> {
         pageIdTV?.text = t?.pageId
     }
 
-    inner class LiveDataUI : AnkoComponent<LiveDataMediator> {
+    class LiveDataUI : AnkoComponent<LiveDataMediator> {
         override fun createView(ui: AnkoContext<LiveDataMediator>): View = with(ui) {
             verticalLayout {
                 lparams(matchParent)
 
-                toolBar = toolbar {
+                ui.owner.toolBar = toolbar {
                     setTitleTextColor(ContextCompat.getColor(ctx, android.R.color.white))
                     title = "Live Data Mediator"
                     backgroundResource = R.color.colorPrimary
@@ -65,7 +65,7 @@ class LiveDataMediator : ToolbarMediator(), Observer<AccountModel> {
                     setMargins(dip(16), dip(16), dip(16), 0)
                 }
 
-                socialNameTV = textView {
+                ui.owner.socialNameTV = textView {
                     textSize = 22f
                     textColor = Color.BLACK
                 }.lparams(matchParent) {
@@ -79,7 +79,7 @@ class LiveDataMediator : ToolbarMediator(), Observer<AccountModel> {
                     setMargins(dip(16), dip(16), dip(16), 0)
                 }
 
-                pageIdTV = textView {
+                ui.owner.pageIdTV = textView {
                     textSize = 22f
                     textColor = Color.BLACK
                 }.lparams(matchParent) {
@@ -88,7 +88,7 @@ class LiveDataMediator : ToolbarMediator(), Observer<AccountModel> {
 
                 button("Change data") {
                     onClick {
-                        sendNotification(Events.LOGIC_START)
+                        ui.owner.sendNotification(Events.LOGIC_START)
                     }
                 }.lparams(dip(160)) {
                     gravity = Gravity.CENTER_HORIZONTAL

@@ -1,7 +1,7 @@
 package com.mincor.flair.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.mincor.flair.views.MainMediator
 import com.rasalexman.flaircore.ext.flair
 import com.rasalexman.flaircore.interfaces.attach
