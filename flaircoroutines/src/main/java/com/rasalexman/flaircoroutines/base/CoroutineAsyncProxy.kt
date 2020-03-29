@@ -9,9 +9,6 @@ import com.rasalexman.coroutinesmanager.ICoroutinesManager
  *
  * @param data
  * Main data to storage
- *
- * @param coroutinesManager
- * Any CoroutinesManager instance. You can use di for this
  */
 open class CoroutineAsyncProxy<T>(override var data: T? = null) : AsyncProxy<T>(data), ICoroutinesManager {
     override val cancelationHandlers: MutableSet<CancelationHandler> = mutableSetOf()

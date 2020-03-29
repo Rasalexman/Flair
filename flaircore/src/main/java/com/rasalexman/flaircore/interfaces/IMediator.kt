@@ -8,12 +8,11 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 
 /**
  * Created by a.minkin on 21.11.2017.
@@ -417,18 +416,14 @@ fun IMediator.color(resource: Int): Int = if (Build.VERSION.SDK_INT >= Build.VER
  * For adaptive procent width
  */
 fun IMediator.wdthProc(proc: Float): Int {
-    val dm = DisplayMetrics()
-    activity.windowManager.defaultDisplay.getMetrics(dm)
-    return (dm.widthPixels * proc).toInt()
+    return (resources.displayMetrics.widthPixels * proc).toInt()
 }
 
 /**
  * For adaptive procent height
  */
 fun IMediator.hdthProc(proc: Float): Int {
-    val dm = DisplayMetrics()
-    activity.windowManager.defaultDisplay.getMetrics(dm)
-    return (dm.heightPixels * proc).toInt()
+    return (resources.displayMetrics.heightPixels * proc).toInt()
 }
 
 /**

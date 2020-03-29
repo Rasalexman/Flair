@@ -74,9 +74,6 @@ inline fun <reified T : IProxy<*>, reified R : Any> INotifier.proxyModel(): R = 
 
 /**
  * Retrieve lazy proxy core or create new one if it does not has, by given generic class
- *
- * @param dataToHold
- * Constructor parameters
  */
 inline fun <reified T : IProxy<*>> INotifier.proxyLazy(noinline proxyBuilder: (() -> T)? = null): Lazy<T> = lazy {
     if (facade.hasProxy<T>()) {
@@ -90,9 +87,6 @@ inline fun <reified T : IProxy<*>> INotifier.proxyLazy(noinline proxyBuilder: ((
 
 /**
  * Retrieve proxy core or create new one if it does not has, by given generic class
- *
- * @param dataToHold
- * Constructor parameters
  */
 inline fun <reified T : IProxy<*>> INotifier.proxy(): T = facade.retrieveProxy()
 

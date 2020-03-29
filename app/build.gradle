@@ -41,7 +41,7 @@ dependencies {
         exclude group: 'support', module: 'documentfile'
         exclude group: 'support', module: 'support-vector-drawable'
     }
-    implementation ('com.google.android.material:material:1.0.0') {
+    implementation ('com.google.android.material:material:1.1.0') {
         exclude group: 'support', module: 'support-media-compat'
         exclude group: 'support', module: 'cardview-v7'
         exclude group: 'support', module: 'versionedparcelable'
