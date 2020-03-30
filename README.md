@@ -203,6 +203,7 @@ implementation 'com.rasalexman.flaircoutines:flaircoroutines:1.5.x'
 
 Changelog
 ----
+* 1.5.4 - Migration to AndroidX and new coroutines 1.3.3
 * 1.5.2 - Added new module flaircoroutines with Async task manager and coroutines manager
 * 1.5.1 - Added AppCompatActivity to `View.attachActivity(...)` with activity fragmentManager.
 
