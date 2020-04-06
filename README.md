@@ -58,7 +58,7 @@ class MyMediator : Mediator() {
   // or you can inflate you custom xml layout
   // override fun createLayout(context: Context): View = inflateView(R.layout.simple_layout) 
   
-  inner class UserAuthUI : AnkoComponent<MyMediator> {
+  class UserAuthUI : AnkoComponent<MyMediator> {
     override fun createView(ui: AnkoContext<MyMediator>) = with(ui) {
         verticalLayout {
             lparams(matchParent, matchParent)
@@ -168,7 +168,7 @@ Maven:
 <dependency>
   <groupId>com.rasalexman.flaircore</groupId>
   <artifactId>flaircore</artifactId>
-  <version>1.5.x</version>
+  <version>x.y.z</version>
   <type>pom</type>
 </dependency>
 
@@ -176,7 +176,7 @@ Maven:
 <dependency>
   <groupId>com.rasalexman.flairreflect</groupId>
   <artifactId>flairreflect</artifactId>
-  <version>1.5.x</version>
+  <version>x.y.z</version>
   <type>pom</type>
 </dependency>
 
@@ -184,7 +184,7 @@ Maven:
 <dependency>
 	<groupId>com.rasalexman.flaircoutines</groupId>
 	<artifactId>flaircoroutines</artifactId>
-	<version>1.5.x</version>
+	<version>x.y.z</version>
 	<type>pom</type>
 </dependency>
 ```
@@ -192,29 +192,40 @@ Maven:
 Gradle:
 ```kotlin
 // standart multicore version (without reflection)
-implementation 'com.rasalexman.flaircore:flaircore:1.5.x'
+implementation 'com.rasalexman.flaircore:flaircore:2.y.z'
 
 // reflection module (for use constructor injections and property injection)
-implementation 'com.rasalexman.flairreflect:flairreflect:1.5.x'
+implementation 'com.rasalexman.flairreflect:flairreflect:2.y.z'
 
 // coroutines module 
-implementation 'com.rasalexman.flaircoutines:flaircoroutines:1.5.x'
+implementation 'com.rasalexman.flaircoutines:flaircoroutines:2.y.z'
 ```
 
 Changelog
 ----
+* 2.0.0:
+1) Separate code packages to core functionality and extensions in package `com.rasalexman.flaircore.ext.*`
+2) `IMediator.mediatorName` is not a optional for better performance
+2) IProxy.data is not optional anymore but you can support optional like `object : Proxy<String?>(null) {}`
+3) All `HashMap` storages now changed to `androidx.collection.ArrayMap`
+4) Reduce memory leaks when call `IFacade.remove()` and clear core data
+5) `IFacade.attach` now take an `activity: FragmentActivity` as parameter
+
+----
+
 * 1.5.7 - Code refactoring, less library size, changes data structures
 * 1.5.4 - Migration to AndroidX and new coroutines 1.3.3
 * 1.5.2 - Added new module flaircoroutines with Async task manager and coroutines manager
 * 1.5.1 - Added AppCompatActivity to `View.attachActivity(...)` with activity fragmentManager.
-
-* 1.5.0
+* 1.5.0:
 1) Separate FlairFramework packages to core and reflection modules. Now core module weight is less then 125 Kb and you don't need to worry about reflection library in your proguard file!!!
 2) Add example with GOOGLE LiveData
 3) minSdkVersion come back to 17
 4) IMediator.isAddToBackStack - new property that means: `does this mediator need to be added in backstack` if you want to organize your own backstack)
 5) Added new animations - FadeAnimator, NextLinearAnimator, BackLinearAnimator.
 6) Many bug fixes and code improvements
+
+----
 
 * 1.2.5
 1) fix bug with IView.checkSelfPermission(permissionToCheck: String)
@@ -239,6 +250,9 @@ Changelog
 * 1.2.0:
 1) Change `flair` package name to `com.rasalexman.flairframework`
 2) Added IMediator.startActivity(intent:Intend, bundle:Bundle? = null) for start another activity from mediators
+
+----
+
 * 1.1.9 - added IMediator.removeObserver and IMediator.removeAllObservers to manually remove notification observers from mediator instance
 * 1.1.8 - Added bundle argument to IMediator, added one more lifecyrcle fun onPrepareView()
 * 1.1.7 - Added hardware back button support (see example in app)
