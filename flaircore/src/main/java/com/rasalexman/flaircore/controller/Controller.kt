@@ -1,5 +1,6 @@
 package com.rasalexman.flaircore.controller
 
+import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.interfaces.ICommand
 import com.rasalexman.flaircore.interfaces.IController
 import com.rasalexman.flaircore.interfaces.IMapper
@@ -12,17 +13,17 @@ import com.rasalexman.flaircore.view.View
  * @param multitonKey
  * The key for associated with core IFacade instance
  */
-class Controller private constructor(override var multitonKey: String) : IController {
+internal class Controller private constructor(override var multitonKey: String) : IController {
 
     /**
      * Mapping of Notification names to Command Class references
      */
-    override val commandMap by lazy { hashMapOf<String, ICommand?>() }
+    override val commandMap by lazy { ArrayMap<String, ICommand?>() }
 
     /**
      * Local reference to View
      */
-    override val view: View by lazy { View.getInstance(multitonKey) }
+    override val view by lazy { View.getInstance(multitonKey) }
 
     /**
      * Singleton companion object to take and store references for Command pattern
@@ -31,13 +32,13 @@ class Controller private constructor(override var multitonKey: String) : IContro
         /**
          * Global storage for all instances of Controller
          */
-        override val instanceMap by lazy { hashMapOf<String, Controller>() }
+        override val instanceMap by lazy { ArrayMap<String, Controller>() }
         /**
          * `Controller` Multiton Factory method.
          * @return the Multiton core of `Controller` or create new if not exist
          */
         @Synchronized
-        fun getInstance(key: String) = instance(key) { Controller(key) }
+        fun getInstance(key: String): IController = instance(key) { Controller(key) }
 
         /**
          * Remove an IController core
@@ -47,12 +48,12 @@ class Controller private constructor(override var multitonKey: String) : IContro
         fun removeController(key: String) {
             instanceMap.remove(key)?.clearAll()
         }
-    }
 
-    /**
-     * Clear all reference to commands
-     */
-    private fun clearAll() {
-        commandMap.clear()
+        /**
+         * Clear all reference to commands
+         */
+        private fun IController.clearAll() {
+            commandMap.clear()
+        }
     }
 }

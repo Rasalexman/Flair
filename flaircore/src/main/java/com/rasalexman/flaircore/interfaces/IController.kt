@@ -1,5 +1,6 @@
 package com.rasalexman.flaircore.interfaces
 
+import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.patterns.command.MacroCommand
 import com.rasalexman.flaircore.patterns.observer.Observer
 
@@ -10,7 +11,7 @@ interface IController : IMultitonKey {
     /**
      * [ICommand] storage
      */
-    val commandMap: HashMap<String, ICommand?>
+    val commandMap: ArrayMap<String, ICommand?>
 
     /**
      * Controller view instance
@@ -67,7 +68,7 @@ inline fun <reified T : ICommand> IController.registerCommand(notificationName: 
     if (this.commandMap.containsKey(notificationName)) {
         return
     }
-    this.view.registerObserver(notificationName, Observer(::executeCommand, this))
+    this.view.registerObserver(notificationName, Observer(this, ::executeCommand))
     this.commandMap.getOrPut(notificationName) {
         val inst = commandBuilder()
         // Only fresh commands can register observers

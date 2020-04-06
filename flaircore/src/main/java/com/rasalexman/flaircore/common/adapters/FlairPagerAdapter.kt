@@ -1,8 +1,8 @@
 package com.rasalexman.flaircore.common.adapters
 
-import androidx.viewpager.widget.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 import com.rasalexman.flaircore.ext.clear
 import com.rasalexman.flaircore.interfaces.IMediator
 
@@ -15,8 +15,8 @@ import com.rasalexman.flaircore.interfaces.IMediator
  * Names for tabs
  */
 open class FlairPagerAdapter(
-        private val mediators:List<IMediator>,
-        private val tabNames:List<String>
+        private val mediators: List<IMediator>,
+        private val tabNames: List<String>
 ) : PagerAdapter() {
 
     /**
@@ -60,7 +60,7 @@ open class FlairPagerAdapter(
      * Get the page title if exist
      */
     override fun getPageTitle(position: Int): CharSequence? {
-        return if(tabNames.size > position) tabNames[position] else ""
+        return if (tabNames.size > position) tabNames[position] else ""
     }
 
     /**

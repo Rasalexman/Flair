@@ -4,10 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.rasalexman.flaircore.BuildConfig
 import com.rasalexman.flaircore.interfaces.FacadeInitializer
 import com.rasalexman.flaircore.interfaces.IFacade
@@ -50,6 +47,25 @@ fun TextView.clear() {
 }
 
 /**
+ * Clear EditText
+ */
+fun EditText.clear() {
+    setOnEditorActionListener(null)
+    onFocusChangeListener = null
+    this.text = null
+    this.setOnClickListener(null)
+    this.setCompoundDrawables(null, null, null, null)
+    this.background = null
+}
+
+/**
+ * Clear CheckBox
+ */
+fun CheckBox.clear() {
+    this.setOnCheckedChangeListener(null)
+}
+
+/**
  * System clear view function
  */
 fun ViewGroup.clear() {
@@ -59,7 +75,9 @@ fun ViewGroup.clear() {
         when (childView) {
             is ViewGroup -> (childView as ViewGroup).clear()
             is ImageView -> (childView as ImageView).clear()
+            is CheckBox -> (childView as CheckBox).clear()
             is Button -> (childView as Button).clear()
+            is EditText -> (childView as EditText).clear()
             is TextView -> (childView as TextView).clear()
             is CompoundButton -> {
                 (childView as CompoundButton).text = null
@@ -72,7 +90,7 @@ fun ViewGroup.clear() {
 /**
  * Hide or show view by boolean flag
  */
-var android.view.View.visible
+var View.visible
     get() = visibility == View.VISIBLE
     set(value) {
         visibility = if (value) View.VISIBLE else View.GONE
@@ -83,14 +101,14 @@ var android.view.View.visible
  * @param gone
  * Does the view removed from parent (optional true)
  */
-fun android.view.View.hide(gone: Boolean = true) {
+fun View.hide(gone: Boolean = true) {
     visibility = if (gone) View.GONE else View.INVISIBLE
 }
 
 /**
  * Show the view
  */
-fun android.view.View.show() {
+fun View.show() {
     visibility = View.VISIBLE
 }
 
@@ -108,8 +126,9 @@ fun Context.flair(key: String = IFacade.DEFAULT_KEY, block: FacadeInitializer? =
 /**
  * Log any messages with given lambda func
  */
-inline fun log(lambda: () -> String) {
+fun Any.log(message: String? = null, lambda: (() -> String)? = null) {
     if (BuildConfig.DEBUG) {
-        Log.d("FLAIR_LOG ------>", lambda())
+        Log.d("------>", message ?: lambda?.invoke() ?: "")
     }
 }
+

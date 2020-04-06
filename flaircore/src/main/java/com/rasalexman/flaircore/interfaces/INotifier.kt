@@ -1,7 +1,7 @@
 package com.rasalexman.flaircore.interfaces
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.rasalexman.flaircore.ext.flair
 
 /**
@@ -77,10 +77,11 @@ inline fun <reified T : IProxy<*>, reified R : Any> INotifier.proxyModel(): R = 
  */
 inline fun <reified T : IProxy<*>> INotifier.proxyLazy(noinline proxyBuilder: (() -> T)? = null): Lazy<T> = lazy {
     if (facade.hasProxy<T>()) {
-        facade.retrieveProxy()
+        facade.retrieveProxy<T>()
     } else {
         proxyBuilder?.let {builder ->
-            this.facade.model.registerProxy(builder)
+            this.facade.registerProxy(builder)
+            facade.retrieveProxy<T>()
         } ?: throw RuntimeException("You need to register proxy instance first or set proxyBuilder")
     }
 }
@@ -94,12 +95,12 @@ inline fun <reified T : IProxy<*>> INotifier.proxy(): T = facade.retrieveProxy()
  * Main application appContext
  */
 val INotifier.appContext: Context
-    get() = facade.appContext
+    get() = facade.appContext.get() ?: throw IllegalAccessException("There is no context for this core. Map the core first by calling Context.flair()")
 
 /**
  * Attached to facade single activity
  */
-val INotifier.activity: AppCompatActivity
+val INotifier.activity: FragmentActivity
     get() = facade.view.currentActivity?.get()
             ?: throw RuntimeException("You need to set `currentActivity` for this core. Use `flair().attach()`")
 

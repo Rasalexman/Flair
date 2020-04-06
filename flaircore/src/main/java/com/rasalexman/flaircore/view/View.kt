@@ -4,14 +4,14 @@ import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
+import androidx.collection.ArrayMap
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.rasalexman.flaircore.ext.clear
 import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flaircore.patterns.observer.Notification
@@ -21,13 +21,16 @@ import java.lang.ref.WeakReference
 /**
  * Created by a.minkin on 21.11.2017.
  */
-class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
+internal class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     /**
      * Bundle for store some data
      */
     override val stateBundle: Bundle
-        get() = arguments ?: Bundle()
+        get() = arguments ?: Bundle().apply {
+            arguments = this
+        }
+
     /**
      * Main key for IFacade instance core
      */
@@ -36,16 +39,23 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /**
      * Mapping of Notification names to Observer lists
      */
-    override val observerMap by lazy {  hashMapOf<String, MutableList<IObserver>>() }
+    override val observerMap by lazy { ArrayMap<String, MutableList<IObserver>>() }
+
     /**
      *  Mapping of Mediator names to Mediator instances
      */
-    override val mediatorMap by lazy {  hashMapOf<String, IMediator>() }
+    override val mediatorMap by lazy { ArrayMap<String, IMediator>() }
+
+    /**
+     * Mapping of incoming notifications
+     */
+    override val notificationMap by lazy { ArrayMap<String, INotification>() }
 
     /**
      * List of current added mediators on the screen
      */
     override val mediatorBackStack by lazy { mutableListOf<IMediator>() }
+
     /**
      * Current showing mediator
      */
@@ -54,11 +64,13 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
     /**
      * Reference to the Activity attached on core
      */
-    override var currentActivity: WeakReference<AppCompatActivity>? = null
+    override var currentActivity: WeakReference<FragmentActivity>? = null
+
     /**
      * Instance of ui container
      */
     override var currentContainer: ViewGroup? = null
+
     /**
      * is already registered lifecycle callbacks
      */
@@ -78,26 +90,32 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
          * ACTIVITY_CREATED lifecycle event
          */
         const val ACTIVITY_CREATED = "created"
+
         /**
          * ACTIVITY_STARTED lifecycle event
          */
         const val ACTIVITY_STARTED = "started"
+
         /**
          * ACTIVITY_RESUMED lifecycle event
          */
         const val ACTIVITY_RESUMED = "resumed"
+
         /**
          * ACTIVITY_PAUSED lifecycle event
          */
         const val ACTIVITY_PAUSED = "paused"
+
         /**
          * ACTIVITY_STOPPED lifecycle event
          */
         const val ACTIVITY_STOPPED = "stopped"
+
         /**
          * ACTIVITY_DESTROYED lifecycle event
          */
         const val ACTIVITY_DESTROYED = "destroyed"
+
         /**
          * ACTIVITY_STATE_SAVE lifecycle event
          */
@@ -106,7 +124,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         /**
          * Store for IView instances
          */
-        override val instanceMap = hashMapOf<String, View>()
+        override val instanceMap by lazy { ArrayMap<String, View>() }
 
         /**
          * View Singleton Factory method.
@@ -114,7 +132,7 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
          * @return the Singleton core of `View`
          */
         @Synchronized
-        fun getInstance(key: String): View = instance(key) {
+        fun getInstance(key: String): IView = instance(key) {
             val viewInstance = View()
             viewInstance.multitonKey = key
             viewInstance
@@ -129,23 +147,24 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
         fun removeView(key: String) {
             instanceMap.remove(key)?.clearAll()
         }
+
+        /**
+         * Clear all mediators from map
+         */
+        private fun View.clearAll() {
+            detachActivity()
+            mediatorMap.forEach { (_, iMediator) ->
+                iMediator.hide(null, true)
+            }
+            observerMap.clear()
+            notificationMap.clear()
+            mediatorMap.clear()
+            mediatorBackStack.clear()
+        }
     }
 
     init {
         retainInstance = true
-    }
-
-
-    /**
-     * Clear all mediators from map
-     */
-    private fun clearAll() {
-        detachActivity()
-        mediatorMap.forEach { (_, iMediator) ->
-            iMediator.hide(null, true)
-        }
-        mediatorMap.clear()
-        mediatorBackStack.clear()
     }
 
     /**
@@ -153,12 +172,12 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * Only one activity can be attached to the core
      *
      * @param activity
-     * Current activity to be attached with lifecicle
+     * Current activity to be attached with lifecycle
      *
      * @param container
      * The container when ui will be added if there no container we take default activity decorView content (frame layout)
      */
-    override fun attachActivity(activity: AppCompatActivity, container: ViewGroup?) {
+    override fun attachActivity(activity: FragmentActivity, container: ViewGroup?) {
         //this is because we need container to add views anyway
         currentContainer = container ?: activity.window.decorView.findViewById(android.R.id.content)
         // only if there is no attach
@@ -174,11 +193,11 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
      * Detach current activity from view core
      */
     private fun detachActivity() {
-        currentActivity?.get()?.let {
-            val fragmentManager: FragmentManager? = (it as? AppCompatActivity)?.supportFragmentManager
-            fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
+        currentActivity?.get()?.let { appCompatActivity ->
+            val fragmentManager = appCompatActivity.supportFragmentManager
+            fragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
             // unregister life-circle callbacks
-            it.application?.unregisterActivityLifecycleCallbacks(this)
+            appCompatActivity.application.unregisterActivityLifecycleCallbacks(this)
 
             // clear mediator view and follow it's life-circle cause we need to recreate view, but don't need to remove from backstack
             mediatorBackStack.forEach { iMediator ->
@@ -186,18 +205,18 @@ class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
                 // we also need to clear mediator view cause it referenced to current activity that should be destroyed
                 clearMediatorView(iMediator)
             }
-            // clear container and it's reference
-            currentContainer?.clear()
-            currentContainer?.removeAllViews()
-            currentContainer = null
-            // clear the reference of current mediator
-            currentShowingMediator = null
-            // clear reference to the activity
-            currentActivity?.clear()
-            currentActivity = null
-            //
-            isAlreadyRegistered = false
         }
+        // clear container and it's reference
+        currentContainer?.clear()
+        currentContainer?.removeAllViews()
+        currentContainer = null
+        // clear the reference of current mediator
+        currentShowingMediator = null
+        // clear reference to the activity
+        currentActivity?.clear()
+        currentActivity = null
+        //
+        isAlreadyRegistered = false
     }
 
     /**

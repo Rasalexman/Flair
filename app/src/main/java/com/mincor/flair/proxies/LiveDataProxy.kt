@@ -12,7 +12,7 @@ class LiveDataProxy : Proxy<MutableLiveData<AccountModel>>(MutableLiveData()) {
     }
 
     fun changeData() {
-        data?.value = AccountModel(UUID.randomUUID().toString(), "id_${rand(1, 100_000)}")
+        data.value = AccountModel(UUID.randomUUID().toString(), "id_${rand(1, 100_000)}")
     }
 }
 

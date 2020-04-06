@@ -37,7 +37,7 @@ fun INotification.clear() {
  */
 fun INotification.asString(): String {
     var result = "Notification Name: $name Body:"
-    result += this.body?.let { it.toString()+" Type:" } ?:  "null Type:"
+    result += this.body?.let { "$it Type:" } ?:  "null Type:"
     result += type?:"null"
     return result
 }

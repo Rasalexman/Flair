@@ -3,7 +3,8 @@ package com.rasalexman.flaircore.interfaces
 /**
  * [INotification] callback function
  */
-typealias INotificator = (notification: INotification)->Unit
+typealias INotificator = (notification: INotification) -> Unit
+
 /**
  * Created by a.minkin on 21.11.2017.
  */
@@ -22,7 +23,7 @@ interface IObserver {
 /**
  * Clear [IObserver] instance
  */
-fun IObserver.clear():Boolean {
+fun IObserver.clear(): Boolean {
     this.context = null
     this.notify = null
     return true

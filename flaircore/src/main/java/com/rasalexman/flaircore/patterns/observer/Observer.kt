@@ -9,10 +9,10 @@ import com.rasalexman.flaircore.interfaces.IObserver
  *
  * Main Observer class
  *
- * @param notify - INotifier instance
  * @param context - data for compare
+ * @param notify - INotifier instance
  */
 data class Observer(
-        override var notify: INotificator?,
-        override var context: Any?
+        override var context: Any?,
+        override var notify: INotificator?
 ) : IObserver

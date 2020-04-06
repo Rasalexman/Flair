@@ -14,4 +14,4 @@ import com.rasalexman.flaircore.patterns.proxy.Proxy
  * @param asyncTasksManager
  * Any AsyncTaskManager instance. You can use di for this
  */
-open class AsyncProxy<T>(override var data: T? = null, private val asyncTasksManager: AsyncTasksManager = AsyncTasksManager()) : Proxy<T>(data), IAsyncTasksManager by asyncTasksManager
+open class AsyncProxy<T>(override var data: T, private val asyncTasksManager: AsyncTasksManager = AsyncTasksManager()) : Proxy<T>(data), IAsyncTasksManager by asyncTasksManager

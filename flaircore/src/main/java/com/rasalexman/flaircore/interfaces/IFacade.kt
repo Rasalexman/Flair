@@ -1,9 +1,11 @@
 package com.rasalexman.flaircore.interfaces
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
+import androidx.collection.ArrayMap
+import androidx.fragment.app.FragmentActivity
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.controller.Controller
 import com.rasalexman.flaircore.model.Model
@@ -11,6 +13,7 @@ import com.rasalexman.flaircore.patterns.facade.Facade
 import com.rasalexman.flaircore.patterns.observer.Notification
 import com.rasalexman.flaircore.patterns.observer.Observer
 import com.rasalexman.flaircore.view.View
+import java.lang.ref.WeakReference
 
 /**
  * [IFacade] instance initializer
@@ -25,7 +28,7 @@ interface IFacade : INotifier {
     /**
      * Application context
      */
-    val appContext: Context
+    val appContext: WeakReference<Context>
     /**
      * Controller instance
      */
@@ -50,7 +53,7 @@ interface IFacade : INotifier {
         /**
          * Global storage for all instance cores of IFacade
          */
-        override val instanceMap = HashMap<String, IFacade>()
+        override val instanceMap by lazy {  ArrayMap<String, IFacade>() }
 
         /**
          * Facade Multiton Factory method.
@@ -70,11 +73,9 @@ interface IFacade : INotifier {
         fun core(key: String = DEFAULT_KEY, context: Context? = null, init: FacadeInitializer? = null): IFacade {
             val facade = instance(key) {
                 if (context == null) throw RuntimeException("You need to specified `context` for this core")
-                Facade(key, if (context is Activity) context.applicationContext else context)
+                Facade(key, WeakReference(if(context is Activity) context.applicationContext else context))
             }
-            init?.let {
-                facade.it()
-            }
+            init?.invoke(facade)
             return facade
         }
 
@@ -93,12 +94,19 @@ interface IFacade : INotifier {
          */
         @Synchronized
         fun removeCore(key: String = DEFAULT_KEY) {
-            // remove the model, view, controller
-            // and facade instances for this key
             Model.removeModel(key)
             View.removeView(key)
             Controller.removeController(key)
-            instanceMap.remove(key)
+            instanceMap.remove(key)?.clearAll()
+        }
+
+        /**
+         * Clear all reference from core
+         */
+        private fun IFacade.clearAll() {
+            // remove the model, view, controller
+            // and facade instances for this key
+            appContext.clear()
         }
     }
 }
@@ -177,7 +185,9 @@ inline fun <reified T : IMediator> IFacade.showMediator(mapName: String? = null,
  *
  * @return IProxy instance with given parameters
  */
-inline fun <reified T : IProxy<*>> IFacade.registerProxy(proxyBuilder:()->T): T = this.model.registerProxy(proxyBuilder)
+inline fun <reified T : IProxy<*>> IFacade.registerProxy(proxyBuilder:()->T) {
+    this.model.registerProxy(proxyBuilder)
+}
 
 /**
  * Register an `ICommand` with the `Controller`.
@@ -203,7 +213,7 @@ inline fun <reified T : IProxy<*>> IFacade.retrieveProxy(): T = this.model.retri
 /**
  * Remove an `IProxy` core from the `Model`
  */
-inline fun <reified T : IProxy<*>> IFacade.removeProxy(): T? = this.model.removeProxy() as? T
+inline fun <reified T : IProxy<*>> IFacade.removeProxy(): Boolean = this.model.removeProxy<T>()
 
 /**
  * Check if a Proxy is registered.
@@ -224,7 +234,7 @@ inline fun <reified T : IProxy<*>> IFacade.hasProxy(): Boolean = this.model.hasP
  * @param container
  * Current container (ViewGroup) to add childs viewComponents from Mediators
  */
-fun IFacade.attach(activity: AppCompatActivity, container: ViewGroup? = null): IFacade {
+fun IFacade.attach(activity: FragmentActivity, container: ViewGroup? = null): IFacade {
     view.attachActivity(activity, container)
     return this
 }
@@ -266,7 +276,7 @@ fun IFacade.hideMediator(mediatorName: String, popIt: Boolean, animation: IAnima
  * lambda function (INotification)->Unit
  */
 fun IFacade.registerObserver(notifName: String, notificator: INotificator) {
-    view.registerObserver(notifName, Observer(notificator, this.multitonKey))
+    view.registerObserver(notifName, Observer(this.multitonKey, notificator))
 }
 
 /**

@@ -1,5 +1,6 @@
 package com.rasalexman.flaircore.model
 
+import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.interfaces.IMapper
 import com.rasalexman.flaircore.interfaces.IModel
 import com.rasalexman.flaircore.interfaces.IProxy
@@ -12,11 +13,11 @@ import com.rasalexman.flaircore.interfaces.instance
  *
  * @param multitonKey - main core key that this model sequenced
  */
-class Model private constructor(override var multitonKey: String) : IModel {
+internal class Model private constructor(override var multitonKey: String) : IModel {
     /**
      * Mapping of proxyNames to IProxy instances.
      */
-    override val proxyMap by lazy { hashMapOf<String, IProxy<*>>() }
+    override val proxyMap by lazy { ArrayMap<String, IProxy<*>>() }
 
     /**
      * CO for instances creation
@@ -26,14 +27,15 @@ class Model private constructor(override var multitonKey: String) : IModel {
         /**
          * Model Instances storage
          */
-        override val instanceMap by lazy { hashMapOf<String, Model>() }
+        override val instanceMap by lazy { ArrayMap<String, Model>() }
+
         /**
          * `Model` Multiton Factory method.
          *
          * @return the core for this Multiton key
          */
         @Synchronized
-        fun getInstance(key: String): IModel = instance(key){ Model(key) }
+        fun getInstance(key: String): IModel = instance(key) { Model(key) }
 
         /**
          * Remove an IModel core
@@ -44,12 +46,12 @@ class Model private constructor(override var multitonKey: String) : IModel {
         fun removeModel(key: String) {
             instanceMap.remove(key)?.clearAll()
         }
-    }
 
-    /**
-     * Clear storage
-     */
-    private fun clearAll() {
-        proxyMap.clear()
+        /**
+         * Clear storage
+         */
+        private fun IModel.clearAll() {
+            proxyMap.clear()
+        }
     }
 }

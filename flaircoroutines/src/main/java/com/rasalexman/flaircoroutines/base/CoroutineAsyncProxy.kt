@@ -10,6 +10,9 @@ import com.rasalexman.coroutinesmanager.ICoroutinesManager
  * @param data
  * Main data to storage
  */
-open class CoroutineAsyncProxy<T>(override var data: T? = null) : AsyncProxy<T>(data), ICoroutinesManager {
+open class CoroutineAsyncProxy<T>(override var data: T) : AsyncProxy<T>(data), ICoroutinesManager {
+    /**
+     * Coroutine cancelation Handlers set
+     */
     override val cancelationHandlers: MutableSet<CancelationHandler> = mutableSetOf()
 }

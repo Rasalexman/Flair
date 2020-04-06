@@ -11,6 +11,7 @@ android {
         versionCode flairExampleVersionInt
         versionName flairExampleVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {

@@ -40,6 +40,6 @@ class UserProxy : Proxy<MutableList<UserModel>>(mutableListOf()) {
      * @param item the userVO
      */
     fun addItem(item: UserModel) {
-        data?.add(item)
+        data.add(item)
     }
 }

@@ -56,8 +56,8 @@ abstract class BaseAnimator : IAnimator {
      * Play animation
      */
     override fun playAnimation() {
-        to?.let {
-            it.viewComponent?.viewTreeObserver?.addOnPreDrawListener(AnimationPreDrawListener(to!!.viewComponent, ::startAnimation))
+        to?.let { toMediator ->
+            toMediator.viewComponent?.viewTreeObserver?.addOnPreDrawListener(AnimationPreDrawListener(toMediator.viewComponent, ::startAnimation))
         } ?: from?.let {
             startAnimation()
         }
@@ -66,7 +66,7 @@ abstract class BaseAnimator : IAnimator {
     /**
      * Clear all references
      */
-    open protected fun clearAnimator() {
+    protected open fun clearAnimator() {
         listenerAdapter = null
         from = null
         to = null

@@ -15,7 +15,7 @@ class LogicMacroCommand : MacroCommand() {
         addSubCommand(object : SimpleCommand() {
             override fun execute(notification: INotification) {
                 log {
-                    "----->  FIRST COMMAND EXECUTE <------"
+                    " FIRST COMMAND EXECUTE <------"
                 }
                 liveDataProxy.changeData()
             }
@@ -24,7 +24,7 @@ class LogicMacroCommand : MacroCommand() {
         addSubCommand(object : SimpleCommand() {
             override fun execute(notification: INotification) {
                 log {
-                    "----->  SECOND COMMAND EXECUTE <------"
+                    " SECOND COMMAND EXECUTE <------"
                 }
             }
         })

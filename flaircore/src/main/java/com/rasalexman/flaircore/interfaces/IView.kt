@@ -2,8 +2,9 @@ package com.rasalexman.flaircore.interfaces
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
+import androidx.collection.ArrayMap
+import androidx.fragment.app.FragmentActivity
 import com.rasalexman.flaircore.ext.removeFromParent
 import java.lang.ref.WeakReference
 
@@ -20,11 +21,15 @@ interface IView : IMultitonKey {
     /**
      * Storage for all IMedaitor instances when it gonna be registered
      */
-    val mediatorMap: HashMap<String, IMediator>
+    val mediatorMap: ArrayMap<String, IMediator>
     /**
      * Storage for notifications name that we gonna notify
      */
-    val observerMap: HashMap<String, MutableList<IObserver>>
+    val observerMap: ArrayMap<String, MutableList<IObserver>>
+    /**
+     * Notification map for save current notification
+     */
+    val notificationMap: ArrayMap<String, INotification>
     /**
      * IMediator `viewComponent` backstack. This is a main place for storing navigation
      */
@@ -37,7 +42,7 @@ interface IView : IMultitonKey {
     /**
      * Reference to the Activity attached on core
      */
-    var currentActivity: WeakReference<AppCompatActivity>?
+    var currentActivity: WeakReference<FragmentActivity>?
 
     /**
      * Instance of ui container
@@ -55,7 +60,7 @@ interface IView : IMultitonKey {
      * @param container
      * The container when ui will be added
      */
-    fun attachActivity(activity: AppCompatActivity, container: ViewGroup? = null)
+    fun attachActivity(activity: FragmentActivity, container: ViewGroup? = null)
 
     /**
      * When requested activity has come
@@ -356,8 +361,8 @@ fun IView.removeObserver(notificationName: String, notifyContext: Any) {
     // the observer list for the notification under inspection
     this.observerMap[notificationName]?.let { list ->
         // Remove predicate notifications, also we clear observable references
-        list.removeAll {
-            if (it.compareNotifyContext(notifyContext)) it.clear()
+        list.removeAll { observer ->
+            if (observer.compareNotifyContext(notifyContext)) observer.clear()
             else false
         }
         // Also, when a Notification's Observer list length falls to
@@ -365,22 +370,24 @@ fun IView.removeObserver(notificationName: String, notifyContext: Any) {
         if (list.isEmpty()) {
             observerMap.remove(notificationName)
         }
+        notificationMap.remove(notificationName)
     }
 }
 
 /**
  * Register an `Observer` to be notified of
- * `INotifications` with a given name.
+ * `INotifications` with a given name and automatically notify registered observers
  *
- * @param noteName
+ * @param notificationName
  * the name of the `Notifications` to notify this
  * `Observer` of
  * @param observer
  * the `Observer` to register
  */
-fun IView.registerObserver(noteName: String, observer: IObserver) {
-    val observers = this.observerMap.getOrPut(noteName) { mutableListOf() }
+fun IView.registerObserver(notificationName: String, observer: IObserver) {
+    val observers = this.observerMap.getOrPut(notificationName) { mutableListOf() }
     observers.add(observer)
+    notificationMap.remove(notificationName)?.let(observer::notifyObserver)
 }
 
 /**
@@ -394,19 +401,22 @@ fun IView.registerObserver(noteName: String, observer: IObserver) {
  * were registered.
 </P> *
  *
- * @param note
+ * @param notification
  * the `Notification` to notify
  * `Observers` of.
  */
-fun IView.notifyObservers(note: INotification) {
-    this.observerMap[note.name]?.let {
+fun IView.notifyObservers(notification: INotification) {
+    val notificationName = notification.name
+    this.observerMap[notificationName]?.let {
         // Copy observers from reference array to working array,
         // since the reference array may change during the
         // notification loop
         val workingObservers = it.toTypedArray()
         // Notify Observers from the working array
         workingObservers.forEach { iObserver ->
-            iObserver.notifyObserver(note)
+            iObserver.notifyObserver(notification)
         }
+    } ?: let {
+        notificationMap[notificationName] = notification
     }
 }

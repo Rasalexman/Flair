@@ -7,20 +7,8 @@ import android.view.View
 
 /**
  * Created by a.minkin on 24.11.2017.
- * @param from
- * From what mediator animation played
  *
- * @param to
- * to what mediator animation played
- *
- * @param isShow
- * directional of animation show or hide
- *
- * @param duration
- * duration of animation
- *
- * @param popLast
- * Need to remove last mediator
+ * Base Linear animator
  *
  */
 open class LinearAnimator : BaseAnimator() {

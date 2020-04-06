@@ -1,7 +1,6 @@
 package com.rasalexman.flairreflect
 
 import com.rasalexman.flaircore.interfaces.*
-import com.rasalexman.flaircore.interfaces.IAnimator
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KParameter
@@ -30,6 +29,7 @@ fun <T : Any> KClass<T>.createInstance(values: List<Any>? = null): T {
 /**
  * Inject given params to constructor instance members
  */
+@Suppress("UNCHECKED_CAST")
 fun Any.injectInConstructor(consParams: List<Any>? = null): Any {
     consParams?.let { params ->
         val members = this.javaClass.kotlin.memberProperties as? List<KProperty1<Any, Any>>
@@ -61,8 +61,8 @@ fun Any.className(): String {
 /**
  * Register an `IProxy` core with the `Model`.
  */
-inline fun <reified T : IProxy<*>> IModel.registerProxy(consParams: List<Any>? = null): T {
-    return this.registerProxy { T::class.createInstance(consParams) }
+inline fun <reified T : IProxy<*>> IModel.registerProxy(consParams: List<Any>? = null) {
+    this.registerProxy { T::class.createInstance(consParams) }
 }
 
 /**
@@ -70,8 +70,14 @@ inline fun <reified T : IProxy<*>> IModel.registerProxy(consParams: List<Any>? =
  *
  * @return the `IProxy` core previously registered
  */
-inline fun <reified T : IProxy<*>> IModel.retrieveProxy(params: List<Any>? = null): T = this.proxyMap[T::class.toString()]?.injectInConstructor(params) as? T
-        ?: registerProxy(params)
+inline fun <reified T : IProxy<*>> IModel.retrieveProxy(params: List<Any>? = null): T {
+    return if(this.hasProxy<T>()) {
+        this.proxyMap[T::class.toString()]!!.injectInConstructor(params) as T
+    } else {
+        registerProxy<T>(params)
+        this.proxyMap[T::class.toString()]!!.injectInConstructor(params) as T
+    }
+}
 
 /**
  * Retrieve lazy proxy core or create new one if it does not has, by given generic class
@@ -80,14 +86,14 @@ inline fun <reified T : IProxy<*>> IModel.retrieveProxy(params: List<Any>? = nul
  * Constructor parameters
  */
 inline fun <reified T : IProxy<*>> INotifier.proxyLazy(vararg dataToHold: Any): Lazy<T> = lazy {
-    if (facade.hasProxy<T>()) facade.model.retrieveProxy<T>(dataToHold.asList()) else this.facade.model.registerProxy(dataToHold.asList())
+    facade.model.retrieveProxy<T>(dataToHold.asList())
 }
 
 /**
  * Retrieve lazy proxyModel data by given generic class
  */
 inline fun <reified T : IProxy<*>, reified R : Any> INotifier.proxyLazyModel(): Lazy<R> = lazy {
-    proxyModel<T, R>()
+    this.proxyModel<T, R>()
 }
 
 /**
@@ -109,9 +115,6 @@ inline fun <reified T : IProxy<*>> INotifier.proxy(vararg dataToHold: Any): T = 
  * @param noteName
  * the name of the `INotification` to associate the
  * `ICommand` with.
- *
- * @param commandBuilder
- * The builder function to instantiate instance of ICommand class
  */
 inline fun <reified T : ICommand> IFacade.registerCommand(noteName: String) {
     this.controller.registerCommand(noteName) { T::class.createInstance() }
@@ -120,12 +123,12 @@ inline fun <reified T : ICommand> IFacade.registerCommand(noteName: String) {
 /**
  * Register an `IProxy` with the `Model` by name.
  *
- * @param dataToHold
+ * @param params
  * Contructor parameters that proxyLazy must apply
  *
  * @return IProxy instance with given parameters
  */
-inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg params: Any): T = this.model.registerProxy(params.toList())
+inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg params: Any) = this.model.registerProxy<T>(params.toList())
 
 
 /**
@@ -159,8 +162,8 @@ inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String
  */
 inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = null): T {
     val name = mediatorName ?: T::class.toString()
-    return if (!this.facade.view.hasMediator<T>(name)) this.facade.registerMediator(name)
-    else this.facade.retrieveMediator(name)
+    return if (!this.facade.view.hasMediator<T>(name)) this.facade.registerMediator<T>(name)
+    else this.facade.retrieveMediator<T>(name)
 }
 
 /**
@@ -170,9 +173,7 @@ inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = nu
  * Mediator name to be showed
  */
 inline fun <reified T : IMediator> IMediator.showMediator(animation: IAnimator? = null, mediatorName: String? = null) {
-    val name = mediatorName ?: T::class.toString()
-    return if (!this.facade.view.hasMediator<T>(name)) this.facade.registerMediator<T>(name).show(animation)
-    else this.facade.retrieveMediator<T>(name).show(animation)
+    return mediator<T>(mediatorName).show(animation)
 }
 
 /**
@@ -182,9 +183,7 @@ inline fun <reified T : IMediator> IMediator.showMediator(animation: IAnimator? 
  * Mediator name to be retrieved by lazy function
  */
 inline fun <reified T : IMediator> IMediator.mediatorLazy(mediatorName: String? = null): Lazy<T> = lazy {
-    val name = mediatorName ?: T::class.toString()
-    if (!this.facade.view.hasMediator<T>(name)) this.facade.registerMediator<T>(name)
-    this.facade.retrieveMediator<T>(name)
+    mediator<T>(mediatorName)
 }
 
 /**

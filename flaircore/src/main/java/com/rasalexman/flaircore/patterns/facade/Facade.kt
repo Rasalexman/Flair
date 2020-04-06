@@ -5,17 +5,20 @@ import com.rasalexman.flaircore.controller.Controller
 import com.rasalexman.flaircore.interfaces.IFacade
 import com.rasalexman.flaircore.model.Model
 import com.rasalexman.flaircore.view.View
+import java.lang.ref.WeakReference
 
 
 /**
  * Created by a.minkin on 21.11.2017.
  *
+ * Main Facade application class
+ *
  * @param multitonKey - main instance key
  * @param appContext - application [Context]
  */
-class Facade(
+internal class Facade(
         override var multitonKey: String,
-        override val appContext: Context
+        override val appContext: WeakReference<Context>
 ) : IFacade {
 
     /**

@@ -1,5 +1,7 @@
 package com.rasalexman.flaircore.interfaces
 
+import androidx.collection.ArrayMap
+
 /**
  * Helper interface for bind generic instances with name
  */
@@ -7,7 +9,7 @@ interface IMapper<T> {
     /**
      * Instances storage
      */
-    val instanceMap: HashMap<String, T>
+    val instanceMap: ArrayMap<String, T>
 }
 
 /**

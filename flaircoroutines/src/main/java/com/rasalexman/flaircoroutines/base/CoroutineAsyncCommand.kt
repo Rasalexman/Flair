@@ -10,4 +10,11 @@ import com.rasalexman.coroutinesmanager.IAsyncTasksManager
  * @param asyncTasksManager
  * Any AsyncTasksManager instance. You can use di for this
  */
-abstract class CoroutineAsyncCommand(private val asyncTasksManager: AsyncTasksManager = AsyncTasksManager()) : CoroutineCommand(), IAsyncTasksManager by asyncTasksManager
+abstract class CoroutineAsyncCommand(
+        private val asyncTasksManager: AsyncTasksManager = AsyncTasksManager()
+) : CoroutineCommand(), IAsyncTasksManager by asyncTasksManager {
+    /**
+     * Coroutine cancelation Handlers set
+     */
+    override val cancelationHandlers = asyncTasksManager.cancelationHandlers
+}

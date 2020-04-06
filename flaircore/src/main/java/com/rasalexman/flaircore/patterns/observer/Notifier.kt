@@ -6,7 +6,7 @@ import com.rasalexman.flaircore.interfaces.INotifier
 /**
  * Created by a.minkin on 21.11.2017.
  *
- * @param multitonKey
+ * @param multitonKey - flair facade core name
  */
 abstract class Notifier(override var multitonKey: String = "") : INotifier {
 

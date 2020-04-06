@@ -27,13 +27,40 @@ abstract class Mediator : Notifier, IMediator {
      */
     constructor(multitonKey:String) : super(multitonKey)
 
-    override var viewComponent: View? = null            // current view of mediator
-    override var hasOptionalMenu: Boolean = false       // does view get opt menu
-    override var hideOptionalMenu: Boolean = false      // Is hide optional menu
-    override var isAdded: Boolean = false               // does mediator view added to hosted view container
-    override var isDestroyed: Boolean = false           // does view destroyed
-    override var isAddToBackStack: Boolean = true       // does it's need to be added in backstack
-    override var mediatorName: String? = null           // Current mediator name for put in backStack
+    /**
+     * current view of mediator
+     */
+    override var viewComponent: View? = null
+
+    /**
+     * Does view get opt menu
+     */
+    override var hasOptionalMenu: Boolean = false
+
+    /**
+     * Is hide optional menu
+     */
+    override var hideOptionalMenu: Boolean = false
+
+    /**
+     * Does mediator view added to hosted view container
+     */
+    override var isAdded: Boolean = false
+
+    /**
+     * Does current view destroyed
+     */
+    override var isDestroyed: Boolean = false
+
+    /**
+     * Does it's need to be added in backstack
+     */
+    override var isAddToBackStack: Boolean = true
+
+    /**
+     * Current mediator name for put in backStack
+     */
+    override var mediatorName: String? = null
 
     /**
      * Bundle arguments

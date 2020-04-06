@@ -5,11 +5,9 @@ package com.rasalexman.flaircore.interfaces
  */
 interface ICommand : IMultitonKey {
     /**
-     * Execute the `ICommand`'s logic to handle a given
-     * `INotification`.
+     * Execute the ICommand's logic to handle a given INotification
      *
-     * @param notification
-     * an `INotification` to handle.
+     * @param notification - an INotification to handle.
      */
     fun execute(notification: INotification)
 }

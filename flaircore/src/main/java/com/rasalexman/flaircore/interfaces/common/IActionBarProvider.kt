@@ -7,10 +7,10 @@ interface IActionBarProvider<out AB, in T> {
     /**
      * Get Support Action bar
      */
-    fun getSupportActionBar():AB?
+    fun getSupportActionBar(): AB?
 
     /**
      * Set current action bar
      */
-    fun setSupportActionBar(toolbar:T?)
+    fun setSupportActionBar(toolbar: T?)
 }

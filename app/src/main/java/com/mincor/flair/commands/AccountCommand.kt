@@ -4,8 +4,8 @@ import com.mincor.flair.events.Events.ACCOUNT_CHANGE
 import com.mincor.flair.events.Events.ACCOUNT_CLEAR
 import com.mincor.flair.proxies.MainProxy
 import com.rasalexman.flaircore.interfaces.INotification
+import com.rasalexman.flaircore.interfaces.proxyLazy
 import com.rasalexman.flaircore.patterns.command.SimpleCommand
-import com.rasalexman.flairreflect.proxyLazy
 
 class AccountCommand : SimpleCommand() {
 

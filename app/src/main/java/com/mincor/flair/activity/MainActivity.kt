@@ -6,7 +6,7 @@ import com.mincor.flair.views.MainMediator
 import com.rasalexman.flaircore.ext.flair
 import com.rasalexman.flaircore.interfaces.attach
 import com.rasalexman.flaircore.interfaces.handleBackButton
-import com.rasalexman.flairreflect.showLastOrExistMediator
+import com.rasalexman.flaircore.interfaces.showLastOrExistMediator
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

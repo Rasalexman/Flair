@@ -12,7 +12,7 @@ class MVPProxy(view: MVPMediator) : Proxy<MVPMediator>(view) {
 
     override fun onRegister() {
         super.onRegister()
-        data?.showFuncyMVPHandler()
+        data.showFuncyMVPHandler()
 
         facade.registerObserver("some_event") {
 

@@ -5,9 +5,13 @@ import com.rasalexman.flaircore.patterns.observer.Notifier
 
 /**
  * Created by a.minkin on 21.11.2017.
+ *
+ * Proxy pattern realization with notify function.
+ * You can make data optional by passing T?
+ *
  * @param data - data for store into proxy object
  */
-abstract class Proxy<T>(override var data: T? = null) : Notifier(), IProxy<T?> {
+abstract class Proxy<T>(override var data: T) : Notifier(), IProxy<T> {
 
     /**
      * Called by the Model when the Proxy is registered.

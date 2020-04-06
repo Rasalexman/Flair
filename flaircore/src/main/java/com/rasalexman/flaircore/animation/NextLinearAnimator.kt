@@ -5,10 +5,15 @@ package com.rasalexman.flaircore.animation
  *
  * @param duration
  * The time. it's how long animation will be playing in ms
+ *
+ * @param localShow - change local params
+ *
+ * @param localPopLast - change local params
  */
-class NextLinearAnimator(override var duration: Long = 500,
-                         private val localShow:Boolean = true,
-                         private val localPopLast:Boolean = false
+class NextLinearAnimator(
+        override var duration: Long = 500,
+        private val localShow: Boolean = true,
+        private val localPopLast: Boolean = false
 ) : LinearAnimator() {
 
     /**

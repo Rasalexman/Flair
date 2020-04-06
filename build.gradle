@@ -6,19 +6,18 @@ buildscript {
     ext.dokka_version = '0.9.17'
     ext.retrofitVersion = '2.7.1'
     ext.retrofitCoroutinesVersion = "1.1.0"
-    ext.supportVersion = "28.0.0"
-    ext.buildToolVersion = "28.0.3"
+    ext.buildToolVersion = "29.0.3"
     ext.lifecycleVersion = "1.1.1"
     ext.coroutinesManagerVersion = "1.2.32"
 
-    ext.flairExampleVersion = "1.5.5"
-    ext.flairExampleVersionInt = 10505
-    ext.flairCoreVersion = "1.5.5"
-    ext.flairCoreVersionInt = 10505
-    ext.flairCorotinesVersion = "1.5.5"
-    ext.flairCorotinesVersionInt = 10505
-    ext.flairReflectVersion = "1.5.5"
-    ext.flairReflectVersionInt = 10505
+    ext.flairExampleVersion = "1.5.7"
+    ext.flairExampleVersionInt = 10507
+    ext.flairCoreVersion = "1.5.7"
+    ext.flairCoreVersionInt = 10507
+    ext.flairCorotinesVersion = "1.5.7"
+    ext.flairCorotinesVersionInt = 10507
+    ext.flairReflectVersion = "1.5.7"
+    ext.flairReflectVersionInt = 10507
 
 
     repositories {
@@ -26,7 +25,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // The Gradle Bintray Plugin allows you to publish artifacts to Bintray.

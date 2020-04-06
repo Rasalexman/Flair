@@ -34,16 +34,21 @@ dokka {
 }
 
 dependencies {
-    implementation ('androidx.appcompat:appcompat:1.1.0') {
+    /* */
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    /*implementation ("androidx.appcompat:appcompat:1.1.0") {
         exclude group: 'support', module: 'support-media-compat'
-        exclude group: 'support', module: 'cardview-v7'
+        exclude group: 'support', module: 'support-vector-drawable'
         exclude group: 'support', module: 'versionedparcelable'
         exclude group: 'support', module: 'cursoradapter'
         exclude group: 'support', module: 'documentfile'
-        exclude group: 'support', module: 'recyclerview-v7'
-        exclude group: 'support', module: 'support-vector-drawable'
-    }
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        exclude group: 'support', module: 'recyclerview'
+        exclude group: 'support', module: 'cardview'
+    }*/
+    implementation ("androidx.collection:collection:1.1.0")
+    implementation ("androidx.activity:activity:1.1.0")
+    implementation "androidx.fragment:fragment-ktx:1.2.4"
+
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
