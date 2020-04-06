@@ -34,8 +34,7 @@ dokka {
 }
 
 dependencies {
-    implementation project(':flaircore')
-    implementation ("androidx.collection:collection:$collectionsVersion")
+    api project(':flaircore')
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 repositories {

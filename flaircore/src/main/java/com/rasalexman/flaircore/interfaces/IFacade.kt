@@ -2,7 +2,6 @@ package com.rasalexman.flaircore.interfaces
 
 import android.app.Activity
 import android.content.Context
-import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.controller.Controller
 import com.rasalexman.flaircore.ext.FacadeInitializer
 import com.rasalexman.flaircore.model.Model
@@ -43,7 +42,7 @@ interface IFacade : INotifier {
         /**
          * Global storage for all instance cores of IFacade
          */
-        override val instanceMap by lazy {  ArrayMap<String, IFacade>() }
+        override val instanceMap by lazy {  HashMap<String, IFacade>() }
 
         /**
          * Facade Multiton Factory method.

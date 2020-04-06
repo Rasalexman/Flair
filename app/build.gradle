@@ -11,7 +11,7 @@ android {
         versionCode flairVersionCode
         versionName flairVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+        multiDexEnabled false
     }
     buildTypes {
         release {
@@ -35,20 +35,13 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation ('androidx.appcompat:appcompat:1.1.0') {
-        exclude group: 'support', module: 'support-media-compat'
-        exclude group: 'support', module: 'cardview-v7'
+        exclude group: 'drawerlayout', module: 'drawerlayout'
+        exclude group: 'cardview', module: 'cardview'
         exclude group: 'support', module: 'versionedparcelable'
-        exclude group: 'support', module: 'cursoradapter'
-        exclude group: 'support', module: 'documentfile'
-        exclude group: 'support', module: 'support-vector-drawable'
-    }
-    implementation ('com.google.android.material:material:1.1.0') {
-        exclude group: 'support', module: 'support-media-compat'
-        exclude group: 'support', module: 'cardview-v7'
-        exclude group: 'support', module: 'versionedparcelable'
-        exclude group: 'support', module: 'cursoradapter'
-        exclude group: 'support', module: 'documentfile'
-        exclude group: 'support', module: 'support-vector-drawable'
+        exclude group: 'cursoradapter', module: 'cursoradapter'
+        exclude group: 'documentfile', module: 'documentfile'
+        exclude group: 'vectordrawable', module: 'vectordrawable'
+        exclude group: 'print', module: 'print'
     }
     implementation project(':flairreflect')
     implementation project(':flaircoroutines')

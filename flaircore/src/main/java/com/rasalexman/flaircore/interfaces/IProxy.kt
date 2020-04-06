@@ -8,7 +8,7 @@ interface IProxy<T> : INotifier {
     /**
      * Storing data or service
      */
-    var data:T
+    var data: T
 
     /**
      * Called by the Model when the Proxy is registered.

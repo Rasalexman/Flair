@@ -1,6 +1,5 @@
 package com.rasalexman.flaircore.controller
 
-import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.interfaces.ICommand
 import com.rasalexman.flaircore.interfaces.IController
 import com.rasalexman.flaircore.interfaces.IMapper
@@ -12,12 +11,12 @@ import com.rasalexman.flaircore.view.View
  * @param multitonKey
  * The key for associated with core IFacade instance
  */
-internal class Controller private constructor(override var multitonKey: String) : IController {
+class Controller private constructor(override var multitonKey: String) : IController {
 
     /**
      * Mapping of Notification names to Command Class references
      */
-    override val commandMap by lazy { ArrayMap<String, ICommand?>() }
+    override val commandMap by lazy { HashMap<String, ICommand?>() }
 
     /**
      * Local reference to View
@@ -31,7 +30,7 @@ internal class Controller private constructor(override var multitonKey: String) 
         /**
          * Global storage for all instances of Controller
          */
-        override val instanceMap by lazy { ArrayMap<String, Controller>() }
+        override val instanceMap by lazy { HashMap<String, Controller>() }
         /**
          * `Controller` Multiton Factory method.
          * @return the Multiton core of `Controller` or create new if not exist

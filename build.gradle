@@ -8,11 +8,10 @@ buildscript {
     ext.retrofitCoroutinesVersion = "1.1.0"
     ext.buildToolVersion = "29.0.3"
     ext.lifecycleVersion = "1.1.1"
-    ext.collectionsVersion = "1.1.0"
     ext.coroutinesManagerVersion = "1.2.32"
 
-    ext.flairVersionName = "2.0.0"
-    ext.flairVersionCode = 20000
+    ext.flairVersionName = "2.0.2"
+    ext.flairVersionCode = 20002
 
     repositories {
         google()

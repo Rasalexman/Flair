@@ -1,6 +1,5 @@
 package com.rasalexman.flaircore.model
 
-import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.interfaces.IMapper
 import com.rasalexman.flaircore.interfaces.IModel
 import com.rasalexman.flaircore.interfaces.IProxy
@@ -12,11 +11,11 @@ import com.rasalexman.flaircore.interfaces.IProxy
  *
  * @param multitonKey - main core key that this model sequenced
  */
-internal class Model private constructor(override var multitonKey: String) : IModel {
+class Model private constructor(override var multitonKey: String) : IModel {
     /**
      * Mapping of proxyNames to IProxy instances.
      */
-    override val proxyMap by lazy { ArrayMap<String, IProxy<*>>() }
+    override val proxyMap by lazy { HashMap<String, IProxy<*>>() }
 
     /**
      * CO for instances creation
@@ -26,7 +25,7 @@ internal class Model private constructor(override var multitonKey: String) : IMo
         /**
          * Model Instances storage
          */
-        override val instanceMap by lazy { ArrayMap<String, Model>() }
+        override val instanceMap by lazy { HashMap<String, Model>() }
 
         /**
          * `Model` Multiton Factory method.

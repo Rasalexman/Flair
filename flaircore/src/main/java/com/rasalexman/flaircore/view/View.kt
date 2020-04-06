@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
-import androidx.collection.ArrayMap
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -23,7 +22,7 @@ import java.lang.ref.WeakReference
 /**
  * Created by a.minkin on 21.11.2017.
  */
-internal class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
+class View : Fragment(), IView, Application.ActivityLifecycleCallbacks {
 
     /**
      * Bundle for store some data
@@ -41,17 +40,17 @@ internal class View : Fragment(), IView, Application.ActivityLifecycleCallbacks 
     /**
      * Mapping of Notification names to Observer lists
      */
-    override val observerMap by lazy { ArrayMap<String, MutableList<IObserver>>() }
+    override val observerMap by lazy { HashMap<String, MutableList<IObserver>>() }
 
     /**
      *  Mapping of Mediator names to Mediator instances
      */
-    override val mediatorMap by lazy { ArrayMap<String, IMediator>() }
+    override val mediatorMap by lazy { HashMap<String, IMediator>() }
 
     /**
      * Mapping of incoming notifications
      */
-    override val notificationMap by lazy { ArrayMap<String, INotification>() }
+    override val notificationMap by lazy { HashMap<String, INotification>() }
 
     /**
      * List of current added mediators on the screen
@@ -126,7 +125,7 @@ internal class View : Fragment(), IView, Application.ActivityLifecycleCallbacks 
         /**
          * Store for IView instances
          */
-        override val instanceMap by lazy { ArrayMap<String, View>() }
+        override val instanceMap by lazy { HashMap<String, View>() }
 
         /**
          * View Singleton Factory method.

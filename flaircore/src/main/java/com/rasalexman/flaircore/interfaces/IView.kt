@@ -3,7 +3,6 @@ package com.rasalexman.flaircore.interfaces
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.collection.ArrayMap
 import androidx.fragment.app.FragmentActivity
 import java.lang.ref.WeakReference
 
@@ -20,15 +19,15 @@ interface IView : IMultitonKey {
     /**
      * Storage for all IMedaitor instances when it gonna be registered
      */
-    val mediatorMap: ArrayMap<String, IMediator>
+    val mediatorMap: HashMap<String, IMediator>
     /**
      * Storage for notifications name that we gonna notify
      */
-    val observerMap: ArrayMap<String, MutableList<IObserver>>
+    val observerMap: HashMap<String, MutableList<IObserver>>
     /**
      * Notification map for save current notification
      */
-    val notificationMap: ArrayMap<String, INotification>
+    val notificationMap: HashMap<String, INotification>
     /**
      * IMediator `viewComponent` backstack. This is a main place for storing navigation
      */

@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference
  * @param multitonKey - main instance key
  * @param appContext - application [Context]
  */
-internal class Facade(
+class Facade(
         override var multitonKey: String,
         override val appContext: WeakReference<Context>
 ) : IFacade {

@@ -17,7 +17,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,9 +36,20 @@ dokka {
 dependencies {
     /* */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation("androidx.collection:collection:$collectionsVersion")
-    implementation("androidx.activity:activity:1.1.0")
-    implementation "androidx.fragment:fragment-ktx:1.2.4"
+    implementation ("androidx.fragment:fragment-ktx:1.2.4") {
+        exclude group: 'androidx.loader', module: 'loader'
+        exclude group: 'androidx.customview', module: 'customview'
+        exclude group: 'androidx.core', module: 'core-ktx'
+        exclude group: 'androidx.collection', module: 'collection'
+        exclude group: 'androidx.collection', module: 'collection-ktx'
+        exclude group: 'androidx.activity', module: 'activity-ktx'
+        exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
+        exclude group: 'androidx.lifecycle', module: 'lifecycle-livedata-core-ktx'
+        exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-savedstate'
+
+        exclude group: 'androidx.versionedparcelable', module: 'versionedparcelable'
+
+    }
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
