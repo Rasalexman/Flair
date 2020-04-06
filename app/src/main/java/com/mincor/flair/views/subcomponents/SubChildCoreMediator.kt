@@ -3,7 +3,7 @@ package com.mincor.flair.views.subcomponents
 import android.content.Context
 import android.view.View
 import com.rasalexman.flaircore.animation.LinearAnimator
-import com.rasalexman.flaircore.interfaces.popTo
+import com.rasalexman.flaircore.ext.popTo
 import com.rasalexman.flaircore.patterns.mediator.Mediator
 import com.rasalexman.flairreflect.showMediator
 import org.jetbrains.anko.*

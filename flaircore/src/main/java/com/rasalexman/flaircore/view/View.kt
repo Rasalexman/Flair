@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.rasalexman.flaircore.ext.clear
+import com.rasalexman.flaircore.ext.hide
+import com.rasalexman.flaircore.ext.notifyObservers
 import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flaircore.patterns.observer.Notification
 import java.lang.ref.WeakReference

@@ -10,14 +10,14 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode flairCoreVersionInt
-        versionName flairCoreVersion
+        versionCode flairVersionCode
+        versionName flairVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,17 +36,8 @@ dokka {
 dependencies {
     /* */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    /*implementation ("androidx.appcompat:appcompat:1.1.0") {
-        exclude group: 'support', module: 'support-media-compat'
-        exclude group: 'support', module: 'support-vector-drawable'
-        exclude group: 'support', module: 'versionedparcelable'
-        exclude group: 'support', module: 'cursoradapter'
-        exclude group: 'support', module: 'documentfile'
-        exclude group: 'support', module: 'recyclerview'
-        exclude group: 'support', module: 'cardview'
-    }*/
-    implementation ("androidx.collection:collection:1.1.0")
-    implementation ("androidx.activity:activity:1.1.0")
+    implementation("androidx.collection:collection:$collectionsVersion")
+    implementation("androidx.activity:activity:1.1.0")
     implementation "androidx.fragment:fragment-ktx:1.2.4"
 
     testImplementation 'junit:junit:4.13'
@@ -58,4 +49,4 @@ dependencies {
 repositories {
     mavenCentral()
 }
-//apply from: 'deploy.gradle'
+apply from: 'deploy.gradle'

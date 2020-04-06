@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.Button
 import com.mincor.flair.R
 import com.rasalexman.flaircore.animation.LinearAnimator
-import com.rasalexman.flaircore.ext.log
+import com.rasalexman.flaircore.ext.*
 import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flairreflect.mediatorLazy
 import kotlinx.android.synthetic.main.simple_layout.view.*

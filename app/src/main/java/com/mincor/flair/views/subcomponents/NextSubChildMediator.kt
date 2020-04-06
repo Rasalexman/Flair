@@ -7,7 +7,8 @@ import android.widget.TextView
 import com.mincor.flair.proxies.NextSubProxy
 import com.mincor.flair.views.MainMediator
 import com.rasalexman.flaircore.animation.LinearAnimator
-import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flaircore.ext.*
+import com.rasalexman.flaircore.interfaces.IFacade
 import com.rasalexman.flaircore.patterns.mediator.Mediator
 import com.rasalexman.flairreflect.proxy
 import com.rasalexman.flairreflect.showMediator

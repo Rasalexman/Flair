@@ -4,7 +4,6 @@ import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.interfaces.IMapper
 import com.rasalexman.flaircore.interfaces.IModel
 import com.rasalexman.flaircore.interfaces.IProxy
-import com.rasalexman.flaircore.interfaces.instance
 
 /**
  * Created by a.minkin on 21.11.2017.

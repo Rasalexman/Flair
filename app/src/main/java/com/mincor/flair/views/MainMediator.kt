@@ -22,7 +22,7 @@ import com.mincor.flair.utils.dip16
 import com.mincor.flair.views.auth.LoginMediator
 import com.rasalexman.flaircore.animation.FadeAnimator
 import com.rasalexman.flaircore.animation.LinearAnimator
-import com.rasalexman.flaircore.ext.log
+import com.rasalexman.flaircore.ext.*
 import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flairreflect.mediatorLazy
 import com.rasalexman.flairreflect.proxyLazyModel

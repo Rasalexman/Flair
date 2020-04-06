@@ -1,5 +1,6 @@
 package com.rasalexman.flairreflect
 
+import com.rasalexman.flaircore.ext.*
 import com.rasalexman.flaircore.interfaces.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty1
@@ -140,19 +141,11 @@ inline fun <reified T : IProxy<*>> IFacade.registerProxy(vararg params: Any) = t
  * `INotification` interests.
 </P> *
  */
-inline fun <reified T : IMediator> IView.registerMediator(mediatorName: String? = null): T {
+inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null): T {
     val clazz = T::class
     val clazzName = mediatorName ?: clazz.toString()
-    return this.registerMediator(clazzName) { clazz.createInstance() }
+    return registerMediator(clazzName) { clazz.createInstance() }
 }
-
-/**
- * Register an `IMediator` with the `View` core.
- *
- * @param mediatorName
- * The name of the mediator to register with
- */
-inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String? = null) = this.view.registerMediator<T>(mediatorName)
 
 /**
  * Retrieve lazy mediator core by given generic class
@@ -162,8 +155,11 @@ inline fun <reified T : IMediator> IFacade.registerMediator(mediatorName: String
  */
 inline fun <reified T : IMediator> IMediator.mediator(mediatorName: String? = null): T {
     val name = mediatorName ?: T::class.toString()
-    return if (!this.facade.view.hasMediator<T>(name)) this.facade.registerMediator<T>(name)
-    else this.facade.retrieveMediator<T>(name)
+    return if (!this.facade.view.hasMediator<T>(name)) {
+        this.facade.registerMediator<T>(name)
+    } else {
+        this.facade.retrieveMediator<T>(name)
+    }
 }
 
 /**

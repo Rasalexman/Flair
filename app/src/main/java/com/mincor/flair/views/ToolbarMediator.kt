@@ -1,12 +1,12 @@
 package com.mincor.flair.views
 
+import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.View
 import com.rasalexman.flaircore.animation.LinearAnimator
-import com.rasalexman.flaircore.interfaces.activity
-import com.rasalexman.flaircore.interfaces.popToBack
+import com.rasalexman.flaircore.ext.activity
+import com.rasalexman.flaircore.ext.popToBack
 import com.rasalexman.flaircore.patterns.mediator.Mediator
 
 /**

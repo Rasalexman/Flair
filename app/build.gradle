@@ -8,8 +8,8 @@ android {
         applicationId "com.mincor.flair"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode flairExampleVersionInt
-        versionName flairExampleVersion
+        versionCode flairVersionCode
+        versionName flairVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

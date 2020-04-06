@@ -1,7 +1,7 @@
 package com.mincor.flair.proxies
 
 import com.mincor.flair.proxies.vo.AccountModel
-import com.rasalexman.flaircore.interfaces.sendNotification
+import com.rasalexman.flaircore.ext.sendNotification
 import com.rasalexman.flaircore.patterns.proxy.Proxy
 import kotlin.properties.Delegates
 

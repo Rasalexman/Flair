@@ -10,6 +10,10 @@ import com.mincor.flair.utils.takeDeviceID
 import com.mincor.flair.views.MVPMediator
 import com.mincor.flair.views.MainMediator
 import com.mincor.flair.views.UserListsMediator
+import com.rasalexman.flaircore.ext.appContext
+import com.rasalexman.flaircore.ext.registerMediator
+import com.rasalexman.flaircore.ext.registerProxy
+import com.rasalexman.flaircore.ext.removeCommand
 import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flaircore.patterns.command.SimpleCommand
 import com.rasalexman.flairreflect.registerMediator

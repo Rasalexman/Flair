@@ -19,25 +19,3 @@ interface INotification {
      */
     var body: Any?
 }
-
-/**
- * Clear notification after it was pushed
- */
-fun INotification.clear() {
-    body = null
-    type = null
-}
-
-/**
- * Get the string representation of the `Notification`
- * core.
- *
- * @return the string representation of the `Notification`
- * core.
- */
-fun INotification.asString(): String {
-    var result = "Notification Name: $name Body:"
-    result += this.body?.let { "$it Type:" } ?:  "null Type:"
-    result += type?:"null"
-    return result
-}

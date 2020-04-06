@@ -8,6 +8,7 @@ import com.mincor.flair.R
 import com.mincor.flair.application.FlairApplication
 import com.mincor.flair.views.subcomponents.SubChildCoreMediator
 import com.rasalexman.flaircore.common.bundle.bundleValue
+import com.rasalexman.flaircore.ext.*
 import com.rasalexman.flaircore.interfaces.*
 import com.rasalexman.flairreflect.showLastOrExistMediator
 import org.jetbrains.anko.*

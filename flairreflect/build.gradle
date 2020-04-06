@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode flairReflectVersionInt
-        versionName flairReflectVersion
+        versionCode flairVersionCode
+        versionName flairVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,10 +35,10 @@ dokka {
 
 dependencies {
     implementation project(':flaircore')
-    implementation ("androidx.collection:collection:1.1.0")
+    implementation ("androidx.collection:collection:$collectionsVersion")
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 repositories {
     mavenCentral()
 }
-//apply from: 'deploy.gradle'
+apply from: 'deploy.gradle'

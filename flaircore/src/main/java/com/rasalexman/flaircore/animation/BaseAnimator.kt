@@ -1,9 +1,9 @@
 package com.rasalexman.flaircore.animation
 
 import android.animation.Animator
+import com.rasalexman.flaircore.ext.hide
 import com.rasalexman.flaircore.interfaces.IAnimator
 import com.rasalexman.flaircore.interfaces.IMediator
-import com.rasalexman.flaircore.interfaces.hide
 
 /**
  * Base Animation class to extend
@@ -46,8 +46,10 @@ abstract class BaseAnimator : IAnimator {
         animation.end()
         animation.cancel()
 
-        from?.onAnimationFinish(false)
-        from?.hide(null, popLast)
+        from?.apply {
+            onAnimationFinish(false)
+            hide(null, popLast)
+        }
         to?.onAnimationFinish(true)
         clearAnimator()
     }

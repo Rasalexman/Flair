@@ -1,18 +1,18 @@
 package com.mincor.flair.views
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mincor.flair.R
 import com.mincor.flair.events.Events
 import com.mincor.flair.proxies.LiveDataProxy
 import com.mincor.flair.proxies.vo.AccountModel
-import com.rasalexman.flaircore.interfaces.sendNotification
+import com.rasalexman.flaircore.ext.sendNotification
 import com.rasalexman.flairreflect.proxyLazyModel
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar

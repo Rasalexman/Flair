@@ -2,7 +2,7 @@ package com.mincor.flair.proxies
 
 import com.mincor.flair.proxies.net.IWebService
 import com.mincor.flair.views.MVPMediator
-import com.rasalexman.flaircore.interfaces.registerObserver
+import com.rasalexman.flaircore.ext.registerObserver
 import com.rasalexman.flaircore.patterns.proxy.Proxy
 import com.rasalexman.flairreflect.proxyLazyModel
 

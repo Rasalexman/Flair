@@ -1,6 +1,6 @@
 package com.rasalexman.flaircore.patterns.observer
 
-import com.rasalexman.flaircore.interfaces.INotificator
+import com.rasalexman.flaircore.ext.INotificator
 import com.rasalexman.flaircore.interfaces.IObserver
 
 
@@ -9,10 +9,10 @@ import com.rasalexman.flaircore.interfaces.IObserver
  *
  * Main Observer class
  *
- * @param context - data for compare
+ * @param content - data for compare
  * @param notify - INotifier instance
  */
 data class Observer(
-        override var context: Any?,
+        override var content: Any?,
         override var notify: INotificator?
 ) : IObserver

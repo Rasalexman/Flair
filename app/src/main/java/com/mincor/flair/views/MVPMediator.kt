@@ -7,16 +7,16 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.provider.ContactsContract
-import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.ListView
+import androidx.core.content.ContextCompat
 import com.mincor.flair.R
 import com.mincor.flair.adapters.SelectedListAdapter
 import com.rasalexman.flaircore.animation.BackLinearAnimator
 import com.rasalexman.flaircore.animation.LinearAnimator
 import com.rasalexman.flaircore.animation.NextLinearAnimator
-import com.rasalexman.flaircore.ext.log
-import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flaircore.ext.*
+import com.rasalexman.flaircore.interfaces.IMediator
 import com.rasalexman.flairreflect.showMediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
@@ -37,7 +37,7 @@ class MVPMediator : ToolbarMediator() {
         super.onAddedView(view)
         listView?.adapter = SelectedListAdapter(
                 facade.view.mediatorBackStack.asSequence().mapTo(mutableListOf()) {
-                    it.mediatorName!!
+                    it.mediatorName
                 },
                 ::onItemSelectedHandler
         )

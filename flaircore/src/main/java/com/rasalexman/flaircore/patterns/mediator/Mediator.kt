@@ -6,9 +6,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import com.rasalexman.flaircore.ext.popToBack
 import com.rasalexman.flaircore.interfaces.IAnimator
 import com.rasalexman.flaircore.interfaces.IMediator
-import com.rasalexman.flaircore.interfaces.popToBack
 import com.rasalexman.flaircore.patterns.observer.Notifier
 
 
@@ -60,7 +60,10 @@ abstract class Mediator : Notifier, IMediator {
     /**
      * Current mediator name for put in backStack
      */
-    override var mediatorName: String? = null
+    override var mediatorName: String = ""
+        get() {
+            return field.takeIf { it.isNotEmpty() } ?: this::class.toString()
+        }
 
     /**
      * Bundle arguments

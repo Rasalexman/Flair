@@ -4,7 +4,6 @@ import androidx.collection.ArrayMap
 import com.rasalexman.flaircore.interfaces.ICommand
 import com.rasalexman.flaircore.interfaces.IController
 import com.rasalexman.flaircore.interfaces.IMapper
-import com.rasalexman.flaircore.interfaces.instance
 import com.rasalexman.flaircore.view.View
 
 /**

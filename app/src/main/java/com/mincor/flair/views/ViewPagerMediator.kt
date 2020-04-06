@@ -1,17 +1,17 @@
 package com.mincor.flair.views
 
 import android.content.Context
-import com.google.android.material.tabs.TabLayout
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
-import android.view.View
+import com.google.android.material.tabs.TabLayout
 import com.mincor.flair.R
 import com.mincor.flair.views.pager.PageOneMediator
 import com.mincor.flair.views.pager.PageThreeMediator
 import com.mincor.flair.views.pager.PageTwoMediator
 import com.rasalexman.flaircore.common.adapters.FlairPagerAdapter
 import com.rasalexman.flaircore.ext.log
-import com.rasalexman.flaircore.interfaces.removeMediator
+import com.rasalexman.flaircore.ext.removeMediator
 import com.rasalexman.flairreflect.mediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar

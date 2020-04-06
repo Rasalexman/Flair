@@ -2,7 +2,7 @@ package com.mincor.flair.proxies
 
 import com.mincor.flair.proxies.vo.AccountModel
 import com.mincor.flair.proxies.vo.UserModel
-import com.rasalexman.flaircore.interfaces.sendNotification
+import com.rasalexman.flaircore.ext.sendNotification
 import com.rasalexman.flaircore.patterns.proxy.Proxy
 import com.rasalexman.flairreflect.proxyModel
 
@@ -39,7 +39,7 @@ class UserProxy : Proxy<MutableList<UserModel>>(mutableListOf()) {
      * Add an item to the data.
      * @param item the userVO
      */
-    fun addItem(item: UserModel) {
+    private fun addItem(item: UserModel) {
         data.add(item)
     }
 }

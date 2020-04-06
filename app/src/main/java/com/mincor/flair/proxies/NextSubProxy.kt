@@ -10,7 +10,6 @@ class NextSubProxy(view: NextSubChildMediator) : Proxy<NextSubChildMediator?>(vi
     }
 
     interface IView {
-        var mediatorName: String?
         fun onProxyCalledHandler(str: String?)
     }
 }

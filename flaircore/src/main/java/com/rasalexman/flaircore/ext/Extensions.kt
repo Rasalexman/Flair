@@ -1,12 +1,13 @@
 package com.rasalexman.flaircore.ext
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.rasalexman.flaircore.BuildConfig
-import com.rasalexman.flaircore.interfaces.FacadeInitializer
 import com.rasalexman.flaircore.interfaces.IFacade
 
 /**
@@ -113,6 +114,29 @@ fun View.show() {
 }
 
 /**
+ * Get gradient for Background
+ *
+ * @param colors - color array for start and end
+ * @param orient - orientation
+ * @param corners - corners radius
+ * @param withStroke - stroke if needed
+ * @param strokeColor - stroke color
+ * @param strokeWeight - weight of strokes
+ */
+fun Any.gradientBg(
+        colors: Array<Int>,
+        orient: GradientDrawable.Orientation = GradientDrawable.Orientation.BOTTOM_TOP,
+        corners: Float = 0f,
+        withStroke: Boolean = false,
+        strokeColor: Int = Color.LTGRAY,
+        strokeWeight: Int = 2
+): GradientDrawable = GradientDrawable(orient, colors.toIntArray()).apply {
+    shape = GradientDrawable.RECTANGLE
+    cornerRadius = corners
+    if (withStroke) setStroke(strokeWeight, strokeColor)
+}
+
+/**
  * Instantiate new Facade for given core name
  *
  * @param key
@@ -131,4 +155,6 @@ fun Any.log(message: String? = null, lambda: (() -> String)? = null) {
         Log.d("------>", message ?: lambda?.invoke() ?: "")
     }
 }
+
+
 

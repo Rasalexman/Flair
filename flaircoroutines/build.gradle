@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode flairCorotinesVersionInt
-        versionName flairCorotinesVersion
+        versionCode flairVersionCode
+        versionName flairVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -43,4 +43,4 @@ dependencies {
 repositories {
     mavenCentral()
 }
-//apply from: 'deploy.gradle'
+apply from: 'deploy.gradle'

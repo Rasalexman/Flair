@@ -13,8 +13,8 @@ import com.mincor.flair.events.Events.LOGIC_START
 import com.mincor.flair.events.Events.STARTUP
 import com.mincor.flair.events.Events.WORKER_EXAMPLE_EVENT
 import com.rasalexman.flaircore.ext.flair
-import com.rasalexman.flaircore.interfaces.registerCommand
-import com.rasalexman.flaircore.interfaces.sendNotification
+import com.rasalexman.flaircore.ext.registerCommand
+import com.rasalexman.flaircore.ext.sendNotification
 import com.rasalexman.flairreflect.registerCommand
 
 /**

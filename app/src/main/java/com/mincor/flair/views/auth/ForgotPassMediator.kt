@@ -12,7 +12,7 @@ import com.mincor.flair.utils.Consts.FONT_SIZE_14
 import com.mincor.flair.utils.Consts.ROUND_CORNERS_16
 import com.mincor.flair.utils.dip8
 import com.rasalexman.flaircore.animation.LinearAnimator
-import com.rasalexman.flaircore.interfaces.*
+import com.rasalexman.flaircore.ext.*
 import com.rasalexman.flaircore.patterns.mediator.Mediator
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
