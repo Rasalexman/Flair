@@ -2,7 +2,7 @@
 
 ![alt text](https://github.com/Rasalexman/Flair/blob/master/FlairFrameworkLogo.png)
 
-[ ![Kotlin 1.3.61](https://img.shields.io/badge/Kotlin-1.3.61-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flaircore/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flaircore/_latestVersion)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f3452befd9544f65aa5b93fdefd3cd38)](https://app.codacy.com/app/Rasalexman/Flair?utm_source=github.com&utm_medium=referral&utm_content=Rasalexman/Flair&utm_campaign=Badge_Grade_Dashboard)[![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
+[ ![Kotlin 1.3.71](https://img.shields.io/badge/Kotlin-1.3.71-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/FlairFramework/flaircore/images/download.svg) ](https://bintray.com/sphc/FlairFramework/flaircore/_latestVersion)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f3452befd9544f65aa5b93fdefd3cd38)](https://app.codacy.com/app/Rasalexman/Flair?utm_source=github.com&utm_medium=referral&utm_content=Rasalexman/Flair&utm_campaign=Badge_Grade_Dashboard)[![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
 
 This is an android framework for build complex application with different architectures (MVC ready/MVP/MVVM/MVI ets). It's create on top of MVC pattern with powerful event system, constructor injection module and property delegation, also it support multi-core instances and animation changes between views (see example project for more information). 
 The `FlairFramework` is easy to use, it's light-weight, extensible, flexible and it's has more simplier view lifecycle than Fragments and Activities
@@ -158,7 +158,7 @@ Since version 1.5.0 - there are many new features and changes in framework:
 * The core version is under `com.rasalexman.flaircore` package and you need to add new package`implementation 'com.rasalexman.flaircore:flaircore:1.5.+'` into your build.gradle file
 * The reflection module included by implementing `com.rasalexman.flairreflect:flairreflect:1.5.x` and has all the reflection library features like constructor injection, lazy initialization and all the features that was at pre 1.5.+ (1.x.y).
 * Added new animations `FadeAnimator`, `NextLinearAnimator`, `BackLinearAnimator`.
-* Turned back minSdkVersion = 17 ) 
+* Turned minSdkVersion = 19 ) 
 
 See the sample project `app` for more complex information. Also code base has good comments and docs on every functions
 
@@ -184,7 +184,7 @@ Maven:
 <dependency>
 	<groupId>com.rasalexman.flaircoutines</groupId>
 	<artifactId>flaircoroutines</artifactId>
-	<version>1.5.2</version>
+	<version>1.5.x</version>
 	<type>pom</type>
 </dependency>
 ```
@@ -203,6 +203,7 @@ implementation 'com.rasalexman.flaircoutines:flaircoroutines:1.5.x'
 
 Changelog
 ----
+* 1.5.7 - Code refactoring, less library size, changes data structures
 * 1.5.4 - Migration to AndroidX and new coroutines 1.3.3
 * 1.5.2 - Added new module flaircoroutines with Async task manager and coroutines manager
 * 1.5.1 - Added AppCompatActivity to `View.attachActivity(...)` with activity fragmentManager.
